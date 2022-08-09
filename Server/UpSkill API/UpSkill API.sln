@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UpSkill API", "UpSkill API.csproj", "{B8690283-3228-4784-90EF-7FF89B1A95B8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B8690283-3228-4784-90EF-7FF89B1A95B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8690283-3228-4784-90EF-7FF89B1A95B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8690283-3228-4784-90EF-7FF89B1A95B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8690283-3228-4784-90EF-7FF89B1A95B8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {612DAB08-26C1-4B92-A968-09252E7DE225}
+	EndGlobalSection
+EndGlobal
