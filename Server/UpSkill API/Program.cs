@@ -1,8 +1,6 @@
+using UpSkill_API.Contexts;
+
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-
-builder.Services.AddControllers();
 
 // Cors configuration
 string corsPolicy = "Policy1";
@@ -10,16 +8,22 @@ builder.Services.AddCors(config =>
 {
     config.AddPolicy(corsPolicy,
         policy =>
-    {
-        policy.WithOrigins("http://localhost:3000");
-        policy.AllowAnyHeader();
-        policy.AllowAnyMethod();
-    });
+        {
+            policy.WithOrigins("http://localhost:3000");
+            policy.AllowAnyHeader();
+            policy.AllowAnyMethod();
+        });
 });
+
+// Add services to the container.
+builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Adds database context
+builder.Services.AddDbContext<StudentsContext>();
 
 var app = builder.Build();
 
@@ -31,6 +35,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthorization();
 
