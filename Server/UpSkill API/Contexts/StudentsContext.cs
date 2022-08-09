@@ -14,7 +14,7 @@ namespace UpSkill_API.Contexts
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            var connectionString = Configuration.GetConnectionString("Students");
+            var connectionString = Configuration.GetConnectionString("Upskill");
             options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
         }
 

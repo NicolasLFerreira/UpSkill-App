@@ -10,8 +10,8 @@ using UpSkill_API.Contexts;
 namespace UpSkill_API.Migrations
 {
     [DbContext(typeof(StudentsContext))]
-    [Migration("20220809014058_CreateInitial")]
-    partial class CreateInitial
+    [Migration("20220809221818_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
