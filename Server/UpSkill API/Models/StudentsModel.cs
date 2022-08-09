@@ -4,7 +4,6 @@ namespace UpSkill_API.Models
 {
     public class StudentsModel
     {
-        [Required]
         [Key]
         public int StudentId { get; set; }
         [Required]
