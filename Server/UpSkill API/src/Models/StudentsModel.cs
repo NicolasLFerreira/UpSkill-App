@@ -19,7 +19,7 @@ namespace UpSkill_API.Models
         [Required]
         public string? DOB { get; set; }
         [Required]
-        public string? Ethnicity { get; set; }
+        public string? Ethnicity { get; set; } 
         [Required]
         public string? Tutor { get; set; }
         [Required]
