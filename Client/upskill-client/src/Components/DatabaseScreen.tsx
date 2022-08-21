@@ -1,70 +1,147 @@
-import React, { Fragment } from "react";
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
-import { TextFields } from "@mui/icons-material";
-import { Box } from "@mui/material";
+import * as React from 'react';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from "@mui/material"
+import { Fort } from '@mui/icons-material';
 
-const columns: GridColDef[] = [
-    { field: "id", headerName: "ID", width: 90 },
-    {
-        field: "firstName",
-        headerName: "First Name",
-        width: 150,
-        editable: true
-    },
-    {
-        field: "lastName",
-        headerName: "Last Name",
-        width: 150,
-        editable: true
-    },
-    {
-        field: "age",
-        headerName: "Age",
-        width: 110,
-        editable: true
-    },
-    {
-        field: 'fullName',
-        headerName: 'Full name',
-        description: 'This column has a value getter and is not sortable.',
-        sortable: false,
-        width: 160,
-        valueGetter: (params: GridValueGetterParams) =>
-            `${params.row.firstName || ''} ${params.row.lastName || ''}`,
-    }
-]
+// Definitions
 
-
-
-function RowGenerator() {
-    const objectArray = [];
-    for (let index = 0; index < 10; index++) {
-        objectArray[index] = {
-            id: index,
-            lastName: "ferreira",
-            firstName: "nicolas",
-            age: 18
-        }
-    }
-
-    return objectArray;
+interface Column {
+    id: 'firstName' | 'lastName' | 'yearIn2022' | 'dob' | 'ethnicity';
+    label: string;
+    minWidth?: number;
+    align?: 'right';
+    format?: (value: number) => string;
 }
 
-export default function DatabaseScreen() {
+const columns: readonly Column[] = [
+    { id: 'firstName', label: 'First\u00a0Name', minWidth: 50 },
+    { id: 'lastName', label: 'Last\u00a0Name', minWidth: 50 },
+    {
+        id: 'yearIn2022',
+        label: 'Year\u00a0In\u00a0' + new Date().getFullYear(),
+        minWidth: 25,
+        align: 'right',
+        format: (value: number) => value.toLocaleString('en-US'),
+    },
+    {
+        id: 'dob',
+        label: 'DOB',
+        minWidth: 100,
+        align: 'right'
+    },
+    {
+        id: 'ethnicity',
+        label: 'Ethnicity',
+        minWidth: 50,
+        align: 'right'
+    },
+];
+
+interface Data {
+    firstName: string;
+    lastName: string;
+    yearIn2022: number;
+    dob: string;
+    ethnicity: string;
+}
+
+function createData(
+    firstName: string,
+    lastName: string,
+    yearIn2022: number,
+    dob: string,
+    ethnicity: string
+): Data {
+    return { firstName, lastName, yearIn2022, dob, ethnicity };
+}
+
+// Generating row
+
+const names = ['Nicolas', 'Bob', 'Michael', 'John', 'Steve', 'Carl', 'Jack', 'Paul', 'Josh', 'Joshua'];
+const surnames = ['Ferreira', 'Stevens', 'Smith', 'Wood', 'Brown', 'Maxwell', 'Carpenter', 'Thorpe', 'Thompson'];
+
+const rows: Data[] = [];
+
+function randomRange(min: number, max: number) {
+    return Math.floor(Math.random() * (max - min)) + min;
+}
+
+function FillRows(amount: number) {
+    for (let index = 0; index < amount; index++) {
+        rows[index] = createData(
+            names[randomRange(0, names.length)],
+            surnames[randomRange(0, surnames.length)],
+            randomRange(11, 14),
+            "yes",
+            "latino"
+        );
+    }
+}
+
+// JSX
+
+export default function StickyHeadTable() {
+    FillRows(100);
+
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+    const handleChangePage = (event: unknown, newPage: number) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+    };
+
     return (
-        <Fragment>
-            <Box sx={{ height: 400, width: "100%" }}>
-                <DataGrid
-                    rows={RowGenerator()}
-                    columns={columns}
-                    pageSize={5}
-                    rowsPerPageOptions={[5]}
-                    scrollbarSize={1}
-                    checkboxSelection
-                    disableSelectionOnClick
-                    experimentalFeatures={{ newEditingApi: true }}
-                />
-            </Box>
-        </Fragment>
+        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+            <TableContainer sx={{ maxHeight: 880 }}>
+                <Table stickyHeader aria-label="sticky table">
+                    <TableHead>
+                        <TableRow>
+                            {columns.map((column) => (
+                                <TableCell
+                                    key={column.id}
+                                    align={column.align}
+                                    style={{ minWidth: column.minWidth }}
+                                >
+                                    {column.label}
+                                </TableCell>
+                            ))}
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {rows
+                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            .map((row) => {
+                                return (
+                                    <TableRow hover role="checkbox" tabIndex={-1} key={row.dob}>
+                                        {columns.map((column) => {
+                                            const value = row[column.id];
+                                            return (
+                                                <TableCell key={column.id} align={column.align}>
+                                                    {column.format && typeof value === 'number'
+                                                        ? column.format(value)
+                                                        : value}
+                                                </TableCell>
+                                            );
+                                        })}
+                                    </TableRow>
+                                );
+                            })}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            <TablePagination
+                rowsPerPageOptions={[10, 25, 50]}
+                component="div"
+                count={rows.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+        </Paper>
     );
 }
