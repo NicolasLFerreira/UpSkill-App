@@ -3,7 +3,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import App from './Components/App';
-import GridScreen from './Components/GridScreen';
+import DatabaseScreen from './Components/DatabaseScreen';
+import HomeScreen from './Components/HomeScreen';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(
@@ -14,8 +15,8 @@ root.render(
 		<BrowserRouter>
 			<Routes>
 				<Route path="/" element={<App />}>
-					<Route path="home" element={<></>} />
-					<Route path="grid" element={<GridScreen />} />
+					<Route path="home" element={<HomeScreen />} />
+					<Route path="database" element={<DatabaseScreen />} />
 					<Route path="*" element={
 						<Grid container justifyContent={"center"}>
 							<Typography sx={{ m: 4 }}>Oops! This URL leads nowehere!</Typography>

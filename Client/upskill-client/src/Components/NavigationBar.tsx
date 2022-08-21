@@ -1,10 +1,11 @@
 import { Box, AppBar, Toolbar, Typography, Button, Link } from '@mui/material';
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import { ArrowUpward } from '@mui/icons-material';
 
 interface INavButtonProps {
     text: string
-    path?: string 
+    path?: string
 }
 
 function NavButton(props: INavButtonProps) {
@@ -21,11 +22,11 @@ export default function NavigationBar() {
             <AppBar position="static">
                 <Toolbar>
                     <Typography variant="h6" sx={{ mr: 2 }}>
-                        UpSkill App
+                        <ArrowUpward /> UpSkill
                     </Typography>
-                    <NavButton text="Home"/>
-                    <NavButton text="Grid"/>
-                    <NavButton text="Help"/>
+                    <NavButton text="Home" />
+                    <NavButton text="Database" />
+                    <NavButton text="Help" />
                 </Toolbar>
             </AppBar>
         </Box>
