@@ -1,0 +1,20 @@
+export default interface IStudentData {
+    studentId?: any | null,
+    firstName: string,
+    lastName: string,
+    yearLevel: string,
+    dob: string,
+    ethnicity: string,
+    tutor: string,
+    areaOfNeed: number,
+    diagnosis: string,
+    externalAgencies: string,
+    response: number,
+    sac: number,
+    notes: string,
+    links: string,
+    kamarUpdates: string,
+    pronoun: string,
+    sacInfo: string,
+    otherInfo: string
+}

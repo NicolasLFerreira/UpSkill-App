@@ -1,11 +1,11 @@
-import { Grid, Typography } from '@mui/material';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import App from './Components/App';
-import DatabaseScreen from './Components/DatabaseScreen';
-import HelpScreen from './Components/HelpScreen';
-import HomeScreen from './Components/HomeScreen';
+import DatabaseScreen from './Components/DatabasePage';
+import HelpScreen from './Components/HelpPage';
+import HomeScreen from './Components/HomePage';
+import FormPage from './Components/FormPage';
 import NavigationBar from './Components/NavigationBar';
 import reportWebVitals from './reportWebVitals';
 
@@ -21,10 +21,11 @@ root.render(
 					<Route index element={<HomeScreen />} />
 					<Route path="home" element={<HomeScreen />} />
 					<Route path="database" element={<DatabaseScreen />} />
+					<Route path="form" element={<FormPage />} />
 					<Route path="help" element={<HelpScreen />} />
 					<Route
 						path="*"
-						element={<Navigate to="/" />}
+						element={<Navigate to="/home" />}
 					/>
 				</Route>
 			</Routes>
