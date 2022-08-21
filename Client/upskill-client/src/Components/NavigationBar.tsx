@@ -1,5 +1,5 @@
-import { Box, AppBar, Toolbar, Typography, Button, Link } from '@mui/material';
 import React from 'react';
+import { Box, AppBar, Toolbar, Typography, Button } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import { ArrowUpward } from '@mui/icons-material';
 
@@ -29,6 +29,7 @@ export default function NavigationBar() {
                     <NavButton text="Help" />
                 </Toolbar>
             </AppBar>
+            <Toolbar />
         </Box>
     )
 }

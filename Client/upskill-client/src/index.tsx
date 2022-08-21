@@ -1,7 +1,7 @@
 import { Grid, Typography } from '@mui/material';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import App from './Components/App';
 import DatabaseScreen from './Components/DatabaseScreen';
 import HelpScreen from './Components/HelpScreen';
@@ -19,11 +19,10 @@ root.render(
 					<Route path="home" element={<HomeScreen />} />
 					<Route path="database" element={<DatabaseScreen />} />
 					<Route path="help" element={<HelpScreen />} />
-					<Route path="*" element={
-						<Grid container justifyContent={"center"}>
-							<Typography sx={{ m: 4 }}>Oops! This URL leads nowehere!</Typography>
-						</Grid>
-					} />
+					<Route
+						path="*"
+						element={<Navigate to="/" />}
+					/>
 				</Route>
 			</Routes>
 		</BrowserRouter>
