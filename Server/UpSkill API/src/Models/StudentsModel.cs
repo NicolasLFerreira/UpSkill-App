@@ -17,9 +17,9 @@ namespace UpSkill_API.Models
         [Required]
         public string? YearLevel { get; set; }
         [Required]
-        public string? DOB { get; set; }
+        public string? DOB { get; set; } // Date of Birth
         [Required]
-        public string? Ethnicity { get; set; } 
+        public string? Ethnicity { get; set; }
         [Required]
         public string? Tutor { get; set; }
         [Required]
@@ -33,7 +33,7 @@ namespace UpSkill_API.Models
         [Required]
         public byte SAC { get; set; } // 5 items.
         [Required]
-        public string? Notes { get; set; }
+        public string? Notes { get; set; } // Potential to be the biggest field.
         [Required]
         public string? Links { get; set; } // Links to a google file. Gotta add some safety checks here.
         [Required]
