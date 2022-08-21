@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import App from './Components/App';
 import DatabaseScreen from './Components/DatabaseScreen';
+import HelpScreen from './Components/HelpScreen';
 import HomeScreen from './Components/HomeScreen';
 import reportWebVitals from './reportWebVitals';
 
@@ -17,6 +18,7 @@ root.render(
 				<Route path="/" element={<App />}>
 					<Route path="home" element={<HomeScreen />} />
 					<Route path="database" element={<DatabaseScreen />} />
+					<Route path="help" element={<HelpScreen />} />
 					<Route path="*" element={
 						<Grid container justifyContent={"center"}>
 							<Typography sx={{ m: 4 }}>Oops! This URL leads nowehere!</Typography>
