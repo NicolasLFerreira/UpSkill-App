@@ -6,6 +6,7 @@ import App from './Components/App';
 import DatabaseScreen from './Components/DatabaseScreen';
 import HelpScreen from './Components/HelpScreen';
 import HomeScreen from './Components/HomeScreen';
+import NavigationBar from './Components/NavigationBar';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(
@@ -14,8 +15,10 @@ const root = ReactDOM.createRoot(
 root.render(
 	<React.StrictMode>
 		<BrowserRouter>
+			<NavigationBar />
 			<Routes>
 				<Route path="/" element={<App />}>
+					<Route index element={<HomeScreen />} />
 					<Route path="home" element={<HomeScreen />} />
 					<Route path="database" element={<DatabaseScreen />} />
 					<Route path="help" element={<HelpScreen />} />

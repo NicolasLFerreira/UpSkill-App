@@ -1,17 +1,32 @@
-import React, { Fragment } from "react";
-import { Outlet } from "react-router-dom";
-import { Grid } from "@mui/material";
+import React, { Component, Fragment } from "react";
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router-dom";
+import { isPropertySignature } from "typescript";
 import NavigationBar from "./NavigationBar";
 
-function App() {
-	return (
-		<Fragment>
-			<NavigationBar />
-			<main>
-				<Outlet />
-			</main>
-		</Fragment>
-	);
+interface IProps {
+
 }
 
-export default App;
+interface IState {
+
+}
+
+export default class App extends Component<IProps, IState> {
+	constructor(props: IProps) {
+		super(props);
+
+		this.state = {
+
+		}
+	}
+
+	render() {
+		return (
+			<Fragment>
+				<main>
+					<Outlet />
+				</main>
+			</Fragment>
+		);
+	}
+}
