@@ -114,7 +114,10 @@ export default class FormPage extends Component<IProps, IState> {
         // var jsx = this.makeJSX(this.state.currentStudent!);
 
         return (
-            <Grid>
+            <Grid container>
+                <Grid item>
+
+                </Grid>
                 <Button variant="contained" onClick={() => this.postTest().forceUpdate()}>
                     Generate Users
                 </Button>
