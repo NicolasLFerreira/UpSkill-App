@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import StudentDataService from "../services/StudentDataService";
-import IStudentData from "../types/IStudentData";
-import StudentDatagrid from "./DataTableStuff/StudentDatagrid";
+import IStudentData, { defaultStudentObject } from "../types/IStudentData";
+import StudentDatagrid from "./StudentDatagrid";
 
 interface IProps { }
 interface IState {
@@ -12,26 +12,7 @@ export default class DatabasePage extends Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
 
-        var object: Array<IStudentData> = [{
-            studentId: 0,
-            firstName: "",
-            lastName: "",
-            yearLevel: "",
-            dob: "",
-            ethnicity: "",
-            tutor: "",
-            areaOfNeed: 0,
-            diagnosis: "",
-            externalAgencies: "",
-            response: 0,
-            sac: 0,
-            notes: "",
-            links: "",
-            kamarUpdates: "",
-            pronoun: "",
-            sacInfo: "",
-            otherInfo: ""
-        }];
+        var object: Array<IStudentData> = [defaultStudentObject];
 
         this.state = {
             students: object

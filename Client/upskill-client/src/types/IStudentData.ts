@@ -20,6 +20,27 @@ export default interface IStudentData {
     otherInfo: string
 }
 
+export var defaultStudentObject: IStudentData = {
+    studentId: 0,
+    firstName: "",
+    lastName: "",
+    yearLevel: "",
+    dob: "",
+    ethnicity: "",
+    tutor: "",
+    areaOfNeed: 0,
+    diagnosis: "",
+    externalAgencies: "",
+    response: 0,
+    sac: 0,
+    notes: "",
+    links: "",
+    kamarUpdates: "",
+    pronoun: "",
+    sacInfo: "",
+    otherInfo: ""
+};
+
 // Add enums for areaOfNeed, response, and sac.
 
  // var object: IStudentData = {

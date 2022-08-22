@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { DataGrid, GridColumns, gridClasses } from '@mui/x-data-grid';
 import { alpha, styled } from '@mui/material/styles';
-import IStudentData from '../../types/IStudentData';
+import IStudentData from '../types/IStudentData';
 
 const ODD_OPACITY: number = 0.2;
 

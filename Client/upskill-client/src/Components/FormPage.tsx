@@ -1,6 +1,6 @@
-import { RepeatOneSharp, ThreeKSharp } from "@mui/icons-material";
-import { Button } from "@mui/material";
 import React, { Component } from "react";
+import { RepeatOneSharp, ThreeKSharp } from "@mui/icons-material";
+import { Button, Grid } from "@mui/material";
 import StudentDataService from "../services/StudentDataService";
 import IStudentData from "../types/IStudentData";
 
@@ -114,12 +114,12 @@ export default class FormPage extends Component<IProps, IState> {
         // var jsx = this.makeJSX(this.state.currentStudent!);
 
         return (
-            <div>
+            <Grid>
                 <Button variant="contained" onClick={() => this.postTest().forceUpdate()}>
                     Generate Users
                 </Button>
                 {jsxArray}
-            </div>
+            </Grid>
         );
     }
 }

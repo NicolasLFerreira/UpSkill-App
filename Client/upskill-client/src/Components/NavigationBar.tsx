@@ -20,7 +20,7 @@ function NavButton(props: INavButtonProps) {
             } sx={{
                 mr: 2,
                 color: "#ffffff",
-                backgroundColor: "#ff00ff",
+                backgroundColor: "#78909c",
                 textDecoration: "none",
                 fontSize: "1rem"
             }}
@@ -35,7 +35,7 @@ export default function NavigationBar() {
         <Fragment>
             <Box sx={{ flexGrow: 1 }}>
                 <AppBar position="fixed">
-                    <Toolbar>
+                    <Toolbar sx={{ backgroundColor: "#455a64"}}>
                         <Typography variant="h5" sx={{ mr: 2, fontSize: "2rem" }}>
                             UpSkill
                         </Typography>
