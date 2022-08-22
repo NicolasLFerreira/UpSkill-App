@@ -1,6 +1,6 @@
 /**Data fields for the students. */
 export default interface IStudentData {
-    studentId?: any | null,
+    studentId: any,
     firstName: string,
     lastName: string,
     yearLevel: string,

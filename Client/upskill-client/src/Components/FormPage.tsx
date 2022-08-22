@@ -3,7 +3,6 @@ import { Button } from "@mui/material";
 import React, { Component } from "react";
 import StudentDataService from "../services/StudentDataService";
 import IStudentData from "../types/IStudentData";
-import StudentDataTable from "./StudentDataTable";
 
 interface IProps {
 
@@ -58,8 +57,11 @@ export default class FormPage extends Component<IProps, IState> {
         );
     }
 
+    
+
     postTest() {
         var object: IStudentData = {
+            studentId: 0,
             firstName: "test name",
             lastName: "test surname",
             yearLevel: "12",
@@ -88,8 +90,8 @@ export default class FormPage extends Component<IProps, IState> {
             <div>
                 {jsxArray}
 
-                <Button onClick={() => this.postTest()}>
-                    Click me
+                <Button variant="contained" onClick={() => this.postTest()}>
+                    Generate Users
                 </Button>
             </div>
         )
