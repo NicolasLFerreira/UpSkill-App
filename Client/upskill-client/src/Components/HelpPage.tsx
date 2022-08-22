@@ -6,7 +6,7 @@ export default function HelpScreen() {
         <Fragment>
             <Box>
                 <Typography>
-
+                    This is the help page of the website. Most of your questions will be answered here.
                 </Typography>
             </Box>
         </Fragment>
