@@ -1,4 +1,4 @@
-import { RepeatOneSharp } from "@mui/icons-material";
+import { RepeatOneSharp, ThreeKSharp } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import React, { Component } from "react";
 import StudentDataService from "../services/StudentDataService";
@@ -29,6 +29,7 @@ export default class FormPage extends Component<IProps, IState> {
 
     componentDidMount() {
         this.retrieveStudents();
+        this.retrieveStudent();
     }
 
     retrieveStudents() {
@@ -36,6 +37,19 @@ export default class FormPage extends Component<IProps, IState> {
             .then((response: any) => {
                 this.setState({
                     students: response.data
+                });
+                console.log(response.data);
+            })
+            .catch((e: Error) => {
+                console.log(e);
+            });
+    }
+
+    retrieveStudent() {
+        StudentDataService.get(20)
+            .then((response: any) => {
+                this.setState({
+                    currentStudent: response.data
                 });
                 console.log(response.data);
             })
@@ -92,20 +106,20 @@ export default class FormPage extends Component<IProps, IState> {
         }
 
         StudentDataService.post(object);
-        this.forceUpdate();
+        return this;
     }
 
     render() {
         var jsxArray = this.state.students.map((element: IStudentData) => this.makeJSX(element));
+        // var jsx = this.makeJSX(this.state.currentStudent!);
 
         return (
             <div>
-                {jsxArray}
-
-                <Button variant="contained" onClick={() => this.postTest()}>
+                <Button variant="contained" onClick={() => this.postTest().forceUpdate()}>
                     Generate Users
                 </Button>
+                {jsxArray}
             </div>
-        )
+        );
     }
 }

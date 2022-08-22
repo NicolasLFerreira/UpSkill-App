@@ -1,7 +1,7 @@
-import React, { Fragment, ReactNode } from 'react';
-import { Box, AppBar, Toolbar, Typography, Button, SvgIconTypeMap } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
-import { ArrowUpward, Home, SvgIconComponent } from '@mui/icons-material';
+import React, { Fragment, ReactNode } from "react";
+import { Link as RouterLink } from "react-router-dom";
+import { Box, AppBar, Toolbar, Typography, Button, SvgIconTypeMap } from "@mui/material";
+import { ArrowUpward, Home, SvgIconComponent } from "@mui/icons-material";
 
 interface INavButtonProps {
     text: string,
@@ -20,6 +20,7 @@ function NavButton(props: INavButtonProps) {
             } sx={{
                 mr: 2,
                 color: "#ffffff",
+                backgroundColor: "#ff00ff",
                 textDecoration: "none",
                 fontSize: "1rem"
             }}
