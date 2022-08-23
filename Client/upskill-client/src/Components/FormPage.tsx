@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { RepeatOneSharp, ThreeKSharp } from "@mui/icons-material";
 import { Button, Grid } from "@mui/material";
-import StudentDataService from "../services/StudentDataService";
+import StudentDataCrud from "../services/StudentDataCrud";
 import IStudentData from "../types/IStudentData";
 
 interface IProps {
@@ -33,7 +33,7 @@ export default class FormPage extends Component<IProps, IState> {
     }
 
     retrieveStudents() {
-        StudentDataService.getAll()
+        StudentDataCrud.getAll()
             .then((response: any) => {
                 this.setState({
                     students: response.data
@@ -46,7 +46,7 @@ export default class FormPage extends Component<IProps, IState> {
     }
 
     retrieveStudent() {
-        StudentDataService.get(20)
+        StudentDataCrud.get(20)
             .then((response: any) => {
                 this.setState({
                     currentStudent: response.data
@@ -105,7 +105,7 @@ export default class FormPage extends Component<IProps, IState> {
             "otherInfo": "string example"
         }
 
-        StudentDataService.post(object);
+        StudentDataCrud.post(object);
         return this;
     }
 

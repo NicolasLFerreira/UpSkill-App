@@ -1,8 +1,8 @@
 import http from "../HttpHandler";
 import IStudentData from "../types/IStudentData";
 
-/**Class for handling HTTP requests with the Axios instance. */
-class StudentDataService {
+/**Class for handling HTTP requests for student data with the Axios instance. */
+class StudentDataCrud {
     get(id: number) {
         return http.get<IStudentData>(`/Students/${id}`);
     }
@@ -28,4 +28,4 @@ class StudentDataService {
     }
 }
 
-export default new StudentDataService();
+export default new StudentDataCrud();

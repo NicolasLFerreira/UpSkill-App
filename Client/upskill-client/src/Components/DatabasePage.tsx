@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import StudentDataService from "../services/StudentDataService";
+import StudentDataCrud from "../services/StudentDataCrud";
 import IStudentData, { defaultStudentObject } from "../types/IStudentData";
 import StudentDatagrid from "./StudentDatagrid";
 
@@ -24,7 +24,7 @@ export default class DatabasePage extends Component<IProps, IState> {
     }
 
     getStudents = () => {
-        StudentDataService.getAll()
+        StudentDataCrud.getAll()
             .then((response: any) => {
                 this.setState({
                     students: response.data

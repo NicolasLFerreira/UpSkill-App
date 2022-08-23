@@ -35,7 +35,7 @@ export default function NavigationBar() {
         <Fragment>
             <Box sx={{ flexGrow: 1 }}>
                 <AppBar position="fixed">
-                    <Toolbar sx={{ backgroundColor: "#455a64"}}>
+                    <Toolbar sx={{ backgroundColor: "#455a64" }}>
                         <Typography variant="h5" sx={{ mr: 2, fontSize: "2rem" }}>
                             UpSkill
                         </Typography>
