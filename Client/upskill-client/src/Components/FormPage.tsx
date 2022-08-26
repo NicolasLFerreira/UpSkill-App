@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { RepeatOneSharp, ThreeKSharp } from "@mui/icons-material";
-import { Button, Grid } from "@mui/material";
+import { Box, Button, Grid, Modal, Typography } from "@mui/material";
 import StudentDataCrud from "../services/StudentDataCrud";
 import IStudentData from "../types/IStudentData";
+import FormModal from "./FormModal";
 
 interface IProps {
 
@@ -29,7 +30,6 @@ export default class FormPage extends Component<IProps, IState> {
 
     componentDidMount() {
         this.retrieveStudents();
-        this.retrieveStudent();
     }
 
     retrieveStudents() {
@@ -37,19 +37,6 @@ export default class FormPage extends Component<IProps, IState> {
             .then((response: any) => {
                 this.setState({
                     students: response.data
-                });
-                console.log(response.data);
-            })
-            .catch((e: Error) => {
-                console.log(e);
-            });
-    }
-
-    retrieveStudent() {
-        StudentDataCrud.get(20)
-            .then((response: any) => {
-                this.setState({
-                    currentStudent: response.data
                 });
                 console.log(response.data);
             })
@@ -75,7 +62,7 @@ export default class FormPage extends Component<IProps, IState> {
         return Math.floor(Math.random() * (max - min)) + min;
     }
 
-    postTest() {
+    postTemporary() {
         const names: Array<string> = ["Nicolas", "Say", "Jason", "Jack", "Steve", "Bob", "John", "Michael", "Jeff", "Jefferson", "Bill", "Robert", "Emma", "Aice", "Rose", "Clara", "Bella", "Daniella", "José"];
         const surnames: Array<string> = ["Stevens", "Smith", "William", "Jones", "Hall", "Batista", "Taylor", "Mason", "Graham", "Ford", "Stewart", "Cooper", "Hyde", "Ferreira", "Perereira", "Santos", "da Silva", "Dupont", "Paulo", "Cabrito Hermano"];
         const ethnicity: Array<string> = ["Latino", "European", "African", "Maori", "Asian"];
@@ -106,7 +93,10 @@ export default class FormPage extends Component<IProps, IState> {
         }
 
         StudentDataCrud.post(object);
-        return this;
+    }
+
+    testFunction() {
+        console.log("shits working")
     }
 
     render() {
@@ -114,15 +104,9 @@ export default class FormPage extends Component<IProps, IState> {
         // var jsx = this.makeJSX(this.state.currentStudent!);
 
         return (
-            <Grid container>
-                <Grid item>
-
-                </Grid>
-                <Button variant="contained" onClick={() => this.postTest().forceUpdate()}>
-                    Generate Users
-                </Button>
-                {jsxArray}
-            </Grid>
+            <Box sx={{ flexGrow: 1 }}>
+                <FormModal callback={this.postTemporary} />
+            </Box>
         );
     }
 }
