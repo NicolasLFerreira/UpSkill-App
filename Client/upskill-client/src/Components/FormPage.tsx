@@ -45,24 +45,10 @@ export default class FormPage extends Component<IProps, IState> {
             });
     }
 
-    makeJSX(object: IStudentData) {
-        return (
-            <div>
-                First Name: {object.firstName}<br />
-                Last Name: {object.lastName}<br />
-                Year: {object.yearLevel}<br />
-                DOB: {object.dob}<br />
-                Ethnicity: {object.ethnicity}<br />
-                <br />
-            </div>
-        );
-    }
-
-    getRndInteger(min: number, max: number) {
-        return Math.floor(Math.random() * (max - min)) + min;
-    }
-
     postTemporary() {
+        function getRndInteger(min: number, max: number): number {
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
         const names: Array<string> = ["Nicolas", "Say", "Jason", "Jack", "Steve", "Bob", "John", "Michael", "Jeff", "Jefferson", "Bill", "Robert", "Emma", "Aice", "Rose", "Clara", "Bella", "Daniella", "José"];
         const surnames: Array<string> = ["Stevens", "Smith", "William", "Jones", "Hall", "Batista", "Taylor", "Mason", "Graham", "Ford", "Stewart", "Cooper", "Hyde", "Ferreira", "Perereira", "Santos", "da Silva", "Dupont", "Paulo", "Cabrito Hermano"];
         const ethnicity: Array<string> = ["Latino", "European", "African", "Maori", "Asian"];
@@ -73,36 +59,35 @@ export default class FormPage extends Component<IProps, IState> {
 
         var object: IStudentData = {
             "studentId": 0,
-            "firstName": names[this.getRndInteger(0, names.length)],
-            "lastName": surnames[this.getRndInteger(0, surnames.length)],
-            "yearLevel": `${this.getRndInteger(11, 14)}`,
-            "dob": `${this.getRndInteger(1, 32)}-${this.getRndInteger(1, 13)}-${this.getRndInteger(2000, 2011)}`,
-            "ethnicity": ethnicity[this.getRndInteger(0, ethnicity.length)],
-            "tutor": tutor[this.getRndInteger(0, tutor.length)],
-            "areaOfNeed": this.getRndInteger(0, 6),
-            "diagnosis": diagnosis[this.getRndInteger(0, diagnosis.length)],
-            "externalAgencies": externalAgencies[this.getRndInteger(0, externalAgencies.length)],
-            "response": this.getRndInteger(0, 7),
-            "sac": this.getRndInteger(0, 6),
+            "firstName": names[getRndInteger(0, names.length)],
+            "lastName": surnames[getRndInteger(0, surnames.length)],
+            "yearLevel": `${getRndInteger(11, 14)}`,
+            "dob": `${getRndInteger(1, 32)}-${getRndInteger(1, 13)}-${getRndInteger(2000, 2011)}`,
+            "ethnicity": ethnicity[getRndInteger(0, ethnicity.length)],
+            "tutor": tutor[getRndInteger(0, tutor.length)],
+            "areaOfNeed": getRndInteger(0, 6),
+            "diagnosis": diagnosis[getRndInteger(0, diagnosis.length)],
+            "externalAgencies": externalAgencies[getRndInteger(0, externalAgencies.length)],
+            "response": getRndInteger(0, 7),
+            "sac": getRndInteger(0, 6),
             "notes": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam convallis lorem in erat malesuada sodales. Vivamus eget gravida quam. Nulla.",
             "links": "https://google.com",
             "kamarUpdates": "string example",
-            "pronoun": pronouns[this.getRndInteger(0, pronouns.length)],
+            "pronoun": pronouns[getRndInteger(0, pronouns.length)],
             "sacInfo": "string example",
             "otherInfo": "string example"
         }
 
-        StudentDataCrud.post(object);
-    }
-
-    testFunction() {
-        console.log("shits working")
+        StudentDataCrud.post(object)
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((e: Error) => {
+                console.log(e);
+            })
     }
 
     render() {
-        var jsxArray = this.state.students.map((element: IStudentData) => this.makeJSX(element));
-        // var jsx = this.makeJSX(this.state.currentStudent!);
-
         return (
             <Box sx={{ flexGrow: 1 }}>
                 <FormModal callback={this.postTemporary} />
