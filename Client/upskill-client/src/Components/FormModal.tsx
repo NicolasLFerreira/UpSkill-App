@@ -1,22 +1,29 @@
 import * as React from 'react';
-import { Box, Button, Typography, Modal, Grid } from '@mui/material';
-import IStudentData from '../types/IStudentData';
+import { Box, Button, Typography, Modal, Grid, Input } from '@mui/material';
 
-const style = {
-    position: 'absolute' as 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
+const boxStyle = {
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    height: "75%",
+    width: "90%",
+    bgcolor: "background.paper",
+    border: "2px solid #000",
     boxShadow: 24,
     p: 4,
 };
 
+const gridItemStyle = {
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    justifyContent: "center"
+}
+
 function ModalButton(text: string, callback: () => void, size: number) {
     return (
-        <Grid item xs={size} sx={{ width: "100%", height: "100%", display: "flex", justifyContent: "center" }}>
+        <Grid item xs={size} sx={gridItemStyle}>
             <Button variant="contained" onClick={() => callback()}>
                 {text}
             </Button>
@@ -42,18 +49,34 @@ export default function FormModal(props: IProps) {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Text in a modal
-                    </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-                    </Typography>
+                <Box sx={boxStyle}>
                     <Grid container>
-                        {ModalButton("Generate Users", props.createStudentCallback, 4)}
-                    </Grid>
-                    <Grid container>
+                        <Grid item>
+                            <Input type="search" placeholder="Search for student" />
+                        </Grid>
+                        <Grid item>
+                            <Grid container sx={{ m: 1 }}>
+                                <Grid item>
+                                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                                        Student name placeholder
+                                    </Typography>
+                                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                        Create, read, update, or delte a student record.
+                                    </Typography>
+                                </Grid>
+                            </Grid>
+                            <Grid container sx={{ m: 1 }}>
+                                <Grid item>
+                                    <Input type="text" placeholder="First name" />
+                                </Grid>
+                            </Grid>
+                            <Grid container sx={{ m: 1 }}>
+                                {ModalButton("Generate Users", props.createStudentCallback, 4)}
+                            </Grid>
+                            <Grid container>
 
+                            </Grid>
+                        </Grid>
                     </Grid>
                 </Box>
             </Modal>
