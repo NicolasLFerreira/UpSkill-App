@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Button, Typography, Modal, Grid, Input } from '@mui/material';
+import { Box, Button, Typography, Grid, Modal, Input } from '@mui/material';
 
 const boxStyle = {
     position: "absolute" as "absolute",
@@ -67,7 +67,9 @@ export default function FormModal(props: IProps) {
                             </Grid>
                             <Grid container sx={{ m: 1 }}>
                                 <Grid item>
-                                    <Input type="text" placeholder="First name" />
+                                    <Input type="text" placeholder="First name" sx={{ mx: 1 }} />
+                                    <Input type="text" placeholder="Last name" sx={{ mx: 1 }} />
+                                    <Input type="date" sx={{ mx: 1 }} />
                                 </Grid>
                             </Grid>
                             <Grid container sx={{ m: 1 }}>
