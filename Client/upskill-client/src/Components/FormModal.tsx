@@ -14,18 +14,18 @@ const style = {
     p: 4,
 };
 
-function GridItem(size: number, callback: () => void) {
+function ModalButton(text: string, callback: () => void, size: number) {
     return (
         <Grid item xs={size} sx={{ width: "100%", height: "100%", display: "flex", justifyContent: "center" }}>
             <Button variant="contained" onClick={() => callback()}>
-                Generate Users
+                {text}
             </Button>
         </Grid>
     );
 }
 
 interface IProps {
-    callback: () => void;
+    createStudentCallback: () => void;
 }
 
 export default function FormModal(props: IProps) {
@@ -35,7 +35,7 @@ export default function FormModal(props: IProps) {
 
     return (
         <div>
-            <Button onClick={handleOpen}>Open modal</Button>
+            <Button onClick={handleOpen}>Open Student Form</Button>
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -50,7 +50,7 @@ export default function FormModal(props: IProps) {
                         Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
                     </Typography>
                     <Grid container>
-                        {GridItem(4, props.callback)}
+                        {ModalButton("Generate Users", props.createStudentCallback, 4)}
                     </Grid>
                     <Grid container>
 

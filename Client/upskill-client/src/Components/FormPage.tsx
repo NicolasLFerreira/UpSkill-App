@@ -90,7 +90,7 @@ export default class FormPage extends Component<IProps, IState> {
     render() {
         return (
             <Box sx={{ flexGrow: 1 }}>
-                <FormModal callback={this.postTemporary} />
+                <FormModal createStudentCallback={this.postTemporary} />
             </Box>
         );
     }
