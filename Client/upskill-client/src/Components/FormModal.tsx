@@ -1,7 +1,10 @@
 import * as React from 'react';
-import { Box, Button, Typography, Grid, Modal, Input } from '@mui/material';
+import { Box, Button, Typography, Modal, Input, Container } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2';
+import BasicSelect from './BasicSelect';
 
 const boxStyle = {
+    flex: 1,
     position: "absolute" as "absolute",
     top: "50%",
     left: "50%",
@@ -14,20 +17,20 @@ const boxStyle = {
     p: 4,
 };
 
-const gridItemStyle = {
-    width: "100%",
-    height: "100%",
-    display: "flex",
-    justifyContent: "center"
+const gridButtonStyle = {
+    justifyContent: "left",
+    m: 1
 }
 
-function ModalButton(text: string, callback: () => void, size: number) {
+const gridInputStyle = {
+    m: 1,
+}
+
+function ModalButton(text: string, callback: () => void) {
     return (
-        <Grid item xs={size} sx={gridItemStyle}>
-            <Button variant="contained" onClick={() => callback()}>
-                {text}
-            </Button>
-        </Grid>
+        <Button variant="contained" onClick={() => callback()}>
+            {text}
+        </Button>
     );
 }
 
@@ -50,36 +53,49 @@ export default function FormModal(props: IProps) {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={boxStyle}>
-                    <Grid container>
-                        <Grid item>
-                            <Input type="search" placeholder="Search for student" />
-                        </Grid>
-                        <Grid item>
-                            <Grid container sx={{ m: 1 }}>
-                                <Grid item>
-                                    <Typography id="modal-modal-title" variant="h6" component="h2">
-                                        Student name placeholder
-                                    </Typography>
-                                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                        Create, read, update, or delte a student record.
-                                    </Typography>
+                    <Container>
+                        <Grid container>
+                            <Grid>
+                                <Grid container>
+                                    <Grid>
+                                        <Input type="search" placeholder="Search for student" />
+                                    </Grid>
                                 </Grid>
                             </Grid>
-                            <Grid container sx={{ m: 1 }}>
-                                <Grid item>
-                                    <Input type="text" placeholder="First name" sx={{ mx: 1 }} />
-                                    <Input type="text" placeholder="Last name" sx={{ mx: 1 }} />
-                                    <Input type="date" sx={{ mx: 1 }} />
+                            <Grid>
+                                <Grid container>
+                                    <Grid>
+                                        <Grid container sx={{ m: 1 }}>
+                                            <Grid xs={12}>
+                                                <Typography id="modal-modal-title" variant="h6" component="h2">
+                                                    Student name placeholder
+                                                </Typography>
+                                                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                                    Create, read, update, or delte a student record.
+                                                </Typography>
+                                            </Grid>
+                                            <Grid xs={12}>
+                                                <Input type="text" placeholder="First name" sx={gridInputStyle} />
+                                                <Input type="text" placeholder="Last name" sx={gridInputStyle} />
+                                                <Input type="date" sx={gridInputStyle} />
+                                            </Grid>
+                                            <Grid xs={12}>
+                                                <Input type="text" placeholder="First name" sx={gridInputStyle} />
+                                                <Input type="text" placeholder="Last name" sx={gridInputStyle} />
+                                                <BasicSelect />
+                                            </Grid>
+                                            <Grid xs={2} sx={gridButtonStyle}>
+                                                {ModalButton("Generate user", props.createStudentCallback)}
+                                            </Grid>
+                                            <Grid xs={2} sx={gridButtonStyle}>
+                                                {ModalButton("Delete user", () => (console.log("shit")))}
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
                                 </Grid>
                             </Grid>
-                            <Grid container sx={{ m: 1 }}>
-                                {ModalButton("Generate Users", props.createStudentCallback, 4)}
-                            </Grid>
-                            <Grid container>
-
-                            </Grid>
                         </Grid>
-                    </Grid>
+                    </Container>
                 </Box>
             </Modal>
         </div>
