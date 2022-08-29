@@ -80,9 +80,9 @@ export default function FormModal(props: IProps) {
                                                 <Input type="date" sx={gridInputStyle} />
                                             </Grid>
                                             <Grid xs={12}>
-                                                <Input type="text" placeholder="First name" sx={gridInputStyle} />
-                                                <Input type="text" placeholder="Last name" sx={gridInputStyle} />
-                                                <BasicSelect />
+                                                <Input type="text" placeholder="Notes" sx={gridInputStyle} />
+                                                <Input type="text" placeholder="Pronouns" sx={gridInputStyle} />
+                                                <BasicSelect items={["Yes", "Pending", "New Application", "Roll Over", "No SAC"]} />
                                             </Grid>
                                             <Grid xs={2} sx={gridButtonStyle}>
                                                 {ModalButton("Generate user", props.createStudentCallback)}
