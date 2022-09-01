@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { DataGrid, GridColumns, gridClasses } from '@mui/x-data-grid';
 import { alpha, styled } from '@mui/material/styles';
 import IStudentData from '../types/IStudentData';
-import { IStudentDataDisplay } from '../types/IStudentData';
+import IStudentDataDisplay, { values } from '../types/IStudentDataDisplay';
 
 const ODD_OPACITY: number = 0.2;
 
@@ -59,10 +59,6 @@ const columns: GridColumns = [
     { field: "otherInfo", headerName: "Other Info", minWidth: 180, editable: true }
 ];
 
-const AreaOfNeed = ["Learning", "Social", "Emotional and Behaviour", "Communication", "Sensory", "Physical"];
-const Response = ["Monitoring", "Assessment", "Observing ", "TA Support", "Closed", "Other"];
-const SAC = ["Yes", "Pending", "New Application", "Roll Over", "No SAC"];
-
 interface IProps {
     students: Array<IStudentData>
 }
@@ -88,9 +84,9 @@ export default class StudentDatagrid extends Component<IProps, IState> {
 
     newStudent(student: IStudentData) {
         var studentUpdated: IStudentDataDisplay = student;
-        studentUpdated.areaOfNeedShow = AreaOfNeed[student.areaOfNeed];
-        studentUpdated.responseShow = Response[student.response];
-        studentUpdated.sacShow = SAC[student.sac];
+        studentUpdated.areaOfNeedShow = values.areaOfNeed[student.areaOfNeed];
+        studentUpdated.responseShow = values.response[student.response];
+        studentUpdated.sacShow = values.sac[student.sac];
 
         console.log(studentUpdated);
 

@@ -20,12 +20,6 @@ export default interface IStudentData {
     otherInfo: string
 }
 
-export interface IStudentDataDisplay extends IStudentData {
-    areaOfNeedShow?: string,
-    responseShow?: string,
-    sacShow?: string
-}
-
 export var defaultStudentObject: IStudentData = {
     studentId: 0,
     firstName: "",
