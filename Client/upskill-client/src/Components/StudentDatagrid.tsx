@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { DataGrid, GridColumns, gridClasses } from '@mui/x-data-grid';
 import { alpha, styled } from '@mui/material/styles';
 import IStudentData from '../types/IStudentData';
+import { IStudentDataDisplay } from '../types/IStudentData';
 
 const ODD_OPACITY: number = 0.2;
 
@@ -38,13 +39,6 @@ const StripedDataGrid = styled(DataGrid)(({ theme }) => ({
     },
 }));
 
-interface IProps {
-    students: Array<IStudentData>
-}
-interface IState {
-
-}
-
 const columns: GridColumns = [
     { field: "firstName", headerName: "First Name", minWidth: 180, editable: true },
     { field: "lastName", headerName: "Last Name", minWidth: 180, editable: true },
@@ -52,32 +46,62 @@ const columns: GridColumns = [
     { field: "dob", headerName: "DOB", minWidth: 120, editable: true, type: "date" },
     { field: "ethnicity", headerName: "Ethnicity", minWidth: 120, editable: true },
     { field: "tutor", headerName: "Tutor", minWidth: 120, editable: true },
-    { field: "areaOfNeed", headerName: "Area of Need", minWidth: 90, editable: true, type: "number", headerAlign: "left", align: "left" },
+    { field: "areaOfNeedShow", headerName: "Area of Need", minWidth: 90, editable: true, type: "number", headerAlign: "left", align: "left" },
     { field: "diagnosis", headerName: "Diagnosis", minWidth: 120, editable: true },
     { field: "externalAgencies", headerName: "External Agencies", minWidth: 180, editable: true },
-    { field: "response", headerName: "Response", minWidth: 90, editable: true, type: "number", headerAlign: "left", align: "left" },
-    { field: "sac", headerName: "SAC", minWidth: 90, editable: true, type: "number", headerAlign: "left", align: "left" },
+    { field: "responseShow", headerName: "Response", minWidth: 90, editable: true, type: "number", headerAlign: "left", align: "left" },
+    { field: "sacShow", headerName: "SAC", minWidth: 90, editable: true, type: "number", headerAlign: "left", align: "left" },
     { field: "notes", headerName: "Notes", minWidth: 180, editable: true },
     { field: "links", headerName: "Links", minWidth: 180, editable: true },
     { field: "kamarUpdates", headerName: "Kamar Updates", minWidth: 180, editable: true },
     { field: "pronoun", headerName: "Pronoun", minWidth: 180, editable: true },
     { field: "sacInfo", headerName: "SAC Info", minWidth: 180, editable: true },
     { field: "otherInfo", headerName: "Other Info", minWidth: 180, editable: true }
-
 ];
+
+const AreaOfNeed = ["Learning", "Social", "Emotional and Behaviour", "Communication", "Sensory", "Physical"];
+const Response = ["Monitoring", "Assessment", "Observing ", "TA Support", "Closed", "Other"];
+const SAC = ["Yes", "Pending", "New Application", "Roll Over", "No SAC"];
+
+interface IProps {
+    students: Array<IStudentData>
+}
+
+interface IState {
+    students: Array<IStudentDataDisplay>
+}
 
 export default class StudentDatagrid extends Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
 
-        this.state = {}
+        this.state = {
+            students: []
+        }
+    }
+
+    buildStudents() {
+        return this.props.students.map((student) => {
+            return this.newStudent(student);
+        });
+    }
+
+    newStudent(student: IStudentData) {
+        var studentUpdated: IStudentDataDisplay = student;
+        studentUpdated.areaOfNeedShow = AreaOfNeed[student.areaOfNeed];
+        studentUpdated.responseShow = Response[student.response];
+        studentUpdated.sacShow = SAC[student.sac];
+
+        console.log(studentUpdated);
+
+        return studentUpdated;
     }
 
     render() {
         return (
             <div style={{ height: 800, width: '100%' }}>
                 <StripedDataGrid
-                    rows={this.props.students}
+                    rows={this.buildStudents()}
                     columns={columns}
                     experimentalFeatures={{ newEditingApi: true }}
                     getRowId={(row) => row.studentId}
