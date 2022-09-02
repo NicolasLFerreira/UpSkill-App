@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { Box, Button, Typography, Modal, Input, Container } from '@mui/material';
+import { Box, Button, Typography, Modal, Input, Container, InputBase } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import BasicSelect from './BasicSelect';
 import { values } from '../types/IStudentDataDisplay';
+import InputField from './InputField';
 
 const boxStyle = {
     flex: 1,
@@ -39,7 +40,21 @@ interface IProps {
     createStudentCallback: () => void;
 }
 
+interface Test {
+    test?: string,
+    abc?: string
+}
+
 export default function FormModal(props: IProps) {
+    var object: Test = {
+        test: "asb",
+        abc: "sad"
+    }
+
+    var a: Test = {};
+
+    a["test"] = "Abc"
+
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -76,6 +91,9 @@ export default function FormModal(props: IProps) {
                                 <Input type="text" placeholder="Notes" sx={gridInputStyle} />
                                 <Input type="text" placeholder="Pronouns" sx={gridInputStyle} />
                                 <BasicSelect items={values.areaOfNeed} />
+                            </Grid>
+                            <Grid xs={12}>
+                                <InputField property="firstName" type="text" placeholder="Test" sx={gridInputStyle} callback={(value: string) => { console.log(value) }} />
                             </Grid>
                             <Grid xs={2} sx={gridButtonStyle}>
                                 {ModalButton("Generate user", props.createStudentCallback)}
