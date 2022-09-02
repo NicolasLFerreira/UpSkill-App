@@ -3,6 +3,7 @@ import { DataGrid, GridColumns, gridClasses } from '@mui/x-data-grid';
 import { alpha, styled } from '@mui/material/styles';
 import IStudentData from '../types/IStudentData';
 import IStudentDataDisplay, { values } from '../types/IStudentDataDisplay';
+import { Box } from '@mui/material';
 
 const ODD_OPACITY: number = 0.2;
 
@@ -95,7 +96,7 @@ export default class StudentDatagrid extends Component<IProps, IState> {
 
     render() {
         return (
-            <div style={{ height: 800, width: '100%' }}>
+            <Box style={{ height: "90vh", width: "100%" }}>
                 <StripedDataGrid
                     rows={this.buildStudents()}
                     columns={columns}
@@ -105,7 +106,7 @@ export default class StudentDatagrid extends Component<IProps, IState> {
                         params.indexRelativeToCurrentPage % 2 === 0 ? "even" : "odd"
                     }
                 />
-            </div >
+            </Box>
         );
     }
 }
