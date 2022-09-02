@@ -40,21 +40,7 @@ interface IProps {
     createStudentCallback: () => void;
 }
 
-interface Test {
-    test?: string,
-    abc?: string
-}
-
 export default function FormModal(props: IProps) {
-    var object: Test = {
-        test: "asb",
-        abc: "sad"
-    }
-
-    var a: Test = {};
-
-    a["test"] = "Abc"
-
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -79,27 +65,41 @@ export default function FormModal(props: IProps) {
                                     Student name placeholder
                                 </Typography>
                                 <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                    Create, read, update, or delte a student record.
+                                    Create, read, update, or delete a student record.
                                 </Typography>
                             </Grid>
                             <Grid xs={12}>
-                                <Input type="text" placeholder="First name" sx={gridInputStyle} />
-                                <Input type="text" placeholder="Last name" sx={gridInputStyle} />
-                                <Input type="date" sx={gridInputStyle} />
+                                <InputField
+                                    type="text"
+                                    property="firstName"
+                                    placeholder="First name"
+                                    sx={gridInputStyle}
+                                    callback={(value: string) => { console.log(value); }}
+                                />
+                                <InputField
+                                    type="text"
+                                    property="lastName"
+                                    placeholder="Last name"
+                                    sx={gridInputStyle}
+                                    callback={(value: string) => { console.log(value) }}
+                                />
+                                <InputField
+                                    type="date"
+                                    property="dob"
+                                    sx={gridInputStyle}
+                                    callback={(value: string) => { console.log(value) }}
+                                />
                             </Grid>
                             <Grid xs={12}>
                                 <Input type="text" placeholder="Notes" sx={gridInputStyle} />
                                 <Input type="text" placeholder="Pronouns" sx={gridInputStyle} />
                                 <BasicSelect items={values.areaOfNeed} />
                             </Grid>
-                            <Grid xs={12}>
-                                <InputField property="firstName" type="text" placeholder="Test" sx={gridInputStyle} callback={(value: string) => { console.log(value) }} />
-                            </Grid>
                             <Grid xs={2} sx={gridButtonStyle}>
                                 {ModalButton("Generate user", props.createStudentCallback)}
                             </Grid>
                             <Grid xs={2} sx={gridButtonStyle}>
-                                {ModalButton("Delete user", () => (console.log("shit")))}
+                                {ModalButton("Delete user", () => (console.log("test")))}
                             </Grid>
                         </Grid>
                     </Grid>
