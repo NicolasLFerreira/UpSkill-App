@@ -12,7 +12,7 @@ interface INavButtonProps {
 function NavButton(props: INavButtonProps) {
     return (
         <Button
-            variant="contained"
+            variant="text"
             component={RouterLink}
             to={
                 props.path ??
@@ -20,7 +20,6 @@ function NavButton(props: INavButtonProps) {
             } sx={{
                 mr: 2,
                 color: "#ffffff",
-                backgroundColor: "#78909c",
                 textDecoration: "none",
                 fontSize: "1rem"
             }}
@@ -50,3 +49,11 @@ export default function NavigationBar() {
         </Fragment>
     )
 }
+
+// sx={{
+//     mr: 2,
+//     color: "#ffffff",
+//     backgroundColor: "#78909c",
+//     textDecoration: "none",
+//     fontSize: "1rem"
+// }}
