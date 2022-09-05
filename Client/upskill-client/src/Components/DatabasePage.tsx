@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import StudentDataCrud from "../services/StudentDataCrud";
-import IStudentData, { defaultStudentObject } from "../types/IStudentData";
+import IStudentData, { emptyStudentObject } from "../types/IStudentData";
 import StudentDatagrid from "./StudentDatagrid";
 
 interface IProps { }
@@ -12,7 +12,7 @@ export default class DatabasePage extends Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
 
-        var object: Array<IStudentData> = [defaultStudentObject];
+        var object: Array<IStudentData> = [emptyStudentObject];
 
         this.state = {
             students: object

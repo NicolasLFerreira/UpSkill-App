@@ -4,7 +4,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import BasicSelect from './BasicSelect';
 import { values } from '../types/IStudentDataDisplay';
 import InputField from './InputField';
-import IStudentData, { defaultStudentObject } from "../types/IStudentData";
+import IStudentData, { defaultStudentObject, emptyStudentObject } from "../types/IStudentData";
 
 // Styles
 const boxStyle = {
@@ -33,7 +33,7 @@ const gridInputStyle = {
 // Boilerplate interfaces
 
 interface IProps {
-    createStudentCallback: () => void;
+    createStudentCallback: (student: IStudentData) => void;
 }
 
 interface IState {
@@ -65,7 +65,7 @@ export default class FormModal extends Component<IProps, IState> {
         console.log(this.state.currentStudent);
     }
 
-    inputFieldBuilder(type: string, property: string, placeholder?: string) {
+    inputFieldBuilder(type: string, property: string, placeholder?: string, isSelect: boolean = false) {
         return (
             <InputField
                 type={type}
@@ -126,7 +126,7 @@ export default class FormModal extends Component<IProps, IState> {
                                     <BasicSelect items={values.areaOfNeed} />
                                 </Grid>
                                 <Grid xs={2} sx={gridButtonStyle}>
-                                    {this.ModalButton("Generate user", this.props.createStudentCallback)}
+                                    {this.ModalButton("Generate user", () => this.props.createStudentCallback(this.state.currentStudent))}
                                 </Grid>
                                 <Grid xs={2} sx={gridButtonStyle}>
                                     {this.ModalButton("Delete user", () => (console.log("test")))}
