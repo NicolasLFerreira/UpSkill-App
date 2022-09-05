@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { RepeatOneSharp, ThreeKSharp } from "@mui/icons-material";
 import { Box, Button, Grid, Modal, Typography } from "@mui/material";
-import StudentDataCrud from "../services/StudentDataCrud";
-import IStudentData, { createStudent, defaultStudentObject, emptyStudentObject } from "../types/IStudentData";
+import StudentDataCrud from "../../services/StudentDataCrud";
+import IStudentData, { createStudent, defaultStudentObject, emptyStudentObject } from "../../types/IStudentData";
 import FormModal from "./FormModal";
 
 interface IProps {

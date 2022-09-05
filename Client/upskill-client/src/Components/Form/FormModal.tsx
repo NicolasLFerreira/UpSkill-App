@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from "react";
-import { Box, Button, Typography, Modal, Input, SelectChangeEvent, MenuItem, InputLabel, Select, FormControl } from '@mui/material';
-import Grid from '@mui/material/Unstable_Grid2';
-import { values } from '../../types/IStudentDataDisplay';
-import InputField from '../InputField';
+import { Box, Button, Typography, Modal, Input, SelectChangeEvent, MenuItem, InputLabel, Select, FormControl } from "@mui/material";
+import Grid from "@mui/material/Unstable_Grid2";
+import InputField from "./InputField";
+import { values } from "../../types/IStudentDataDisplay";
 import IStudentData, { defaultStudentObject, emptyStudentObject } from "../../types/IStudentData";
 
 // Styles
@@ -165,7 +165,7 @@ interface IPropsSelect {
 }
 
 function FormSelect(props: IPropsSelect) {
-    const [selected, setSelected] = React.useState('');
+    const [selected, setSelected] = React.useState("");
     const menuItems: Array<React.ReactNode> = props.items.map((item, index) => <MenuItem value={index}>{item}</MenuItem>);
 
     const handleChange = (event: SelectChangeEvent) => {
