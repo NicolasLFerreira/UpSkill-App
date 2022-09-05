@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from "react";
 import { Box, Button, Typography, Modal, Input, SelectChangeEvent, MenuItem, InputLabel, Select, FormControl } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
-import { values } from '../types/IStudentDataDisplay';
-import InputField from './InputField';
-import IStudentData, { defaultStudentObject, emptyStudentObject } from "../types/IStudentData";
+import { values } from '../../types/IStudentDataDisplay';
+import InputField from '../InputField';
+import IStudentData, { defaultStudentObject, emptyStudentObject } from "../../types/IStudentData";
 
 // Styles
 const boxStyle = {

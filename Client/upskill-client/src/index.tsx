@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import App from './Components/App';
-import DatabaseScreen from './Components/DatabasePage';
+import DatabaseScreen from './Components/Datagrid/DatabasePage';
 import HelpScreen from './Components/HelpPage';
 import HomeScreen from './Components/HomePage';
 import FormPage from './Components/FormPage';

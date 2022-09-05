@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { DataGrid, GridColumns, gridClasses } from '@mui/x-data-grid';
 import { alpha, styled } from '@mui/material/styles';
-import IStudentData from '../types/IStudentData';
-import IStudentDataDisplay, { values } from '../types/IStudentDataDisplay';
+import IStudentData from '../../types/IStudentData';
+import IStudentDataDisplay, { values } from '../../types/IStudentDataDisplay';
 import { Box } from '@mui/material';
 
 const ODD_OPACITY: number = 0.2;
