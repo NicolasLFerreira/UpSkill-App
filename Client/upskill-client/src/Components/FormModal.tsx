@@ -1,7 +1,6 @@
-import React, { Component } from "react";
-import { Box, Button, Typography, Modal, Input } from '@mui/material';
+import React, { Component, Fragment } from "react";
+import { Box, Button, Typography, Modal, Input, SelectChangeEvent, MenuItem, InputLabel, Select, FormControl } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
-import BasicSelect from './BasicSelect';
 import { values } from '../types/IStudentDataDisplay';
 import InputField from './InputField';
 import IStudentData, { defaultStudentObject, emptyStudentObject } from "../types/IStudentData";
@@ -53,6 +52,7 @@ export default class FormModal extends Component<IProps, IState> {
 
     // Handling the input from the modal
     registerChange = (property: string, value: string | number): void => {
+        // Dynamically picks an item from the array
         var object: IStudentData = this.state.currentStudent;
         var key: keyof IStudentData = property as keyof IStudentData;
 
@@ -65,7 +65,17 @@ export default class FormModal extends Component<IProps, IState> {
         console.log(this.state.currentStudent);
     }
 
-    inputFieldBuilder(type: string, property: string, placeholder?: string, isSelect: boolean = false) {
+    inputFieldBuilder(type: string, property: string, placeholder: string, items?: Array<string>) {
+        if (type == "select") {
+            return (
+                <FormSelect
+                    property={property}
+                    placeholder={placeholder}
+                    items={items!}
+                />
+            );
+        }
+
         return (
             <InputField
                 type={type}
@@ -117,13 +127,21 @@ export default class FormModal extends Component<IProps, IState> {
                                     {this.inputFieldBuilder("text", "firstName", "First name")}
                                     {this.inputFieldBuilder("text", "lastName", "Last name")}
                                     {this.inputFieldBuilder("date", "dob", "DOB")}
+                                    {this.inputFieldBuilder("text", "ethnicity", "Ethnicity")}
+                                    {this.inputFieldBuilder("text", "pronoun", "Pronoun")}
                                 </Grid>
                                 <Grid xs={12}>
+                                    {this.inputFieldBuilder("text", "yearLevel", "Year Level")}
+                                    {this.inputFieldBuilder("text", "tutor", "Tutor")}
+                                    {this.inputFieldBuilder("text", "diagnosis", "Diagnosis")}
+                                    {this.inputFieldBuilder("text", "externalAgencies", "External Agencies")}
                                     {this.inputFieldBuilder("text", "notes", "Notes")}
-                                    {this.inputFieldBuilder("text", "")}
-                                    <Input type="text" placeholder="Notes" sx={gridInputStyle} />
-                                    <Input type="text" placeholder="Pronouns" sx={gridInputStyle} />
-                                    <BasicSelect items={values.areaOfNeed} />
+                                </Grid>
+                                <Grid xs={12}>
+                                    {this.inputFieldBuilder("text", "links", "Links")}
+                                    {this.inputFieldBuilder("select", "sac", "SAC", values.sac)}
+                                    {this.inputFieldBuilder("select", "areaOfNeed", "Area of Need", values.areaOfNeed)}
+                                    {this.inputFieldBuilder("select", "response", "Response", values.response)}
                                 </Grid>
                                 <Grid xs={2} sx={gridButtonStyle}>
                                     {this.ModalButton("Generate user", () => this.props.createStudentCallback(this.state.currentStudent))}
@@ -138,4 +156,34 @@ export default class FormModal extends Component<IProps, IState> {
             </div >
         );
     }
+}
+
+interface IPropsSelect {
+    property: string,
+    placeholder: string,
+    items: Array<string>
+}
+
+function FormSelect(props: IPropsSelect) {
+    const [selected, setSelected] = React.useState('');
+    const menuItems: Array<React.ReactNode> = props.items.map((item, index) => <MenuItem value={index}>{item}</MenuItem>);
+
+    const handleChange = (event: SelectChangeEvent) => {
+        setSelected(event.target.value as string);
+    };
+
+    return (
+        <FormControl sx={{ width: "10%" }}>
+            <InputLabel id="demo-simple-select-label">{props.placeholder}</InputLabel>
+            <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={selected}
+                label="Selected"
+                onChange={handleChange}
+            >
+                {menuItems}
+            </Select>
+        </FormControl>
+    );
 }
