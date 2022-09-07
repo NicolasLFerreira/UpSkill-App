@@ -4,6 +4,7 @@ import { Box, Button, Grid, Modal, Typography } from "@mui/material";
 import StudentDataCrud from "../../services/StudentDataCrud";
 import IStudentData, { createStudent, defaultStudentObject, emptyStudentObject } from "../../types/IStudentData";
 import FormModal from "./FormModal";
+import Form from "./Form";
 
 interface IProps {
 
@@ -63,12 +64,13 @@ export default class FormPage extends Component<IProps, IState> {
         object = createStudent();
 
         return (
-            <Box sx={{ flexGrow: 1 }}>
-                <FormModal createStudentCallback={(student: IStudentData) => this.studentPost(student)} />
+            <Grid container sx={{ flexGrow: 1 }} justifyItems="center">
+                {/* <FormModal createStudentCallback={(student: IStudentData) => this.studentPost(student)} /> */}
+                <Form createStudentCallback={(student: IStudentData) => this.studentPost(student)} />
                 <Button variant="contained" onClick={() => this.studentPost(createStudent())}>Auto generator</Button>
                 <Button variant="contained" onClick={() => this.studentPost(defaultStudentObject)}>Default object</Button>
                 <Button variant="contained" onClick={() => this.studentPost(object)}>Default changed</Button>
-            </Box>
+            </Grid>
         );
     }
 }
