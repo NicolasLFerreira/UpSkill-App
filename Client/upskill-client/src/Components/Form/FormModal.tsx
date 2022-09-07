@@ -28,7 +28,11 @@ const gridButtonStyle = {
 }
 
 const gridInputStyle = {
-    m: 1,
+    m: 1
+}
+
+const gridDateStyle = {
+    width: "19.5%"
 }
 
 // Boilerplate interfaces
@@ -69,6 +73,7 @@ export default class FormModal extends Component<IProps, IState> {
 
     inputFieldBuilder(type: string, property: string, placeholder: string, items?: Array<string>) {
         return (
+            // <span sx={type == "date" ? {m:5} : {}}>
             type == "select" ?
                 <FormSelect
                     property={property}
@@ -80,9 +85,10 @@ export default class FormModal extends Component<IProps, IState> {
                     type={type}
                     property={property}
                     placeholder={placeholder}
-                    sx={gridInputStyle}
+                    sx={type == "text" ? gridInputStyle : gridDateStyle}
                     callback={(value: string) => { this.registerChange(property, value); }}
                 />
+            // </span>
         );
     }
 
@@ -113,7 +119,7 @@ export default class FormModal extends Component<IProps, IState> {
                             <Grid>
                                 <Input type="search" placeholder="Search for student" />
                             </Grid>
-                            <Grid>
+                            <Grid container xs={12}>
                                 <Grid xs={12}>
                                     <Typography id="modal-modal-title" variant="h6" component="h2">
                                         Student name placeholder
@@ -138,14 +144,15 @@ export default class FormModal extends Component<IProps, IState> {
                                 </Grid>
                                 <Grid xs={12}>
                                     {this.inputFieldBuilder("text", "links", "Links")}
-                                    {this.inputFieldBuilder("select", "sac", "SAC", values.sac)}
-                                    {this.inputFieldBuilder("select", "areaOfNeed", "Area of Need", values.areaOfNeed)}
-                                    {this.inputFieldBuilder("select", "response", "Response", values.response)}
-                                </Grid>
-                                <Grid xs={12}>
                                     {this.inputFieldBuilder("text", "kamarUpdates", "Kamar Updates")}
                                     {this.inputFieldBuilder("text", "sacInfo", "SAC Info")}
                                     {this.inputFieldBuilder("text", "otherInfo", "Other Info")}
+
+                                </Grid>
+                                <Grid xs={12}>
+                                    {this.inputFieldBuilder("select", "sac", "SAC", values.sac)}
+                                    {this.inputFieldBuilder("select", "areaOfNeed", "Area of Need", values.areaOfNeed)}
+                                    {this.inputFieldBuilder("select", "response", "Response", values.response)}
                                 </Grid>
                                 <Grid xs={2} sx={gridButtonStyle}>
                                     {this.ModalButton("Generate user", () => this.props.createStudentCallback(this.state.currentStudent))}
