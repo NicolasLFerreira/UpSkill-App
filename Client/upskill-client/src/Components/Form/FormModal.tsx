@@ -1,9 +1,11 @@
 import React, { Component, Fragment } from "react";
-import { Box, Button, Typography, Modal, Input, SelectChangeEvent, MenuItem, InputLabel, Select, FormControl } from "@mui/material";
+import { Container, Button, Typography, Modal, Input, SelectChangeEvent, MenuItem, InputLabel, Select, FormControl } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import InputField from "./InputField";
 import { values } from "../../types/IStudentDataDisplay";
 import IStudentData, { defaultStudentObject, emptyStudentObject } from "../../types/IStudentData";
+import { UrlWithStringQuery } from "url";
+import { PropaneSharp } from "@mui/icons-material";
 
 // Styles
 const boxStyle = {
@@ -52,12 +54,12 @@ export default class FormModal extends Component<IProps, IState> {
 
     // Handling the input from the modal
     registerChange = (property: string, value: string | number): void => {
-        // Dynamically picks an item from the array
+        // Dynamically selects an item from the array
         var object: IStudentData = this.state.currentStudent;
         var key: keyof IStudentData = property as keyof IStudentData;
 
+        // Updated the student object with the new data to the selected property
         object[key] = value as never;
-
         this.setState({
             currentStudent: object
         });
@@ -66,24 +68,21 @@ export default class FormModal extends Component<IProps, IState> {
     }
 
     inputFieldBuilder(type: string, property: string, placeholder: string, items?: Array<string>) {
-        if (type == "select") {
-            return (
+        return (
+            type == "select" ?
                 <FormSelect
                     property={property}
                     placeholder={placeholder}
                     items={items!}
+                    callback={(value: number) => { this.registerChange(property, value); }}
+                /> :
+                <InputField
+                    type={type}
+                    property={property}
+                    placeholder={placeholder}
+                    sx={gridInputStyle}
+                    callback={(value: string) => { this.registerChange(property, value); }}
                 />
-            );
-        }
-
-        return (
-            <InputField
-                type={type}
-                property={property}
-                placeholder={placeholder}
-                sx={gridInputStyle}
-                callback={(value: string) => { this.registerChange(property, value); }}
-            />
         );
     }
 
@@ -109,7 +108,7 @@ export default class FormModal extends Component<IProps, IState> {
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
-                    <Box sx={boxStyle}>
+                    <Container sx={boxStyle}>
                         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                             <Grid>
                                 <Input type="search" placeholder="Search for student" />
@@ -143,6 +142,11 @@ export default class FormModal extends Component<IProps, IState> {
                                     {this.inputFieldBuilder("select", "areaOfNeed", "Area of Need", values.areaOfNeed)}
                                     {this.inputFieldBuilder("select", "response", "Response", values.response)}
                                 </Grid>
+                                <Grid xs={12}>
+                                    {this.inputFieldBuilder("text", "kamarUpdate", "Kamar Updates")}
+                                    {this.inputFieldBuilder("text", "sacInfo", "SAC Info")}
+                                    {this.inputFieldBuilder("text", "otherInfo", "Other Info")}
+                                </Grid>
                                 <Grid xs={2} sx={gridButtonStyle}>
                                     {this.ModalButton("Generate user", () => this.props.createStudentCallback(this.state.currentStudent))}
                                 </Grid>
@@ -151,7 +155,7 @@ export default class FormModal extends Component<IProps, IState> {
                                 </Grid>
                             </Grid>
                         </Grid>
-                    </Box>
+                    </Container>
                 </Modal>
             </div >
         );
@@ -161,7 +165,8 @@ export default class FormModal extends Component<IProps, IState> {
 interface IPropsSelect {
     property: string,
     placeholder: string,
-    items: Array<string>
+    items: Array<string>,
+    callback: (value: number) => void
 }
 
 function FormSelect(props: IPropsSelect) {
@@ -170,10 +175,11 @@ function FormSelect(props: IPropsSelect) {
 
     const handleChange = (event: SelectChangeEvent) => {
         setSelected(event.target.value as string);
+        props.callback(parseInt(event.target.value));
     };
 
     return (
-        <FormControl sx={{ width: "10%" }}>
+        <FormControl sx={{ width: "20%", mr: 1 }}>
             <InputLabel id="demo-simple-select-label">{props.placeholder}</InputLabel>
             <Select
                 labelId="demo-simple-select-label"
