@@ -143,7 +143,7 @@ export default class FormModal extends Component<IProps, IState> {
                                     {this.inputFieldBuilder("select", "response", "Response", values.response)}
                                 </Grid>
                                 <Grid xs={12}>
-                                    {this.inputFieldBuilder("text", "kamarUpdate", "Kamar Updates")}
+                                    {this.inputFieldBuilder("text", "kamarUpdates", "Kamar Updates")}
                                     {this.inputFieldBuilder("text", "sacInfo", "SAC Info")}
                                     {this.inputFieldBuilder("text", "otherInfo", "Other Info")}
                                 </Grid>

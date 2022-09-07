@@ -67,10 +67,7 @@ export default class FormPage extends Component<IProps, IState> {
                 <FormModal createStudentCallback={(student: IStudentData) => this.studentPost(student)} />
                 <Button variant="contained" onClick={() => this.studentPost(createStudent())}>Auto generator</Button>
                 <Button variant="contained" onClick={() => this.studentPost(defaultStudentObject)}>Default object</Button>
-                <Button variant="contained" onClick={() => this.studentPost(object)}
-                >
-                    Default changed
-                </Button>
+                <Button variant="contained" onClick={() => this.studentPost(object)}>Default changed</Button>
             </Box>
         );
     }
