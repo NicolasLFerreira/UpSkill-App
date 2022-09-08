@@ -1,11 +1,11 @@
-import React, { Component } from "react";
+import React, { Component, ReactNode } from "react";
 import { Button, Typography, Input } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import InputField from "./InputField";
 import FormSelect from "./FormSelect";
-import { values } from "../../types/IStudentDataDisplay";
-import IStudentData, { defaultStudentObject } from "../../types/IStudentData";
+import IStudentData from "../../types/IStudentData";
 import StudentDataCrud from "../../services/StudentDataCrud";
+import { selectOptions, defaultStudentObject, ISelectOptions } from "../../utility/StudentDataUtility";
 
 // Styles
 
@@ -96,23 +96,32 @@ export default class Form extends Component<IProps, IState> {
     // Components
 
     // Creates an input field and assigns the callback function for registering the changes.
-    InputFieldBuilder(type: string, property: string, placeholder: string, items?: Array<string>) {
-        return (
-            type == "select" ?
-                <FormSelect
-                    property={property}
-                    placeholder={placeholder}
-                    items={items!}
-                    callback={(value: number) => { this.registerChange(property, value); }}
-                /> :
-                <InputField
-                    type={type}
-                    property={property}
-                    placeholder={placeholder}
-                    sx={type == "text" ? gridInputStyle : gridDateStyle}
-                    callback={(value: string) => { this.registerChange(property, value); }}
-                />
-        );
+    InputFieldBuilder(type: string, property: string, placeholder: string) {
+        var jsxObject: ReactNode;
+
+        if (type == "select") {
+            var items: Array<string>;
+            var key: keyof ISelectOptions = property as keyof ISelectOptions
+            items = selectOptions[key];
+
+            jsxObject = <FormSelect
+                property={property}
+                placeholder={placeholder}
+                items={items!}
+                callback={(value: number) => { this.registerChange(property, value); }}
+            />
+        }
+        else {
+            jsxObject = <InputField
+                type={type}
+                property={property}
+                placeholder={placeholder}
+                sx={type == "text" ? gridInputStyle : gridDateStyle}
+                callback={(value: string) => { this.registerChange(property, value); }}
+            />
+        }
+
+        return jsxObject;
     }
 
     // Default button for the modal page
@@ -161,9 +170,9 @@ export default class Form extends Component<IProps, IState> {
 
                     </Grid>
                     <Grid xs={12}>
-                        {this.InputFieldBuilder("select", "sac", "SAC", values.sac)}
-                        {this.InputFieldBuilder("select", "areaOfNeed", "Area of Need", values.areaOfNeed)}
-                        {this.InputFieldBuilder("select", "response", "Response", values.response)}
+                        {this.InputFieldBuilder("select", "sac", "SAC")}
+                        {this.InputFieldBuilder("select", "areaOfNeed", "Area of Need")}
+                        {this.InputFieldBuilder("select", "response", "Response")}
                     </Grid>
                     <Grid xs={2} sx={gridButtonStyle}>
                         {this.Button("Generate user", () => this.postStudent(this.state.currentStudent))}

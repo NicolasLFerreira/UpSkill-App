@@ -1,9 +1,10 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { Container, Button, Typography, Modal, Input, SelectChangeEvent, MenuItem, InputLabel, Select, FormControl, Box } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import InputField from "./InputField";
-import { values } from "../../types/IStudentDataDisplay";
-import IStudentData, { defaultStudentObject } from "../../types/IStudentData";
+import IStudentData from "../../types/IStudentData";
+import { selectOptions as values, defaultStudentObject } from "../../utility/StudentDataUtility";
+import Form from "./Form";
 
 // Styles
 const boxStyle = {
@@ -114,55 +115,7 @@ export default class FormModal extends Component<IProps, IState> {
                     sx={{ minWidth: "85%" }}
                 >
                     <Container sx={boxStyle}>
-                        <Grid container>
-                            <Grid xs={2}>
-                                <Input type="search" placeholder="Search for student" />
-                            </Grid>
-                            <Grid xs={10}>
-                                <Grid container>
-                                    <Grid xs={12}>
-                                        <Typography id="modal-modal-title" variant="h6" component="h2">
-                                            Student name placeholder
-                                        </Typography>
-                                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                            Create, read, update, or delete a student record.
-                                        </Typography>
-                                    </Grid>
-                                    <Grid xs={12}>
-                                        {this.inputFieldBuilder("text", "firstName", "First name")}
-                                        {this.inputFieldBuilder("text", "lastName", "Last name")}
-                                        {this.inputFieldBuilder("date", "dob", "DOB")}
-                                        {this.inputFieldBuilder("text", "ethnicity", "Ethnicity")}
-                                        {this.inputFieldBuilder("text", "pronoun", "Pronoun")}
-                                    </Grid>
-                                    <Grid xs={12}>
-                                        {this.inputFieldBuilder("text", "yearLevel", "Year Level")}
-                                        {this.inputFieldBuilder("text", "tutor", "Tutor")}
-                                        {this.inputFieldBuilder("text", "diagnosis", "Diagnosis")}
-                                        {this.inputFieldBuilder("text", "externalAgencies", "External Agencies")}
-                                        {this.inputFieldBuilder("text", "notes", "Notes")}
-                                    </Grid>
-                                    <Grid xs={12}>
-                                        {this.inputFieldBuilder("text", "links", "Links")}
-                                        {this.inputFieldBuilder("text", "kamarUpdates", "Kamar Updates")}
-                                        {this.inputFieldBuilder("text", "sacInfo", "SAC Info")}
-                                        {this.inputFieldBuilder("text", "otherInfo", "Other Info")}
-
-                                    </Grid>
-                                    <Grid xs={12}>
-                                        {this.inputFieldBuilder("select", "sac", "SAC", values.sac)}
-                                        {this.inputFieldBuilder("select", "areaOfNeed", "Area of Need", values.areaOfNeed)}
-                                        {this.inputFieldBuilder("select", "response", "Response", values.response)}
-                                    </Grid>
-                                    <Grid xs={2} sx={gridButtonStyle}>
-                                        {this.ModalButton("Generate user", () => this.props.createStudentCallback(this.state.currentStudent))}
-                                    </Grid>
-                                    <Grid xs={2} sx={gridButtonStyle}>
-                                        {this.ModalButton("Delete user", () => (console.log("test")))}
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                        </Grid>
+                        <Form />
                     </Container>
                 </Modal>
             </div >
