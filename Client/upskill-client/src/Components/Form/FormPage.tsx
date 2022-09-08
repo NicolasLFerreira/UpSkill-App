@@ -20,56 +20,13 @@ interface IState {
 export default class FormPage extends Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
-
-        this.state = {
-            students: [],
-            currentStudent: null,
-            currentIndex: -1,
-            searchTitle: ""
-        }
-    }
-
-    componentDidMount() {
-        this.retrieveStudents();
-    }
-
-    retrieveStudents() {
-        StudentDataCrud.getAll()
-            .then((response: any) => {
-                this.setState({
-                    students: response.data
-                });
-                console.log(response.data);
-            })
-            .catch((e: Error) => {
-                console.log(e);
-            });
-    }
-
-    studentPost(content: IStudentData) {
-        console.log("to be posted:");
-        console.log(content);
-
-        StudentDataCrud.post(content)
-            .then((response) => {
-                console.log(response);
-            })
-            .catch((e: Error) => {
-                console.log(e);
-            })
     }
 
     render() {
-        var object: typeof emptyStudentObject = emptyStudentObject;
-        object = createStudent();
-
         return (
             <Grid container sx={{ flexGrow: 1 }} justifyItems="center">
-                {/* <FormModal createStudentCallback={(student: IStudentData) => this.studentPost(student)} /> */}
-                <Form createStudentCallback={(student: IStudentData) => this.studentPost(student)} />
-                <Button variant="contained" onClick={() => this.studentPost(createStudent())}>Auto generator</Button>
-                <Button variant="contained" onClick={() => this.studentPost(defaultStudentObject)}>Default object</Button>
-                <Button variant="contained" onClick={() => this.studentPost(object)}>Default changed</Button>
+                {/* <FormModal createStudentCallback={(student: IStudentData) => this.studentPost(student)} /> */}{/* legacy */}
+                <Form />
             </Grid>
         );
     }
