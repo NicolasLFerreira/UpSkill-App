@@ -39,9 +39,7 @@ export default class DatabasePage extends Component<IProps, IState> {
 
     render() {
         return (
-            <div>
-                <StudentDatagrid students={this.state.students} />
-            </div>
+            <StudentDatagrid students={this.state.students} />
         );
     }
 }
