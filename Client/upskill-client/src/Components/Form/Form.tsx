@@ -3,9 +3,10 @@ import { Button, Typography, Input } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import InputField from "./InputField";
 import FormSelect from "./FormSelect";
-import IStudentData from "../../types/IStudentData";
+import IStudent from "../../types/IStudentData";
 import StudentDataCrud from "../../services/StudentDataCrud";
 import { selectOptions, defaultStudentObject, ISelectOptions } from "../../utility/StudentDataUtility";
+import IStudentDictionary from "../../types/IStudentDataDictionary";
 
 // Styles
 
@@ -26,11 +27,18 @@ const gridDateStyle = {
 
 // Boilerplate interfaces
 
+enum OperationMode {
+    creation,
+    update
+}
+
 interface IProps { }
 
 interface IState {
-    students: Array<IStudentData>,
-    currentStudent: IStudentData,
+    operation: OperationMode,
+    students: Array<IStudent>,
+    studentsDictionary: IStudentDictionary,
+    currentStudent: IStudent,
     currentIndex: number,
     searchTitle: string
 }
@@ -40,7 +48,9 @@ export default class Form extends Component<IProps, IState> {
         super(props);
 
         this.state = {
+            operation: OperationMode.creation,
             students: [],
+            studentsDictionary: {},
             currentStudent: defaultStudentObject,
             currentIndex: -1,
             searchTitle: ""
@@ -51,7 +61,9 @@ export default class Form extends Component<IProps, IState> {
         this.retrieveStudents();
     }
 
-    retrieveStudents() {
+    // Axios instance handling.
+
+    retrieveStudents = () => {
         StudentDataCrud.getAll()
             .then((response: any) => {
                 this.setState({
@@ -64,7 +76,7 @@ export default class Form extends Component<IProps, IState> {
             });
     }
 
-    postStudent(student: IStudentData) {
+    postStudent(student: IStudent) {
         console.log("to be posted:");
         console.log(student);
 
@@ -74,14 +86,17 @@ export default class Form extends Component<IProps, IState> {
             })
             .catch((e: Error) => {
                 console.log(e);
-            })
+            });
     }
+
+    // Loads the student
+
 
     // Assigns the changes to the state.
     registerChange = (property: string, value: string | number): void => {
         // Dynamically declares the key of an IStudentData object.
-        var object: IStudentData = this.state.currentStudent;
-        var key: keyof IStudentData = property as keyof IStudentData;
+        var object: IStudent = this.state.currentStudent;
+        var key: keyof IStudent = property as keyof IStudent;
 
         // Updates the copy using the key and the given value.
         object[key] = value as never;
@@ -96,7 +111,7 @@ export default class Form extends Component<IProps, IState> {
     // Components
 
     // Creates an input field and assigns the callback function for registering the changes.
-    InputFieldBuilder(type: string, property: string, placeholder: string) {
+    InputFieldBuilder(property: string, placeholder: string, type: string = "text") {
         var jsxObject: ReactNode;
 
         if (type == "select") {
@@ -149,30 +164,29 @@ export default class Form extends Component<IProps, IState> {
                         </Typography>
                     </Grid>
                     <Grid xs={12}>
-                        {this.InputFieldBuilder("text", "firstName", "First name")}
-                        {this.InputFieldBuilder("text", "lastName", "Last name")}
-                        {this.InputFieldBuilder("date", "dob", "DOB")}
-                        {this.InputFieldBuilder("text", "ethnicity", "Ethnicity")}
-                        {this.InputFieldBuilder("text", "pronoun", "Pronoun")}
+                        {this.InputFieldBuilder("firstName", "First name")}
+                        {this.InputFieldBuilder("lastName", "Last name")}
+                        {this.InputFieldBuilder("ethnicity", "Ethnicity")}
+                        {this.InputFieldBuilder("pronoun", "Pronoun")}
+                        {this.InputFieldBuilder("dob", "DOB", "date")}
                     </Grid>
                     <Grid xs={12}>
-                        {this.InputFieldBuilder("text", "yearLevel", "Year Level")}
-                        {this.InputFieldBuilder("text", "tutor", "Tutor")}
-                        {this.InputFieldBuilder("text", "diagnosis", "Diagnosis")}
-                        {this.InputFieldBuilder("text", "externalAgencies", "External Agencies")}
-                        {this.InputFieldBuilder("text", "notes", "Notes")}
+                        {this.InputFieldBuilder("yearLevel", "Year Level")}
+                        {this.InputFieldBuilder("tutor", "Tutor")}
+                        {this.InputFieldBuilder("diagnosis", "Diagnosis")}
+                        {this.InputFieldBuilder("externalAgencies", "External Agencies")}
+                        {this.InputFieldBuilder("notes", "Notes")}
                     </Grid>
                     <Grid xs={12}>
-                        {this.InputFieldBuilder("text", "links", "Links")}
-                        {this.InputFieldBuilder("text", "kamarUpdates", "Kamar Updates")}
-                        {this.InputFieldBuilder("text", "sacInfo", "SAC Info")}
-                        {this.InputFieldBuilder("text", "otherInfo", "Other Info")}
-
+                        {this.InputFieldBuilder("links", "Links")}
+                        {this.InputFieldBuilder("kamarUpdates", "Kamar Updates")}
+                        {this.InputFieldBuilder("sacInfo", "SAC Info")}
+                        {this.InputFieldBuilder("otherInfo", "Other Info")}
                     </Grid>
                     <Grid xs={12}>
-                        {this.InputFieldBuilder("select", "sac", "SAC")}
-                        {this.InputFieldBuilder("select", "areaOfNeed", "Area of Need")}
-                        {this.InputFieldBuilder("select", "response", "Response")}
+                        {this.InputFieldBuilder("sac", "SAC", "select")}
+                        {this.InputFieldBuilder("areaOfNeed", "Area of Need", "select")}
+                        {this.InputFieldBuilder("response", "Response", "select")}
                     </Grid>
                     <Grid xs={2} sx={gridButtonStyle}>
                         {this.Button("Generate user", () => this.postStudent(this.state.currentStudent))}
