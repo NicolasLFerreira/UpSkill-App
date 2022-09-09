@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Box } from '@mui/material';
 import { DataGrid, GridColumns, gridClasses } from '@mui/x-data-grid';
 import { alpha, styled } from '@mui/material/styles';
-import IStudentData from '../../types/IStudentData';
-import IStudentDataDisplay from '../../types/IStudentDataDisplay';
+import IStudent from '../../types/IStudentData';
+import IStudentDisplay from '../../types/IStudentDisplay';
 import { selectOptions as values } from "../../utility/StudentDataUtility";
 
 const ODD_OPACITY: number = 0.2;
@@ -62,11 +62,11 @@ const columns: GridColumns = [
 ];
 
 interface IProps {
-    students: Array<IStudentData>
+    students: Array<IStudent>
 }
 
 interface IState {
-    students: Array<IStudentDataDisplay>
+    students: Array<IStudentDisplay>
 }
 
 export default class StudentDatagrid extends Component<IProps, IState> {
@@ -84,8 +84,8 @@ export default class StudentDatagrid extends Component<IProps, IState> {
         });
     }
 
-    newStudent(student: IStudentData) {
-        var studentUpdated: IStudentDataDisplay = student;
+    newStudent(student: IStudent) {
+        var studentUpdated: IStudentDisplay = student;
         studentUpdated.areaOfNeedShow = values.areaOfNeed[student.areaOfNeed];
         studentUpdated.responseShow = values.response[student.response];
         studentUpdated.sacShow = values.sac[student.sac];

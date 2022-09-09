@@ -1,5 +1,5 @@
 /**Data fields for the students. */
-export default interface IStudentData {
+export default interface IStudent {
     studentId?: number,
     firstName: string,
     lastName: string,

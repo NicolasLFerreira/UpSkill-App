@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Container, Button, Typography, Modal, Input, SelectChangeEvent, MenuItem, InputLabel, Select, FormControl, Box } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import InputField from "./InputField";
-import IStudentData from "../../types/IStudentData";
+import IStudent from "../../types/IStudentData";
 import { selectOptions as values, defaultStudentObject } from "../../utility/StudentDataUtility";
 import Form from "./Form";
 
@@ -37,12 +37,12 @@ const gridDateStyle = {
 // Boilerplate interfaces
 
 interface IProps {
-    createStudentCallback: (student: IStudentData) => void;
+    createStudentCallback: (student: IStudent) => void;
 }
 
 interface IState {
     open: boolean,
-    currentStudent: IStudentData
+    currentStudent: IStudent
 }
 
 export default class FormModal extends Component<IProps, IState> {
@@ -58,8 +58,8 @@ export default class FormModal extends Component<IProps, IState> {
     // Handling the input from the modal
     registerChange = (property: string, value: string | number): void => {
         // Dynamically selects an item from the array
-        var object: IStudentData = this.state.currentStudent;
-        var key: keyof IStudentData = property as keyof IStudentData;
+        var object: IStudent = this.state.currentStudent;
+        var key: keyof IStudent = property as keyof IStudent;
 
         // Updated the student object with the new data to the selected property
         object[key] = value as never;

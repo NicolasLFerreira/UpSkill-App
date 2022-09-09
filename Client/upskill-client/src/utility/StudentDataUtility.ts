@@ -1,7 +1,7 @@
-import IStudentData from "../types/IStudentData";
-import IStudentDataDisplay from "../types/IStudentDataDisplay";
+import IStudent from "../types/IStudentData";
+import IStudentDisplay from "../types/IStudentDisplay";
 
-export var emptyStudentObject: IStudentData = {
+export var emptyStudentObject: IStudent = {
     studentId: 0,
     firstName: "",
     lastName: "",
@@ -22,7 +22,7 @@ export var emptyStudentObject: IStudentData = {
     otherInfo: ""
 }
 
-export var defaultStudentObject: IStudentData = {
+export var defaultStudentObject: IStudent = {
     studentId: 0,
     firstName: "default",
     lastName: "default",
@@ -67,7 +67,7 @@ export function createStudent() {
     const diagnosis: Array<string> = ["ADHD", "Asperger's", "OCD", "PTSD", "Anxiety", "LoL Player", "Eating Disorder", "Depression", "Schizophrenia"];
     const externalAgencies: Array<string> = ["Black Mesa", "Doofenshmirtz Evil Incorporated", "Umbrella", "Flat Earth Society"];
 
-    var object: IStudentData = {
+    var object: IStudent = {
         "studentId": 0,
         "firstName": names[getRndInteger(0, names.length)],
         "lastName": surnames[getRndInteger(0, surnames.length)],

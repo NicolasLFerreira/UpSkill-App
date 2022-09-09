@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Grid } from "@mui/material";
-import IStudentData from "../../types/IStudentData";
+import IStudent from "../../types/IStudentData";
 import Form from "./Form";
 
 interface IProps {
@@ -8,8 +8,8 @@ interface IProps {
 }
 
 interface IState {
-    students: Array<IStudentData>,
-    currentStudent: IStudentData | null,
+    students: Array<IStudent>,
+    currentStudent: IStudent | null,
     currentIndex: number,
     searchTitle: string
 }

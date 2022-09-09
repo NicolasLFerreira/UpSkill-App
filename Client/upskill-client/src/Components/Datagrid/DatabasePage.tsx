@@ -1,19 +1,19 @@
 import React, { Component } from "react";
 import StudentDataCrud from "../../services/StudentDataCrud";
-import IStudentData from "../../types/IStudentData";
+import IStudent from "../../types/IStudentData";
 import { emptyStudentObject } from "../../utility/StudentDataUtility";
 import StudentDatagrid from "./StudentDatagrid";
 
 interface IProps { }
 interface IState {
-    students: Array<IStudentData>
+    students: Array<IStudent>
 }
 
 export default class DatabasePage extends Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
 
-        var object: Array<IStudentData> = [emptyStudentObject];
+        var object: Array<IStudent> = [emptyStudentObject];
 
         this.state = {
             students: object

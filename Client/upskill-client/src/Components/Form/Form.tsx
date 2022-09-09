@@ -6,7 +6,7 @@ import FormSelect from "./FormSelect";
 import IStudent from "../../types/IStudentData";
 import StudentDataCrud from "../../services/StudentDataCrud";
 import { selectOptions, defaultStudentObject, ISelectOptions } from "../../utility/StudentDataUtility";
-import IStudentDictionary from "../../types/IStudentDataDictionary";
+import IStudentDictionary from "../../types/IStudentDictionary";
 
 // Styles
 
