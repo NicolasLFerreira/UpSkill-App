@@ -72,7 +72,6 @@ export default class FormModal extends Component<IProps, IState> {
 
     inputFieldBuilder(type: string, property: string, placeholder: string, items?: Array<string>) {
         return (
-            // <span sx={type == "date" ? {m:5} : {}}>
             type == "select" ?
                 <FormSelect
                     property={property}
@@ -87,7 +86,6 @@ export default class FormModal extends Component<IProps, IState> {
                     sx={type == "text" ? gridInputStyle : gridDateStyle}
                     callback={(value: string) => { this.registerChange(property, value); }}
                 />
-            // </span>
         );
     }
 

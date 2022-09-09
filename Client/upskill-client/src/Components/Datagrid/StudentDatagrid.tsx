@@ -90,8 +90,6 @@ export default class StudentDatagrid extends Component<IProps, IState> {
         studentUpdated.responseShow = values.response[student.response];
         studentUpdated.sacShow = values.sac[student.sac];
 
-        console.log(studentUpdated);
-
         return studentUpdated;
     }
 

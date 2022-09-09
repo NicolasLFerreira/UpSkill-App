@@ -6,7 +6,6 @@ import FormSelect from "./FormSelect";
 import IStudent from "../../types/IStudent";
 import StudentDataCrud from "../../services/StudentDataCrud";
 import { selectOptions, defaultStudentObject, ISelectOptions } from "../../utility/StudentUtility";
-import IStudentDictionary from "../../types/IStudentDictionary";
 
 // Styles
 
@@ -37,7 +36,7 @@ interface IProps { }
 interface IState {
     operation: OperationMode,
     students: Array<IStudent>,
-    studentsDictionary: IStudentDictionary,
+    studentsDictionary: Map<number, IStudent>,
     currentStudent: IStudent,
     currentIndex: number,
     searchTitle: string
@@ -50,7 +49,7 @@ export default class Form extends Component<IProps, IState> {
         this.state = {
             operation: OperationMode.creation,
             students: [],
-            studentsDictionary: {},
+            studentsDictionary: new Map<number, IStudent>(),
             currentStudent: defaultStudentObject,
             currentIndex: -1,
             searchTitle: ""
@@ -69,17 +68,16 @@ export default class Form extends Component<IProps, IState> {
                 this.setState({
                     students: response.data
                 });
+                this.updateStudentMap();
                 console.log(response.data);
             })
             .catch((e: Error) => {
                 console.log(e);
             });
+        return this;
     }
 
     postStudent(student: IStudent) {
-        console.log("to be posted:");
-        console.log(student);
-
         StudentDataCrud.post(student)
             .then((response) => {
                 console.log(response);
@@ -89,8 +87,29 @@ export default class Form extends Component<IProps, IState> {
             });
     }
 
-    // Loads the student
+    putStudent(student: IStudent) {
+        var s = student;
+        s.studentId = 21;
+        StudentDataCrud.put(s.studentId, s)
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((e: Error) => {
+                console.log(e);
+            });
+    }
 
+    // Converts the state.students to a map and assigns it to state.studentsDictionary
+    updateStudentMap = () => {
+        var studentMap: Map<number, IStudent> = new Map<number, IStudent>();
+        this.state.students.forEach((student: IStudent) => {
+            studentMap.set(student.studentId!, student);
+        });
+
+        this.setState({
+            studentsDictionary: studentMap
+        })
+    }
 
     // Assigns the changes to the state.
     registerChange = (property: string, value: string | number): void => {
@@ -106,6 +125,15 @@ export default class Form extends Component<IProps, IState> {
         });
 
         console.log(this.state.currentStudent);
+    }
+
+    // Utility
+    switchOperation = () => {
+        this.setState((oldState) => {
+            return {
+                operation: oldState.operation == OperationMode.creation ? OperationMode.update : OperationMode.creation
+            }
+        })
     }
 
     // Components
@@ -148,6 +176,17 @@ export default class Form extends Component<IProps, IState> {
         );
     }
 
+    OperationButton() {
+        return (
+            <>
+                {this.state.operation == OperationMode.creation ?
+                    this.Button("Create student", () => this.postStudent(this.state.currentStudent)) :
+                    this.Button("Update student", () => (this.putStudent(this.state.currentStudent)))
+                }
+            </>
+        );
+    }
+
     render() {
         return (
             <Grid container>
@@ -157,10 +196,10 @@ export default class Form extends Component<IProps, IState> {
                 <Grid container xs={10}>
                     <Grid xs={12}>
                         <Typography id="modal-modal-title" variant="h6" component="h2">
-                            Student name placeholder
+                            Current student: {this.state.currentStudent.firstName + " " + this.state.currentStudent.lastName}
                         </Typography>
                         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                            Create, read, update, or delete a student record.
+                            Currently {this.state.operation == OperationMode.creation ? "creating" : "updating"} a student.
                         </Typography>
                     </Grid>
                     <Grid xs={12}>
@@ -188,11 +227,10 @@ export default class Form extends Component<IProps, IState> {
                         {this.InputFieldBuilder("areaOfNeed", "Area of Need", "select")}
                         {this.InputFieldBuilder("response", "Response", "select")}
                     </Grid>
-                    <Grid xs={2} sx={gridButtonStyle}>
-                        {this.Button("Generate user", () => this.postStudent(this.state.currentStudent))}
-                    </Grid>
-                    <Grid xs={2} sx={gridButtonStyle}>
+                    <Grid xs={6} sx={gridButtonStyle}>
+                        {this.OperationButton()}
                         {this.Button("Delete user", () => (console.log("test")))}
+                        {this.Button("Change operation", () => this.switchOperation())}
                     </Grid>
                 </Grid>
             </Grid>
