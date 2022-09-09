@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import StudentDataCrud from "../../services/StudentDataCrud";
-import IStudent from "../../types/IStudentData";
-import { emptyStudentObject } from "../../utility/StudentDataUtility";
+import IStudent from "../../types/IStudent";
+import { emptyStudentObject } from "../../utility/StudentUtility";
 import StudentDatagrid from "./StudentDatagrid";
 
 interface IProps { }

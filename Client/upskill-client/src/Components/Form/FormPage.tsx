@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Grid } from "@mui/material";
-import IStudent from "../../types/IStudentData";
+import IStudent from "../../types/IStudent";
 import Form from "./Form";
 
 interface IProps {

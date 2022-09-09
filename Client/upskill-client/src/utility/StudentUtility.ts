@@ -1,4 +1,4 @@
-import IStudent from "../types/IStudentData";
+import IStudent from "../types/IStudent";
 import IStudentDisplay from "../types/IStudentDisplay";
 
 export var emptyStudentObject: IStudent = {

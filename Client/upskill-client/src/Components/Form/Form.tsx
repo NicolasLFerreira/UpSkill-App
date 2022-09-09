@@ -3,9 +3,9 @@ import { Button, Typography, Input } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import InputField from "./InputField";
 import FormSelect from "./FormSelect";
-import IStudent from "../../types/IStudentData";
+import IStudent from "../../types/IStudent";
 import StudentDataCrud from "../../services/StudentDataCrud";
-import { selectOptions, defaultStudentObject, ISelectOptions } from "../../utility/StudentDataUtility";
+import { selectOptions, defaultStudentObject, ISelectOptions } from "../../utility/StudentUtility";
 import IStudentDictionary from "../../types/IStudentDictionary";
 
 // Styles

@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { Container, Button, Typography, Modal, Input, SelectChangeEvent, MenuItem, InputLabel, Select, FormControl, Box } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import InputField from "./InputField";
-import IStudent from "../../types/IStudentData";
-import { selectOptions as values, defaultStudentObject } from "../../utility/StudentDataUtility";
+import IStudent from "../../types/IStudent";
+import { selectOptions as values, defaultStudentObject } from "../../utility/StudentUtility";
 import Form from "./Form";
 
 // Styles

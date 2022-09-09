@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Box } from '@mui/material';
 import { DataGrid, GridColumns, gridClasses } from '@mui/x-data-grid';
 import { alpha, styled } from '@mui/material/styles';
-import IStudent from '../../types/IStudentData';
+import IStudent from '../../types/IStudent';
 import IStudentDisplay from '../../types/IStudentDisplay';
-import { selectOptions as values } from "../../utility/StudentDataUtility";
+import { selectOptions as values } from "../../utility/StudentUtility";
 
 const ODD_OPACITY: number = 0.2;
 
