@@ -1,11 +1,11 @@
 import React, { Component, ReactNode } from "react";
 import { Button, Typography, Input } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
-import InputField from "./InputField";
+import FormInput from "./FormInput";
 import FormSelect from "./FormSelect";
 import IStudent from "../../types/IStudent";
 import StudentDataCrud from "../../services/StudentDataCrud";
-import { selectOptions, defaultStudentObject, ISelectOptions } from "../../utility/StudentUtility";
+import { selectOptions, defaultStudentObject, ISelectOptions, emptyStudentObject } from "../../utility/StudentUtility";
 
 // Styles
 
@@ -60,7 +60,7 @@ export default class Form extends Component<IProps, IState> {
         this.retrieveStudents();
     }
 
-    // Axios instance handling.
+    // Axios instance stuff.
 
     retrieveStudents = () => {
         StudentDataCrud.getAll()
@@ -99,6 +99,8 @@ export default class Form extends Component<IProps, IState> {
             });
     }
 
+    // For handling the student data.
+
     // Converts the state.students to a map and assigns it to state.studentsDictionary
     updateStudentMap = () => {
         var studentMap: Map<number, IStudent> = new Map<number, IStudent>();
@@ -127,7 +129,34 @@ export default class Form extends Component<IProps, IState> {
         console.log(this.state.currentStudent);
     }
 
+    validateIndex(index: string) {
+        if (index == "") {
+            return -1;
+        }
+        var numericalIndex = parseInt(index);
+        if (numericalIndex < 0 || numericalIndex > this.state.students.length) {
+            return -1;
+        }
+        return numericalIndex;
+    }
+
+    loadStudent = (index: string) => {
+        var validatedIndex = this.validateIndex(index);
+        var student = validatedIndex == -1 ? emptyStudentObject : this.state.students[validatedIndex];
+        this.setState({
+            currentIndex: validatedIndex,
+            currentStudent: student
+        })
+    }
+
+    temporaryStudentChooser = () => {
+        return (
+            <Input type="number" placeholder="choose index" defaultValue={0} onChange={(e) => this.loadStudent(e.target.value)} />
+        );
+    }
+
     // Utility
+
     switchOperation = () => {
         this.setState((oldState) => {
             return {
@@ -148,14 +177,13 @@ export default class Form extends Component<IProps, IState> {
             items = selectOptions[key];
 
             jsxObject = <FormSelect
-                property={property}
                 placeholder={placeholder}
                 items={items!}
                 callback={(value: number) => { this.registerChange(property, value); }}
             />
         }
         else {
-            jsxObject = <InputField
+            jsxObject = <FormInput
                 type={type}
                 property={property}
                 placeholder={placeholder}
@@ -178,12 +206,9 @@ export default class Form extends Component<IProps, IState> {
 
     OperationButton() {
         return (
-            <>
-                {this.state.operation == OperationMode.creation ?
-                    this.Button("Create student", () => this.postStudent(this.state.currentStudent)) :
-                    this.Button("Update student", () => (this.putStudent(this.state.currentStudent)))
-                }
-            </>
+            this.state.operation == OperationMode.creation ?
+                this.Button("Create student", () => this.postStudent(this.state.currentStudent)) :
+                this.Button("Update student", () => this.putStudent(this.state.currentStudent))
         );
     }
 
@@ -191,7 +216,8 @@ export default class Form extends Component<IProps, IState> {
         return (
             <Grid container>
                 <Grid xs={2}>
-                    <Input type="search" placeholder="Search for student" />
+                    <Input type="search" placeholder="Search student" onChange={(e) => this.setState({ searchTitle: e.target.value })} />
+                    {this.temporaryStudentChooser()}
                 </Grid>
                 <Grid container xs={10}>
                     <Grid xs={12}>
@@ -229,7 +255,6 @@ export default class Form extends Component<IProps, IState> {
                     </Grid>
                     <Grid xs={6} sx={gridButtonStyle}>
                         {this.OperationButton()}
-                        {this.Button("Delete user", () => (console.log("test")))}
                         {this.Button("Change operation", () => this.switchOperation())}
                     </Grid>
                 </Grid>

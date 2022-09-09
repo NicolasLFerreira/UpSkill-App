@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { Container, Button, Typography, Modal, Input, SelectChangeEvent, MenuItem, InputLabel, Select, FormControl, Box } from "@mui/material";
+import { Container, Button, Modal, SelectChangeEvent, MenuItem, InputLabel, Select, FormControl } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
-import InputField from "./InputField";
+import FormInput from "./FormInput";
 import IStudent from "../../types/IStudent";
 import { selectOptions as values, defaultStudentObject } from "../../utility/StudentUtility";
 import Form from "./Form";
@@ -20,11 +20,6 @@ const boxStyle = {
     boxShadow: 24,
     p: 4,
 };
-
-const gridButtonStyle = {
-    justifyContent: "left",
-    m: 1
-}
 
 const gridInputStyle = {
     m: 1
@@ -79,7 +74,7 @@ export default class FormModal extends Component<IProps, IState> {
                     items={items!}
                     callback={(value: number) => { this.registerChange(property, value); }}
                 /> :
-                <InputField
+                <FormInput
                     type={type}
                     property={property}
                     placeholder={placeholder}

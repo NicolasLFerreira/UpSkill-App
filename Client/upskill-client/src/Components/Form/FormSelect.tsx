@@ -2,7 +2,6 @@ import React from "react";
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 
 interface IPropsSelect {
-    property: string,
     placeholder: string,
     items: Array<string>,
     callback: (value: number) => void
