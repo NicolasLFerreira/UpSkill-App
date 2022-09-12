@@ -114,7 +114,7 @@ export default class Form extends Component<IProps, IState> {
         })
     }
 
-    // Assigns the changes to the state.
+    // Dynamically updates the properties of the state.currentStudent as it's typed in the input field.
     registerChange = (property: string, value: string | number): void => {
         // Dynamically declares the key of an IStudentData object.
         var object: IStudent = this.state.currentStudent;
@@ -128,6 +128,12 @@ export default class Form extends Component<IProps, IState> {
         });
 
         console.log(this.state.currentStudent);
+    }
+
+    setStudent = (student: IStudent) => {
+        this.setState({
+            currentStudent: student
+        })
     }
 
     // Utility
@@ -190,10 +196,10 @@ export default class Form extends Component<IProps, IState> {
 
     render() {
         return (
-            <Box sx={{maxHeight:"50%"}}>
+            <Box sx={{ maxHeight: "50%" }}>
                 <Grid container>
                     <Grid xs={2}>
-                        <FormSearch />
+                        <FormSearch callback={(student: IStudent) => this.setStudent(student)} />
                     </Grid>
                     <Grid container xs={10}>
                         <Grid xs={12}>

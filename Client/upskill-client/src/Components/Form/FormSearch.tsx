@@ -1,10 +1,11 @@
 import React, { Component, ReactNode } from "react";
-import { Input, List, Typography } from "@mui/material";
+import { Input, List, Typography, Button } from "@mui/material";
 import { default as Box } from "@mui/material/Unstable_Grid2/Grid2";
 import IStudent from "../../types/IStudent";
 import StudentDataCrud from "../../services/StudentDataCrud";
 
 interface IProps {
+    callback: (student: IStudent) => void
 }
 interface IState {
     students: Array<IStudent>,
@@ -75,8 +76,8 @@ export default class FormSearch extends Component<IProps, IState>{
 
     StudentContainer(student: IStudent) {
         return (
-            <Box>
-                <Typography>{student.firstName} {student.lastName}</Typography>
+            <Box sx={{ m: 1 }}>
+                <Button variant="contained" sx={{ width: "100%" }} onClick={() => this.props.callback(student)}>{student.firstName}, {student.lastName}</Button>
             </Box>
         );
     }
