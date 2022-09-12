@@ -147,12 +147,18 @@ export default class Form extends Component<IProps, IState> {
             currentIndex: validatedIndex,
             currentStudent: student
         })
+
+        this.forceUpdate();
     }
 
     temporaryStudentChooser = () => {
         return (
-            <Input type="number" placeholder="choose index" defaultValue={0} onChange={(e) => this.loadStudent(e.target.value)} />
+            <Input type="text" placeholder="choose student" onChange={(e) => console.log(this.searchStudent(e.target.value))} />
         );
+    }
+
+    searchStudent(name: string) {
+        return this.state.students.filter(s => s.firstName.includes(name));
     }
 
     // Utility
@@ -168,6 +174,7 @@ export default class Form extends Component<IProps, IState> {
     // Components
 
     // Creates an input field and assigns the callback function for registering the changes.
+
     InputFieldBuilder(property: string, placeholder: string, type: string = "text") {
         var jsxObject: ReactNode;
 
@@ -185,8 +192,8 @@ export default class Form extends Component<IProps, IState> {
         else {
             jsxObject = <FormInput
                 type={type}
-                property={property}
-                placeholder={placeholder}
+                value={this.state.currentStudent[property as keyof IStudent]}
+                label={placeholder}
                 sx={type == "text" ? gridInputStyle : gridDateStyle}
                 callback={(value: string) => { this.registerChange(property, value); }}
             />
