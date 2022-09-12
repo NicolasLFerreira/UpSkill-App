@@ -1,7 +1,6 @@
 import React, { Component, ReactNode } from "react";
-import { Button, Typography, Input, Box } from "@mui/material";
+import { Button, Typography, Input, Box, TextField } from "@mui/material";
 import { default as Grid } from "@mui/material/Unstable_Grid2";
-import FormInput from "./FormInput";
 import FormSelect from "./FormSelect";
 import IStudent from "../../types/IStudent";
 import StudentDataCrud from "../../services/StudentDataCrud";
@@ -38,22 +37,23 @@ interface IState {
     operation: OperationMode,
     students: Array<IStudent>,
     studentsDictionary: Map<number, IStudent>,
-    currentStudent: IStudent,
-    currentIndex: number,
-    searchTitle: string
+    currentStudent: IStudent
 }
 
 export default class Form extends Component<IProps, IState> {
+
+    saved: boolean;
+
     constructor(props: IProps) {
         super(props);
+
+        this.saved = true;
 
         this.state = {
             operation: OperationMode.creation,
             students: [],
             studentsDictionary: new Map<number, IStudent>(),
-            currentStudent: defaultStudentObject,
-            currentIndex: -1,
-            searchTitle: ""
+            currentStudent: emptyStudentObject
         }
     }
 
@@ -69,7 +69,6 @@ export default class Form extends Component<IProps, IState> {
                 this.setState({
                     students: response.data
                 });
-                this.updateStudentMap();
                 console.log(response.data);
             })
             .catch((e: Error) => {
@@ -79,6 +78,7 @@ export default class Form extends Component<IProps, IState> {
     }
 
     postStudent(student: IStudent) {
+        this.saved = true;
         StudentDataCrud.post(student)
             .then((response) => {
                 console.log(response);
@@ -89,9 +89,8 @@ export default class Form extends Component<IProps, IState> {
     }
 
     putStudent(student: IStudent) {
-        var s = student;
-        s.studentId = 21;
-        StudentDataCrud.put(s.studentId, s)
+        this.saved = true;
+        StudentDataCrud.put(student.studentId!, student)
             .then((response) => {
                 console.log(response);
             })
@@ -101,18 +100,6 @@ export default class Form extends Component<IProps, IState> {
     }
 
     // For handling the student data.
-
-    // Converts the state.students to a map and assigns it to state.studentsDictionary
-    updateStudentMap = () => {
-        var studentMap: Map<number, IStudent> = new Map<number, IStudent>();
-        this.state.students.forEach((student: IStudent) => {
-            studentMap.set(student.studentId!, student);
-        });
-
-        this.setState({
-            studentsDictionary: studentMap
-        })
-    }
 
     // Dynamically updates the properties of the state.currentStudent as it's typed in the input field.
     registerChange = (property: string, value: string | number): void => {
@@ -126,13 +113,24 @@ export default class Form extends Component<IProps, IState> {
         this.setState({
             currentStudent: object
         });
+        this.saved = false;
 
         console.log(this.state.currentStudent);
     }
 
+    handleStudentChange = (student: IStudent) => {
+        if (this.saved) {
+            this.setStudent(student);
+        }
+        else {
+            alert("Your changes are not saved.")
+        }
+    }
+
     setStudent = (student: IStudent) => {
         this.setState({
-            currentStudent: student
+            currentStudent: student,
+            operation: OperationMode.update
         })
     }
 
@@ -165,12 +163,13 @@ export default class Form extends Component<IProps, IState> {
             />
         }
         else {
-            jsxObject = <FormInput
+            jsxObject = <TextField
                 type={type}
-                value={this.state.currentStudent[property as keyof IStudent]}
-                label={placeholder}
+                label={type != "date" ? placeholder : ""}
+                defaultValue={this.state.currentStudent[property as keyof IStudent]}
                 sx={type == "text" ? gridInputStyle : gridDateStyle}
-                callback={(value: string) => { this.registerChange(property, value); }}
+                variant="outlined"
+                onChange={(event) => this.registerChange(property, event.target.value)}
             />
         }
 
@@ -199,15 +198,12 @@ export default class Form extends Component<IProps, IState> {
             <Box sx={{ maxHeight: "50%" }}>
                 <Grid container>
                     <Grid xs={2}>
-                        <FormSearch callback={(student: IStudent) => this.setStudent(student)} />
+                        <FormSearch callback={(student: IStudent) => this.handleStudentChange(student)} />
                     </Grid>
                     <Grid container xs={10}>
                         <Grid xs={12}>
-                            <Typography id="modal-modal-title" variant="h6" component="h2">
-                                Current student: {this.state.currentStudent.firstName + " " + this.state.currentStudent.lastName}
-                            </Typography>
-                            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                Currently {this.state.operation == OperationMode.creation ? "creating" : "updating"} a student.
+                            <Typography variant="h6" component="h2">
+                                {this.state.operation == OperationMode.creation ? "Creating: " : "Updating: "}{this.state.currentStudent.firstName + " " + this.state.currentStudent.lastName}
                             </Typography>
                         </Grid>
                         <Grid xs={12}>

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Container, Button, Modal, SelectChangeEvent, MenuItem, InputLabel, Select, FormControl } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
-import FormInput from "./FormInput";
 import IStudent from "../../types/IStudent";
 import { selectOptions as values, defaultStudentObject } from "../../utility/StudentUtility";
 import Form from "./Form";

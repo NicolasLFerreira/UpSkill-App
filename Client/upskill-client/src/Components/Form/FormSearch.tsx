@@ -77,7 +77,7 @@ export default class FormSearch extends Component<IProps, IState>{
     StudentContainer(student: IStudent) {
         return (
             <Box sx={{ m: 1 }}>
-                <Button variant="contained" sx={{ width: "100%" }} onClick={() => this.props.callback(student)}>{student.firstName}, {student.lastName}</Button>
+                <Button variant="contained" sx={{ width: "100%" }} onClick={() => this.props.callback(student)}>{student.studentId}: {student.firstName}, {student.lastName}</Button>
             </Box>
         );
     }
@@ -93,7 +93,7 @@ export default class FormSearch extends Component<IProps, IState>{
 
         return (
             <Box>
-                <Input type="search" placeholder="Student name" onChange={(e) => console.log(this.searchStudent(e.target.value))} />
+                <Input type="search" placeholder="Student name" sx={{ ml: 1 }} onChange={(e) => console.log(this.searchStudent(e.target.value))} />
                 <List style={{ maxHeight: 400, overflow: "auto" }}>
                     {array}
                 </List>
