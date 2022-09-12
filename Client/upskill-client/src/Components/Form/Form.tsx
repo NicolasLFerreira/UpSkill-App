@@ -1,11 +1,12 @@
 import React, { Component, ReactNode } from "react";
-import { Button, Typography, Input } from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2";
+import { Button, Typography, Input, Box } from "@mui/material";
+import { default as Grid } from "@mui/material/Unstable_Grid2";
 import FormInput from "./FormInput";
 import FormSelect from "./FormSelect";
 import IStudent from "../../types/IStudent";
 import StudentDataCrud from "../../services/StudentDataCrud";
 import { selectOptions, defaultStudentObject, ISelectOptions, emptyStudentObject } from "../../utility/StudentUtility";
+import FormSearch from "./FormSearch";
 
 // Styles
 
@@ -129,38 +130,6 @@ export default class Form extends Component<IProps, IState> {
         console.log(this.state.currentStudent);
     }
 
-    validateIndex(index: string) {
-        if (index == "") {
-            return -1;
-        }
-        var numericalIndex = parseInt(index);
-        if (numericalIndex < 0 || numericalIndex > this.state.students.length) {
-            return -1;
-        }
-        return numericalIndex;
-    }
-
-    loadStudent = (index: string) => {
-        var validatedIndex = this.validateIndex(index);
-        var student = validatedIndex == -1 ? emptyStudentObject : this.state.students[validatedIndex];
-        this.setState({
-            currentIndex: validatedIndex,
-            currentStudent: student
-        })
-
-        this.forceUpdate();
-    }
-
-    temporaryStudentChooser = () => {
-        return (
-            <Input type="text" placeholder="choose student" onChange={(e) => console.log(this.searchStudent(e.target.value))} />
-        );
-    }
-
-    searchStudent(name: string) {
-        return this.state.students.filter(s => s.firstName.includes(name));
-    }
-
     // Utility
 
     switchOperation = () => {
@@ -221,51 +190,52 @@ export default class Form extends Component<IProps, IState> {
 
     render() {
         return (
-            <Grid container>
-                <Grid xs={2}>
-                    <Input type="search" placeholder="Search student" onChange={(e) => this.setState({ searchTitle: e.target.value })} />
-                    {this.temporaryStudentChooser()}
+            <Box sx={{maxHeight:"50%"}}>
+                <Grid container>
+                    <Grid xs={2}>
+                        <FormSearch />
+                    </Grid>
+                    <Grid container xs={10}>
+                        <Grid xs={12}>
+                            <Typography id="modal-modal-title" variant="h6" component="h2">
+                                Current student: {this.state.currentStudent.firstName + " " + this.state.currentStudent.lastName}
+                            </Typography>
+                            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                Currently {this.state.operation == OperationMode.creation ? "creating" : "updating"} a student.
+                            </Typography>
+                        </Grid>
+                        <Grid xs={12}>
+                            {this.InputFieldBuilder("firstName", "First name")}
+                            {this.InputFieldBuilder("lastName", "Last name")}
+                            {this.InputFieldBuilder("ethnicity", "Ethnicity")}
+                            {this.InputFieldBuilder("pronoun", "Pronoun")}
+                            {this.InputFieldBuilder("dob", "DOB", "date")}
+                        </Grid>
+                        <Grid xs={12}>
+                            {this.InputFieldBuilder("yearLevel", "Year Level")}
+                            {this.InputFieldBuilder("tutor", "Tutor")}
+                            {this.InputFieldBuilder("diagnosis", "Diagnosis")}
+                            {this.InputFieldBuilder("externalAgencies", "External Agencies")}
+                            {this.InputFieldBuilder("notes", "Notes")}
+                        </Grid>
+                        <Grid xs={12}>
+                            {this.InputFieldBuilder("links", "Links")}
+                            {this.InputFieldBuilder("kamarUpdates", "Kamar Updates")}
+                            {this.InputFieldBuilder("sacInfo", "SAC Info")}
+                            {this.InputFieldBuilder("otherInfo", "Other Info")}
+                        </Grid>
+                        <Grid xs={12}>
+                            {this.InputFieldBuilder("sac", "SAC", "select")}
+                            {this.InputFieldBuilder("areaOfNeed", "Area of Need", "select")}
+                            {this.InputFieldBuilder("response", "Response", "select")}
+                        </Grid>
+                        <Grid xs={6} sx={gridButtonStyle}>
+                            {this.OperationButton()}
+                            {this.Button("Change operation", () => this.switchOperation())}
+                        </Grid>
+                    </Grid>
                 </Grid>
-                <Grid container xs={10}>
-                    <Grid xs={12}>
-                        <Typography id="modal-modal-title" variant="h6" component="h2">
-                            Current student: {this.state.currentStudent.firstName + " " + this.state.currentStudent.lastName}
-                        </Typography>
-                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                            Currently {this.state.operation == OperationMode.creation ? "creating" : "updating"} a student.
-                        </Typography>
-                    </Grid>
-                    <Grid xs={12}>
-                        {this.InputFieldBuilder("firstName", "First name")}
-                        {this.InputFieldBuilder("lastName", "Last name")}
-                        {this.InputFieldBuilder("ethnicity", "Ethnicity")}
-                        {this.InputFieldBuilder("pronoun", "Pronoun")}
-                        {this.InputFieldBuilder("dob", "DOB", "date")}
-                    </Grid>
-                    <Grid xs={12}>
-                        {this.InputFieldBuilder("yearLevel", "Year Level")}
-                        {this.InputFieldBuilder("tutor", "Tutor")}
-                        {this.InputFieldBuilder("diagnosis", "Diagnosis")}
-                        {this.InputFieldBuilder("externalAgencies", "External Agencies")}
-                        {this.InputFieldBuilder("notes", "Notes")}
-                    </Grid>
-                    <Grid xs={12}>
-                        {this.InputFieldBuilder("links", "Links")}
-                        {this.InputFieldBuilder("kamarUpdates", "Kamar Updates")}
-                        {this.InputFieldBuilder("sacInfo", "SAC Info")}
-                        {this.InputFieldBuilder("otherInfo", "Other Info")}
-                    </Grid>
-                    <Grid xs={12}>
-                        {this.InputFieldBuilder("sac", "SAC", "select")}
-                        {this.InputFieldBuilder("areaOfNeed", "Area of Need", "select")}
-                        {this.InputFieldBuilder("response", "Response", "select")}
-                    </Grid>
-                    <Grid xs={6} sx={gridButtonStyle}>
-                        {this.OperationButton()}
-                        {this.Button("Change operation", () => this.switchOperation())}
-                    </Grid>
-                </Grid>
-            </Grid>
+            </Box>
         );
     }
 }
