@@ -120,18 +120,14 @@ export default class Form extends Component<IProps, IState> {
 
     handleStudentChange = (student: IStudent) => {
         if (this.saved) {
-            this.setStudent(student);
+            this.setState({
+                currentStudent: student,
+                operation: OperationMode.update
+            })
         }
         else {
             alert("Your changes are not saved.")
         }
-    }
-
-    setStudent = (student: IStudent) => {
-        this.setState({
-            currentStudent: student,
-            operation: OperationMode.update
-        })
     }
 
     // Utility
@@ -152,25 +148,30 @@ export default class Form extends Component<IProps, IState> {
         var jsxObject: ReactNode;
 
         if (type == "select") {
-            var items: Array<string>;
-            var key: keyof ISelectOptions = property as keyof ISelectOptions
-            items = selectOptions[key];
+            var items = selectOptions[property as keyof ISelectOptions];
+            var value = this.state.currentStudent[property as keyof IStudent] as number;
+
+            if (value == 0) {
+                value = 1;
+            }
 
             jsxObject = <FormSelect
                 placeholder={placeholder}
+                value={items[value]}
                 items={items!}
                 callback={(value: number) => { this.registerChange(property, value); }}
             />
         }
         else {
-            jsxObject = <TextField
-                type={type}
-                label={type != "date" ? placeholder : ""}
-                defaultValue={this.state.currentStudent[property as keyof IStudent]}
-                sx={type == "text" ? gridInputStyle : gridDateStyle}
-                variant="outlined"
-                onChange={(event) => this.registerChange(property, event.target.value)}
-            />
+            jsxObject =
+                <TextField
+                    type={type}
+                    label={type != "date" ? placeholder : ""}
+                    value={this.state.currentStudent[property as keyof IStudent]}
+                    sx={type == "text" ? gridInputStyle : gridDateStyle}
+                    variant="outlined"
+                    onChange={(event) => this.registerChange(property, event.target.value)}
+                />
         }
 
         return jsxObject;
