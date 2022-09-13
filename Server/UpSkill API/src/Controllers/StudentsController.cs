@@ -91,7 +91,7 @@ namespace UpSkill_API.Controllers
         {
           if (_context.Students == null)
           {
-              return Problem("Entity set 'StudentsContext.Students'  is null.");
+              return Problem("Entity set 'StudentsContext.Students' is null.");
           }
             _context.Students.Add(studentsModel);
             await _context.SaveChangesAsync();
