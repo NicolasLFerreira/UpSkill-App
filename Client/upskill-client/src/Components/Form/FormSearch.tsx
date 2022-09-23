@@ -77,7 +77,9 @@ export default class FormSearch extends Component<IProps, IState>{
     StudentContainer(student: IStudent) {
         return (
             <Box sx={{ m: 1 }}>
-                <Button variant="contained" sx={{ width: "100%" }} onClick={() => this.props.callback(student)}>{student.studentId}: {student.firstName}, {student.lastName}</Button>
+                <Button variant="contained" sx={{ width: "100%" }} onClick={() => this.props.callback(student)}>
+                    {student.studentId}: {student.firstName}, {student.lastName}
+                </Button>
             </Box>
         );
     }
@@ -87,9 +89,6 @@ export default class FormSearch extends Component<IProps, IState>{
         this.state.studentsFiltered.forEach(student => {
             array.push(this.StudentContainer(student));
         });
-
-        console.log("form search");
-        console.log(this.state.studentsFiltered);
 
         return (
             <Box>

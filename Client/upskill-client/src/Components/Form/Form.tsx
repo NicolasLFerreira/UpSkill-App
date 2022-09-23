@@ -1,10 +1,10 @@
 import React, { Component, ReactNode } from "react";
-import { Button, Typography, Input, Box, TextField } from "@mui/material";
+import { Button, Typography, Input, Box, TextField, Dialog } from "@mui/material";
 import { default as Grid } from "@mui/material/Unstable_Grid2";
 import FormSelect from "./FormSelect";
 import IStudent from "../../types/IStudent";
 import StudentDataCrud from "../../services/StudentDataCrud";
-import { selectOptions, defaultStudentObject, ISelectOptions, emptyStudentObject } from "../../utility/StudentUtility";
+import { selectOptions, defaultStudentObject, ISelectOptions, emptyStudentObject, createStudent } from "../../utility/StudentUtility";
 import FormSearch from "./FormSearch";
 
 // Styles
@@ -12,16 +12,6 @@ import FormSearch from "./FormSearch";
 const gridButtonStyle = {
     justifyContent: "left",
     m: 1
-}
-
-const gridInputStyle = {
-    m: 1
-}
-
-const gridDateStyle = {
-    // width: "19.5%"
-    m: 1,
-    width: "12.3%"
 }
 
 // Boilerplate interfaces
@@ -114,8 +104,6 @@ export default class Form extends Component<IProps, IState> {
             currentStudent: object
         });
         this.saved = false;
-
-        console.log(this.state.currentStudent);
     }
 
     handleStudentChange = (student: IStudent) => {
@@ -126,7 +114,15 @@ export default class Form extends Component<IProps, IState> {
             })
         }
         else {
-            alert("Your changes are not saved.")
+            if (window.confirm("You have unsaved changes. Do you wish to continue?")) {
+                this.setState({
+                    currentStudent: student,
+                    operation: OperationMode.update
+                })
+            }
+            else {
+                return;
+            }
         }
     }
 
@@ -157,18 +153,32 @@ export default class Form extends Component<IProps, IState> {
 
             jsxObject = <FormSelect
                 placeholder={placeholder}
-                value={items[value]}
                 items={items!}
                 callback={(value: number) => { this.registerChange(property, value); }}
             />
         }
         else {
+            const gridInputStyle = {
+                m: 1
+            }
+
+            const gridNotesStyle = {
+                m: 1,
+                width: "43.2%"
+            }
+
+            const gridDateStyle = {
+                // width: "19.5%"
+                m: 1,
+                width: "12.3%"
+            }
+
             jsxObject =
                 <TextField
                     type={type}
                     label={type != "date" ? placeholder : ""}
                     value={this.state.currentStudent[property as keyof IStudent]}
-                    sx={type == "text" ? gridInputStyle : gridDateStyle}
+                    sx={type == "text" ? (property == "notes" ? gridNotesStyle : gridInputStyle) : gridDateStyle}
                     variant="outlined"
                     onChange={(event) => this.registerChange(property, event.target.value)}
                 />
@@ -196,7 +206,7 @@ export default class Form extends Component<IProps, IState> {
 
     render() {
         return (
-            <Box sx={{ maxHeight: "50%" }}>
+            <Box sx={{ maxHeight: "50%", ml: 7 }}>
                 <Grid container>
                     <Grid xs={2}>
                         <FormSearch callback={(student: IStudent) => this.handleStudentChange(student)} />
@@ -212,10 +222,10 @@ export default class Form extends Component<IProps, IState> {
                             {this.InputFieldBuilder("lastName", "Last name")}
                             {this.InputFieldBuilder("ethnicity", "Ethnicity")}
                             {this.InputFieldBuilder("pronoun", "Pronoun")}
+                            {this.InputFieldBuilder("yearLevel", "Year Level")}
                             {this.InputFieldBuilder("dob", "DOB", "date")}
                         </Grid>
                         <Grid xs={12}>
-                            {this.InputFieldBuilder("yearLevel", "Year Level")}
                             {this.InputFieldBuilder("tutor", "Tutor")}
                             {this.InputFieldBuilder("diagnosis", "Diagnosis")}
                             {this.InputFieldBuilder("externalAgencies", "External Agencies")}
@@ -235,6 +245,7 @@ export default class Form extends Component<IProps, IState> {
                         <Grid xs={6} sx={gridButtonStyle}>
                             {this.OperationButton()}
                             {this.Button("Change operation", () => this.switchOperation())}
+                            {/* <button onClick={() => this.postStudent(createStudent())}>click</button> */}
                         </Grid>
                     </Grid>
                 </Grid>

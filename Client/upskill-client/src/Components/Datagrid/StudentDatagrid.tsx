@@ -42,12 +42,12 @@ const StripedDataGrid = styled(DataGrid)(({ theme }) => ({
 }));
 
 const columns: GridColumns = [
-    { field: "firstName", headerName: "First Name", minWidth: 180, editable: true },
-    { field: "lastName", headerName: "Last Name", minWidth: 180, editable: true },
+    { field: "firstName", headerName: "First Name", minWidth: 120, editable: true },
+    { field: "lastName", headerName: "Last Name", minWidth: 120, editable: true },
     { field: "yearLevel", headerName: "Year Level", minWidth: 60, editable: true, type: "number", headerAlign: "left", align: "left" },
-    { field: "dob", headerName: "DOB", minWidth: 120, editable: true, type: "date" },
-    { field: "ethnicity", headerName: "Ethnicity", minWidth: 120, editable: true },
-    { field: "tutor", headerName: "Tutor", minWidth: 120, editable: true },
+    { field: "dob", headerName: "DOB", minWidth: 100, editable: true, type: "date" },
+    { field: "ethnicity", headerName: "Ethnicity", minWidth: 100, editable: true },
+    { field: "tutor", headerName: "Tutor", minWidth: 100, editable: true },
     { field: "areaOfNeedShow", headerName: "Area of Need", minWidth: 90, editable: true, type: "number", headerAlign: "left", align: "left" },
     { field: "diagnosis", headerName: "Diagnosis", minWidth: 120, editable: true },
     { field: "externalAgencies", headerName: "External Agencies", minWidth: 180, editable: true },
