@@ -119,6 +119,7 @@ export default class Form extends Component<IProps, IState> {
                     currentStudent: student,
                     operation: OperationMode.update
                 })
+                this.saved = true;
             }
             else {
                 return;
@@ -152,7 +153,8 @@ export default class Form extends Component<IProps, IState> {
             }
 
             jsxObject = <FormSelect
-                placeholder={placeholder}
+                value={value}
+                label={placeholder}
                 items={items!}
                 callback={(value: number) => { this.registerChange(property, value); }}
             />

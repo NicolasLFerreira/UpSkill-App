@@ -64,24 +64,6 @@ export default class FormModal extends Component<IProps, IState> {
         console.log(this.state.currentStudent);
     }
 
-    // inputFieldBuilder(type: string, property: string, placeholder: string, items?: Array<string>) {
-    //     return (
-    //         type == "select" ?
-    //             <FormSelect
-    //                 property={property}
-    //                 placeholder={placeholder}
-    //                 items={items!}
-    //                 callback={(value: number) => { this.registerChange(property, value); }}
-    //             /> :
-    //             <FormInput
-    //                 type={type}
-    //                 label={placeholder}
-    //                 sx={type == "text" ? gridInputStyle : gridDateStyle}
-    //                 callback={(value: string) => { this.registerChange(property, value); }}
-    //             />
-    //     );
-    // }
-
     // Default button for the modal page
     ModalButton(text: string, callback: () => void) {
         return (

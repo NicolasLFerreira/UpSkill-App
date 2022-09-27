@@ -1,30 +1,40 @@
-import React from "react";
-import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { MenuItem, TextField } from "@mui/material";
 
-interface IPropsSelect {
-    placeholder: string,
+interface IProps {
+    value: number,
+    label: string,
     items: Array<string>,
     callback: (value: number) => void
 }
 
-export default function FormSelect(props: IPropsSelect) {
-    const [selected, setSelected] = React.useState("");
-    const menuItems: Array<React.ReactNode> = props.items.map((item, index) => <MenuItem value={index}>{item}</MenuItem>);
-    const handleChange = (event: SelectChangeEvent) => {
-        setSelected(event.target.value);
-        props.callback(parseInt(event.target.value));
-    };
+export default function FormSelect(props: IProps) {
+    const [state, setState] = useState({ value: -1 })
+    // const forceUpdate = React.useReducer(() => ({}), {})[1] as () => void
+
+    const handleChange = (event: any) => {
+        var value: number = parseInt(event.target.value.toString());
+        setState({ value: event.target.value });
+        props.callback(value);
+    }
+
+    // useEffect(() => {
+    //     setState((state) => ({ ...state, value: props.value }));
+    // }, [props.value])
+
+    const menuItems: Array<React.ReactNode> = props.items.map((item, index) => {
+        return <MenuItem value={index}>{item}</MenuItem>
+    });
 
     return (
-        <FormControl sx={{ width: "20%", m: 1 }}>
-            <InputLabel>{props.placeholder}</InputLabel>
-            <Select
-                value={selected}
-                onChange={handleChange}
-                label="Selected"
-            >
-                {menuItems}
-            </Select>
-        </FormControl>
+        <TextField
+            select
+            sx={{ width: "20%", m: 1 }}
+            value={state.value}
+            label={props.label}
+            onChange={handleChange}
+        >
+            {menuItems}
+        </TextField>
     );
 }
