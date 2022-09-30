@@ -30,6 +30,13 @@ interface IState {
     currentStudent: IStudent
 }
 
+const emptyState: IState = {
+    operation: OperationMode.creation,
+    students: [],
+    studentsDictionary: new Map<number, IStudent>(),
+    currentStudent: emptyStudentObject
+}
+
 export default class Form extends Component<IProps, IState> {
 
     saved: boolean;
@@ -39,12 +46,7 @@ export default class Form extends Component<IProps, IState> {
 
         this.saved = true;
 
-        this.state = {
-            operation: OperationMode.creation,
-            students: [],
-            studentsDictionary: new Map<number, IStudent>(),
-            currentStudent: emptyStudentObject
-        }
+        this.state = emptyState;
     }
 
     componentDidMount() {
@@ -208,7 +210,7 @@ export default class Form extends Component<IProps, IState> {
 
     render() {
         return (
-            <Box sx={{ maxHeight: "50%", ml: 7 }}>
+            <Box sx={{ maxHeight: "50%", ml: 12, mt: 3 }}>
                 <Grid container>
                     <Grid xs={2}>
                         <FormSearch callback={(student: IStudent) => this.handleStudentChange(student)} />
