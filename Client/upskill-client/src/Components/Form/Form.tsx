@@ -14,12 +14,7 @@ const gridButtonStyle = {
     m: 1
 }
 
-// Boilerplate interfaces
-
-enum OperationMode {
-    creation,
-    update
-}
+// Boilerplate stuff
 
 interface IProps { }
 
@@ -30,6 +25,11 @@ interface IState {
     currentStudent: IStudent
 }
 
+enum OperationMode {
+    creation,
+    update
+}
+
 const emptyState: IState = {
     operation: OperationMode.creation,
     students: [],
@@ -37,6 +37,7 @@ const emptyState: IState = {
     currentStudent: emptyStudentObject
 }
 
+// Contains the code for the form. DOESN'T CONTAINS SEARCH OR MODAL, JUST THE ACTUAL FORM. THOSE SHOULD BE ADDED AS SEPARATE COMPONENTS.
 export default class Form extends Component<IProps, IState> {
 
     saved: boolean;
@@ -162,18 +163,18 @@ export default class Form extends Component<IProps, IState> {
             />
         }
         else {
+            // DISCARDED AFTER I STARTED USING span={1} INSTEAD OF MARGIN. 
+            // CAN SIMPLY MAKE THE GRID ITEMS FILL THE ENTIRE SPACE. 
+            // HERE IN CASE I NEED IT IN THE FUTURE.
+            // var scale = 6;
             const gridInputStyle = {
-                m: 1
+                // width: (100 / 6 * scale).toString() + "%"
+                width: "100%"
             }
 
             const gridNotesStyle = {
-                m: 1,
-                width: "43.2%"
-            }
-
-            const gridDateStyle = {
-                m: 1,
-                width: "12.3%"
+                width: "100%"
+                // width: (100 / 6 * scale).toString() + "%"
             }
 
             jsxObject =
@@ -181,13 +182,18 @@ export default class Form extends Component<IProps, IState> {
                     type={type}
                     label={type != "date" ? placeholder : ""}
                     value={this.state.currentStudent[property as keyof IStudent]}
-                    sx={type == "text" ? (property == "notes" ? gridNotesStyle : gridInputStyle) : gridDateStyle}
+                    // sx={type == "text" ? (property == "notes" ? gridNotesStyle : gridInputStyle) : gridDateStyle}
+                    sx={property == "notes" ? gridNotesStyle : gridInputStyle}
                     variant="outlined"
                     onChange={(event) => this.registerChange(property, event.target.value)}
                 />
         }
 
-        return jsxObject;
+        return (
+            <Grid xs={property == "select" ? 4 : (property == "notes" ? 10 : 2)}>
+                {jsxObject}
+            </Grid>
+        );
     }
 
     // Default button for the modal page
@@ -209,7 +215,6 @@ export default class Form extends Component<IProps, IState> {
 
     render() {
         return (
-            // <Box sx={{ maxHeight: "50%", ml: 12, mt: 3 }}>
             // <Grid container>
             // <Grid xs={2}>
             //         <FormSearch callback={(student: IStudent) => this.handleStudentChange(student)} />
@@ -217,11 +222,12 @@ export default class Form extends Component<IProps, IState> {
             <Grid container alignItems="center" justifyItems="center" alignContent="center" justifyContent="center">
                 <Grid container xs="auto" sx={{ width: "75%" }}>
                     <Grid xs="auto">
-                        <Typography sx={{ ml: 1 }} variant="h6" component="h2">
+                        <Typography component="h2" variant="h6">
                             {this.state.operation == OperationMode.creation ? "Creating: " : "Updating: "}{this.state.currentStudent.firstName + " " + this.state.currentStudent.lastName}
                         </Typography>
                     </Grid>
-                    <Grid container xs={12}>
+                    <Grid container xs={12} spacing={1}>
+                        {/* 1st ROW: IDENTIFICATION AND PERSONAL DETAILS */}
                         {this.InputFieldBuilder("firstName", "First name")}
                         {this.InputFieldBuilder("lastName", "Last name")}
                         {this.InputFieldBuilder("ethnicity", "Ethnicity")}
@@ -229,17 +235,20 @@ export default class Form extends Component<IProps, IState> {
                         {this.InputFieldBuilder("yearLevel", "Year Level")}
                         {this.InputFieldBuilder("dob", "DOB", "date")}
 
+                        {/* 2nd ROW: EDUCATION AND DIAGNOSIS RELATED */}
                         {this.InputFieldBuilder("tutor", "Tutor")}
                         {this.InputFieldBuilder("diagnosis", "Diagnosis")}
                         {this.InputFieldBuilder("externalAgencies", "External Agencies")}
-                        {this.InputFieldBuilder("notes", "Notes")}
-
                         {this.InputFieldBuilder("links", "Links")}
                         {this.InputFieldBuilder("kamarUpdates", "Kamar Updates")}
                         {this.InputFieldBuilder("sacInfo", "SAC Info")}
+
+                        {/* 3rd ROW: MISC INFO */}
                         {this.InputFieldBuilder("otherInfo", "Other Info")}
+                        {this.InputFieldBuilder("notes", "Notes")}
                     </Grid>
-                    <Grid container xs={12}>
+                    <Grid container xs={12} spacing={1} sx={{ mt: 1 }}>
+                        {/* 4th ROW: DROPDOWN MENUS */}
                         {this.InputFieldBuilder("sac", "SAC", "select")}
                         {this.InputFieldBuilder("areaOfNeed", "Area of Need", "select")}
                         {this.InputFieldBuilder("response", "Response", "select")}
@@ -247,12 +256,11 @@ export default class Form extends Component<IProps, IState> {
                     <Grid xs={6} sx={gridButtonStyle}>
                         {this.OperationButton()}
                         {this.Button("Change operation", () => this.switchOperation())}
-                        {/* <button onClick={() => this.postStudent(createStudent())}>click</button> */}
+                        {/* <button onClick={() => this.postStudent(createStudent())}>click</button> */ /* USED FOR GENERATING NEW STUDENT RECORDS */}
                     </Grid>
                 </Grid>
             </Grid>
             // </Grid>
-            // </Box>
         );
     }
 }

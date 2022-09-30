@@ -29,7 +29,7 @@ export default function FormSelect(props: IProps) {
     return (
         <TextField
             select
-            sx={{ width: "20%", m: 1 }}
+            sx={{ width: "100%" }}
             value={state.value}
             label={props.label}
             onChange={handleChange}

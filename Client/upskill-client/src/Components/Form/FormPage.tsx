@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Grid } from "@mui/material";
+import { Grid, Box } from "@mui/material";
 import IStudent from "../../types/IStudent";
 import Form from "./Form";
 
@@ -22,7 +22,9 @@ export default class FormPage extends Component<IProps, IState> {
     render() {
         return (
             // {/* <FormModal createStudentCallback={(student: IStudentData) => this.studentPost(student)} /> */}{/* legacy code, may use it later though */}
-            <Form />
+            <Box>
+                <Form />
+            </Box>
         );
     }
 }
