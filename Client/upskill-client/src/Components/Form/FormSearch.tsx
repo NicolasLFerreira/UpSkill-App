@@ -1,8 +1,9 @@
-import React, { Component, ReactNode } from "react";
-import { Input, List, Typography, Button } from "@mui/material";
+import React, { ChangeEvent, Component, ReactNode } from "react";
+import { List, Button, TextField } from "@mui/material";
 import { default as Box } from "@mui/material/Unstable_Grid2/Grid2";
 import IStudent from "../../types/IStudent";
 import StudentDataCrud from "../../services/StudentDataCrud";
+import studentSearch from "../../studentSearch";
 
 interface IProps {
     callback: (student: IStudent) => void
@@ -43,37 +44,6 @@ export default class FormSearch extends Component<IProps, IState>{
         return this;
     }
 
-    // Search functions
-
-    searchStudent = (searchInput: string) => {
-        searchInput = searchInput.toLowerCase();
-        var filteredStudents: Array<IStudent> =
-            this.state.students.filter(s =>
-                this.isSubsequence(searchInput, s.firstName + " " + s.lastName)
-            );
-
-        this.setState({
-            studentsFiltered: filteredStudents
-        })
-
-        return filteredStudents;
-    }
-
-    isSubsequence(input: string, name: string) {
-        var inputSize = input.length
-        var nameSize = name.length;
-        var inputIndex = 0
-        var nameIndex = 0;
-
-        while (inputIndex < inputSize && nameIndex < nameSize) {
-            if (input.toLowerCase()[inputIndex] == name.toLowerCase()[nameIndex])
-                inputIndex++;
-            nameIndex++;
-        }
-
-        return inputIndex == inputSize;
-    }
-
     StudentContainer(student: IStudent) {
         return (
             <Box sx={{ m: 1 }}>
@@ -84,6 +54,12 @@ export default class FormSearch extends Component<IProps, IState>{
         );
     }
 
+    registerChange = (value: string) => {
+        this.setState({
+            studentsFiltered: studentSearch(this.state.students, value)
+        });
+    }
+
     render() {
         var array: Array<ReactNode> = [];
         this.state.studentsFiltered.forEach(student => {
@@ -92,8 +68,16 @@ export default class FormSearch extends Component<IProps, IState>{
 
         return (
             <Box>
-                <Input type="search" placeholder="Student name" sx={{ ml: 1 }} onChange={(e) => console.log(this.searchStudent(e.target.value))} />
-                <List style={{ maxHeight: 400, overflow: "auto" }}>
+                <TextField
+                    type="search"
+                    label="Enter name"
+                    sx={{ m: 1 }}
+                    onChange={
+                        (e) =>
+                            this.registerChange(e.target.value)
+                    }
+                />
+                <List style={{ height: "400px", width: "100%", overflow: "auto" }}>
                     {array}
                 </List>
             </Box>

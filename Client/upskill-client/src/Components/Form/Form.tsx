@@ -143,7 +143,6 @@ export default class Form extends Component<IProps, IState> {
     // Components
 
     // Creates an input field and assigns the callback function for registering the changes.
-
     InputFieldBuilder(property: string, placeholder: string, type: string = "text") {
         var jsxObject: ReactNode;
 
@@ -180,7 +179,7 @@ export default class Form extends Component<IProps, IState> {
             jsxObject =
                 <TextField
                     type={type}
-                    label={type != "date" ? placeholder : ""}
+                    label={type == "date" ? "" : placeholder}
                     value={this.state.currentStudent[property as keyof IStudent]}
                     // sx={type == "text" ? (property == "notes" ? gridNotesStyle : gridInputStyle) : gridDateStyle}
                     sx={property == "notes" ? gridNotesStyle : gridInputStyle}
@@ -215,19 +214,21 @@ export default class Form extends Component<IProps, IState> {
 
     render() {
         return (
-            // <Grid container>
-            // <Grid xs={2}>
-            //         <FormSearch callback={(student: IStudent) => this.handleStudentChange(student)} />
-            //     </Grid>
+            /* <Grid xs={2}>
+                <FormSearch callback={(student: IStudent) => this.handleStudentChange(student)} />
+            </Grid> */
             <Grid container alignItems="center" justifyItems="center" alignContent="center" justifyContent="center">
-                <Grid container xs="auto" sx={{ width: "75%" }}>
+                <Grid container xs={2}>
+                    <FormSearch callback={(student: IStudent) => this.handleStudentChange(student)} />
+                </Grid>
+                <Grid container xs={10} sx={{ width: "75%" }}>
                     <Grid xs="auto">
                         <Typography component="h2" variant="h6">
                             {this.state.operation == OperationMode.creation ? "Creating: " : "Updating: "}{this.state.currentStudent.firstName + " " + this.state.currentStudent.lastName}
                         </Typography>
                     </Grid>
                     <Grid container xs={12} spacing={1}>
-                        {/* 1st ROW: IDENTIFICATION AND PERSONAL DETAILS */}
+                        {/* 1st ROW: IDENTIFICATION AND PERSONAL DETAILS */}    
                         {this.InputFieldBuilder("firstName", "First name")}
                         {this.InputFieldBuilder("lastName", "Last name")}
                         {this.InputFieldBuilder("ethnicity", "Ethnicity")}
@@ -256,11 +257,10 @@ export default class Form extends Component<IProps, IState> {
                     <Grid xs={6} sx={gridButtonStyle}>
                         {this.OperationButton()}
                         {this.Button("Change operation", () => this.switchOperation())}
-                        {/* <button onClick={() => this.postStudent(createStudent())}>click</button> */ /* USED FOR GENERATING NEW STUDENT RECORDS */}
+                        {/* <button onClick={() => this.postStudent(createStudent())}>click</button> USED FOR GENERATING NEW STUDENT RECORDS */}
                     </Grid>
                 </Grid>
             </Grid>
-            // </Grid>
         );
     }
 }

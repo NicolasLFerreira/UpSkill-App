@@ -23,7 +23,9 @@ export default class FormPage extends Component<IProps, IState> {
         return (
             // {/* <FormModal createStudentCallback={(student: IStudentData) => this.studentPost(student)} /> */}{/* legacy code, may use it later though */}
             <Box>
-                <Form />
+                <Grid>
+                    <Form />
+                </Grid>
             </Box>
         );
     }
