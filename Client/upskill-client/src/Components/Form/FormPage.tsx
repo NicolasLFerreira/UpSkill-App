@@ -21,10 +21,8 @@ export default class FormPage extends Component<IProps, IState> {
 
     render() {
         return (
-            <Grid container sx={{ flexGrow: 1 }} justifyItems="center">
-                {/* <FormModal createStudentCallback={(student: IStudentData) => this.studentPost(student)} /> */}{/* legacy */}
-                <Form />
-            </Grid>
+            // {/* <FormModal createStudentCallback={(student: IStudentData) => this.studentPost(student)} /> */}{/* legacy code, may use it later though */}
+            <Form />
         );
     }
 }

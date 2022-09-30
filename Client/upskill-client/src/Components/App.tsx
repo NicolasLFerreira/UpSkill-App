@@ -1,9 +1,8 @@
 import React, { Component, Fragment, useState } from "react";
+import { Box } from "@mui/material";
 import { Outlet } from "react-router-dom";
 
-interface IProps { }
-
-export default function App(props: IProps) {
+export default function App() {
 	return (
 		<Fragment>
 			<main>

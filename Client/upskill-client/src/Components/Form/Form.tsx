@@ -172,7 +172,6 @@ export default class Form extends Component<IProps, IState> {
             }
 
             const gridDateStyle = {
-                // width: "19.5%"
                 m: 1,
                 width: "12.3%"
             }
@@ -210,50 +209,50 @@ export default class Form extends Component<IProps, IState> {
 
     render() {
         return (
-            <Box sx={{ maxHeight: "50%", ml: 12, mt: 3 }}>
-                <Grid container>
-                    <Grid xs={2}>
-                        <FormSearch callback={(student: IStudent) => this.handleStudentChange(student)} />
+            // <Box sx={{ maxHeight: "50%", ml: 12, mt: 3 }}>
+            // <Grid container>
+            // <Grid xs={2}>
+            //         <FormSearch callback={(student: IStudent) => this.handleStudentChange(student)} />
+            //     </Grid>
+            <Grid container alignItems="center" justifyItems="center" alignContent="center" justifyContent="center">
+                <Grid container xs="auto" sx={{ width: "75%" }}>
+                    <Grid xs="auto">
+                        <Typography sx={{ ml: 1 }} variant="h6" component="h2">
+                            {this.state.operation == OperationMode.creation ? "Creating: " : "Updating: "}{this.state.currentStudent.firstName + " " + this.state.currentStudent.lastName}
+                        </Typography>
                     </Grid>
-                    <Grid container xs={10}>
-                        <Grid xs={12}>
-                            <Typography variant="h6" component="h2">
-                                {this.state.operation == OperationMode.creation ? "Creating: " : "Updating: "}{this.state.currentStudent.firstName + " " + this.state.currentStudent.lastName}
-                            </Typography>
-                        </Grid>
-                        <Grid xs={12}>
-                            {this.InputFieldBuilder("firstName", "First name")}
-                            {this.InputFieldBuilder("lastName", "Last name")}
-                            {this.InputFieldBuilder("ethnicity", "Ethnicity")}
-                            {this.InputFieldBuilder("pronoun", "Pronoun")}
-                            {this.InputFieldBuilder("yearLevel", "Year Level")}
-                            {this.InputFieldBuilder("dob", "DOB", "date")}
-                        </Grid>
-                        <Grid xs={12}>
-                            {this.InputFieldBuilder("tutor", "Tutor")}
-                            {this.InputFieldBuilder("diagnosis", "Diagnosis")}
-                            {this.InputFieldBuilder("externalAgencies", "External Agencies")}
-                            {this.InputFieldBuilder("notes", "Notes")}
-                        </Grid>
-                        <Grid xs={12}>
-                            {this.InputFieldBuilder("links", "Links")}
-                            {this.InputFieldBuilder("kamarUpdates", "Kamar Updates")}
-                            {this.InputFieldBuilder("sacInfo", "SAC Info")}
-                            {this.InputFieldBuilder("otherInfo", "Other Info")}
-                        </Grid>
-                        <Grid xs={12}>
-                            {this.InputFieldBuilder("sac", "SAC", "select")}
-                            {this.InputFieldBuilder("areaOfNeed", "Area of Need", "select")}
-                            {this.InputFieldBuilder("response", "Response", "select")}
-                        </Grid>
-                        <Grid xs={6} sx={gridButtonStyle}>
-                            {this.OperationButton()}
-                            {this.Button("Change operation", () => this.switchOperation())}
-                            {/* <button onClick={() => this.postStudent(createStudent())}>click</button> */}
-                        </Grid>
+                    <Grid container xs={12}>
+                        {this.InputFieldBuilder("firstName", "First name")}
+                        {this.InputFieldBuilder("lastName", "Last name")}
+                        {this.InputFieldBuilder("ethnicity", "Ethnicity")}
+                        {this.InputFieldBuilder("pronoun", "Pronoun")}
+                        {this.InputFieldBuilder("yearLevel", "Year Level")}
+                        {this.InputFieldBuilder("dob", "DOB", "date")}
+
+                        {this.InputFieldBuilder("tutor", "Tutor")}
+                        {this.InputFieldBuilder("diagnosis", "Diagnosis")}
+                        {this.InputFieldBuilder("externalAgencies", "External Agencies")}
+                        {this.InputFieldBuilder("notes", "Notes")}
+
+                        {this.InputFieldBuilder("links", "Links")}
+                        {this.InputFieldBuilder("kamarUpdates", "Kamar Updates")}
+                        {this.InputFieldBuilder("sacInfo", "SAC Info")}
+                        {this.InputFieldBuilder("otherInfo", "Other Info")}
+                    </Grid>
+                    <Grid container xs={12}>
+                        {this.InputFieldBuilder("sac", "SAC", "select")}
+                        {this.InputFieldBuilder("areaOfNeed", "Area of Need", "select")}
+                        {this.InputFieldBuilder("response", "Response", "select")}
+                    </Grid>
+                    <Grid xs={6} sx={gridButtonStyle}>
+                        {this.OperationButton()}
+                        {this.Button("Change operation", () => this.switchOperation())}
+                        {/* <button onClick={() => this.postStudent(createStudent())}>click</button> */}
                     </Grid>
                 </Grid>
-            </Box>
+            </Grid>
+            // </Grid>
+            // </Box>
         );
     }
 }
