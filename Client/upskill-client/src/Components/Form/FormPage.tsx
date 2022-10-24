@@ -22,11 +22,7 @@ export default class FormPage extends Component<IProps, IState> {
     render() {
         return (
             // {/* <FormModal createStudentCallback={(student: IStudentData) => this.studentPost(student)} /> */}{/* legacy code, may use it later though */}
-            <Box>
-                <Grid>
-                    <Form />
-                </Grid>
-            </Box>
+            <Form />
         );
     }
 }

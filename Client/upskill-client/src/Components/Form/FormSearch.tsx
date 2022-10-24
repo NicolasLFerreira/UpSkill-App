@@ -48,7 +48,7 @@ export default class FormSearch extends Component<IProps, IState>{
         return (
             <Box sx={{ m: 1 }}>
                 <Button variant="contained" sx={{ width: "100%" }} onClick={() => this.props.callback(student)}>
-                    {student.studentId}: {student.firstName}, {student.lastName}
+                    {student.firstName}, {student.lastName}
                 </Button>
             </Box>
         );
@@ -67,17 +67,18 @@ export default class FormSearch extends Component<IProps, IState>{
         });
 
         return (
-            <Box>
+            <Box sx={{ display: "flex", flexDirection: "column", flexGrow: 1, minHeight: 0 }}>
                 <TextField
                     type="search"
-                    label="Enter name"
+                    label="Enter student name"
                     sx={{ m: 1 }}
+                    InputLabelProps={{ shrink: true }}
                     onChange={
                         (e) =>
                             this.registerChange(e.target.value)
                     }
                 />
-                <List style={{ height: "400px", width: "100%", overflow: "auto" }}>
+                <List style={{ width: "100%", overflow: "auto", flexGrow: 1, minHeight: 0 }}>
                     {array}
                 </List>
             </Box>

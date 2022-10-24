@@ -179,17 +179,19 @@ export default class Form extends Component<IProps, IState> {
             jsxObject =
                 <TextField
                     type={type}
-                    label={type == "date" ? "" : placeholder}
+                    label={placeholder}
                     value={this.state.currentStudent[property as keyof IStudent]}
                     // sx={type == "text" ? (property == "notes" ? gridNotesStyle : gridInputStyle) : gridDateStyle}
                     sx={property == "notes" ? gridNotesStyle : gridInputStyle}
                     variant="outlined"
+                    multiline={property == "notes"}
+                    InputLabelProps={type == "date" ? { shrink: true } : {}}
                     onChange={(event) => this.registerChange(property, event.target.value)}
                 />
         }
 
         return (
-            <Grid xs={property == "select" ? 4 : (property == "notes" ? 10 : 2)}>
+            <Grid xs={property == "select" ? 4 : (property == "notes" ? 12 : 4)}>
                 {jsxObject}
             </Grid>
         );
@@ -213,54 +215,60 @@ export default class Form extends Component<IProps, IState> {
     }
 
     render() {
+        const setHeight = "60vh";
+
         return (
             /* <Grid xs={2}>
                 <FormSearch callback={(student: IStudent) => this.handleStudentChange(student)} />
             </Grid> */
-            <Grid container alignItems="center" justifyItems="center" alignContent="center" justifyContent="center">
-                <Grid container xs={2}>
-                    <FormSearch callback={(student: IStudent) => this.handleStudentChange(student)} />
-                </Grid>
-                <Grid container xs={10} sx={{ width: "75%" }}>
-                    <Grid xs="auto">
-                        <Typography component="h2" variant="h6">
-                            {this.state.operation == OperationMode.creation ? "Creating: " : "Updating: "}{this.state.currentStudent.firstName + " " + this.state.currentStudent.lastName}
-                        </Typography>
+            <Box sx={{ height: setHeight, mt: 2 }}>
+                <Grid container alignContent="center" justifyContent="center">
+                    <Grid container xs={2} sx={{ backgroundColor: "#eceff1", height: setHeight, display: "flex", flexDirection: "column", p: 1 }}>
+                        <FormSearch callback={(student: IStudent) => this.handleStudentChange(student)} />
                     </Grid>
-                    <Grid container xs={12} spacing={1}>
-                        {/* 1st ROW: IDENTIFICATION AND PERSONAL DETAILS */}    
-                        {this.InputFieldBuilder("firstName", "First name")}
-                        {this.InputFieldBuilder("lastName", "Last name")}
-                        {this.InputFieldBuilder("ethnicity", "Ethnicity")}
-                        {this.InputFieldBuilder("pronoun", "Pronoun")}
-                        {this.InputFieldBuilder("yearLevel", "Year Level")}
-                        {this.InputFieldBuilder("dob", "DOB", "date")}
+                    <Grid container xs={10} rowSpacing={2} sx={{ width: "75%", ml: 1, p: 1 }}>
+                        <Box>
+                            <Grid xs="auto">
+                                <Typography component="h2" variant="h6">
+                                    {this.state.operation == OperationMode.creation ? "Creating: " : "Updating: "}{this.state.currentStudent.firstName + " " + this.state.currentStudent.lastName}
+                                </Typography>
+                            </Grid>
+                            <Grid container xs={12} spacing={2}>
+                                {/* 1st ROW: IDENTIFICATION AND PERSONAL DETAILS */}
+                                {this.InputFieldBuilder("firstName", "First name")}
+                                {this.InputFieldBuilder("lastName", "Last name")}
+                                {this.InputFieldBuilder("ethnicity", "Ethnicity")}
+                                {this.InputFieldBuilder("pronoun", "Pronoun")}
+                                {this.InputFieldBuilder("yearLevel", "Year Level")}
+                                {this.InputFieldBuilder("dob", "DOB", "date")}
 
-                        {/* 2nd ROW: EDUCATION AND DIAGNOSIS RELATED */}
-                        {this.InputFieldBuilder("tutor", "Tutor")}
-                        {this.InputFieldBuilder("diagnosis", "Diagnosis")}
-                        {this.InputFieldBuilder("externalAgencies", "External Agencies")}
-                        {this.InputFieldBuilder("links", "Links")}
-                        {this.InputFieldBuilder("kamarUpdates", "Kamar Updates")}
-                        {this.InputFieldBuilder("sacInfo", "SAC Info")}
+                                {/* 2nd ROW: EDUCATION AND DIAGNOSIS RELATED */}
+                                {this.InputFieldBuilder("tutor", "Tutor")}
+                                {this.InputFieldBuilder("diagnosis", "Diagnosis")}
+                                {this.InputFieldBuilder("externalAgencies", "External Agencies")}
+                                {this.InputFieldBuilder("links", "Links")}
+                                {this.InputFieldBuilder("kamarUpdates", "Kamar Updates")}
+                                {this.InputFieldBuilder("sacInfo", "SAC Info")}
 
-                        {/* 3rd ROW: MISC INFO */}
-                        {this.InputFieldBuilder("otherInfo", "Other Info")}
-                        {this.InputFieldBuilder("notes", "Notes")}
-                    </Grid>
-                    <Grid container xs={12} spacing={1} sx={{ mt: 1 }}>
-                        {/* 4th ROW: DROPDOWN MENUS */}
-                        {this.InputFieldBuilder("sac", "SAC", "select")}
-                        {this.InputFieldBuilder("areaOfNeed", "Area of Need", "select")}
-                        {this.InputFieldBuilder("response", "Response", "select")}
-                    </Grid>
-                    <Grid xs={6} sx={gridButtonStyle}>
-                        {this.OperationButton()}
-                        {this.Button("Change operation", () => this.switchOperation())}
-                        {/* <button onClick={() => this.postStudent(createStudent())}>click</button> USED FOR GENERATING NEW STUDENT RECORDS */}
+                                {/* 3rd ROW: MISC INFO */}
+                                {this.InputFieldBuilder("otherInfo", "Other Info")}
+                                {this.InputFieldBuilder("notes", "Notes")}
+                            </Grid>
+                            <Grid container xs={12} spacing={1} sx={{ mt: 1 }}>
+                                {/* 4th ROW: DROPDOWN MENUS */}
+                                {this.InputFieldBuilder("sac", "SAC", "select")}
+                                {this.InputFieldBuilder("areaOfNeed", "Area of Need", "select")}
+                                {this.InputFieldBuilder("response", "Response", "select")}
+                            </Grid>
+                            <Grid xs={6} sx={gridButtonStyle}>
+                                {this.OperationButton()}
+                                {this.Button("Change operation", () => this.switchOperation())}
+                                {/* <button onClick={() => this.postStudent(createStudent())}>click</button> USED FOR GENERATING NEW STUDENT RECORDS */}
+                            </Grid>
+                        </Box>
                     </Grid>
                 </Grid>
-            </Grid>
+            </Box >
         );
     }
 }
