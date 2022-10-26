@@ -4,8 +4,9 @@ import { default as Grid } from "@mui/material/Unstable_Grid2";
 import FormSelect from "./FormSelect";
 import IStudent from "../../types/IStudent";
 import StudentDataCrud from "../../services/StudentDataCrud";
-import { selectOptions, defaultStudentObject, ISelectOptions, emptyStudentObject, createStudent } from "../../utility/StudentUtility";
+import { selectOptions, ISelectOptions, emptyStudentObject, DynamicPropertySetter } from "../../utility/StudentUtility";
 import FormSearch from "./FormSearch";
+import { blueGrey } from "@mui/material/colors";
 
 // Styles
 
@@ -51,12 +52,12 @@ export default class Form extends Component<IProps, IState> {
     }
 
     componentDidMount() {
-        this.retrieveStudents();
+        this.getStudents();
     }
 
     // Axios instance stuff.
 
-    retrieveStudents = () => {
+    getStudents = () => {
         StudentDataCrud.getAll()
             .then((response: any) => {
                 this.setState({
@@ -79,6 +80,7 @@ export default class Form extends Component<IProps, IState> {
             .catch((e: Error) => {
                 console.log(e);
             });
+        this.getStudents();
     }
 
     putStudent(student: IStudent) {
@@ -92,19 +94,18 @@ export default class Form extends Component<IProps, IState> {
             });
     }
 
-    // For handling the student data.
-
     // Dynamically updates the properties of the state.currentStudent as it's typed in the input field.
     registerChange = (property: string, value: string | number): void => {
-        // Dynamically declares the key of an IStudentData object.
-        var object: IStudent = this.state.currentStudent;
-        var key: keyof IStudent = property as keyof IStudent;
+        // MOVED THIS CHUNK OF CODE TO ITS OWN THING IN StudentUtility.ts
+        // // Dynamically declares the key of an IStudentData object.
+        // var object: IStudent = this.state.currentStudent;
+        // var key: keyof IStudent = property as keyof IStudent;
 
-        // Updates the copy using the key and the given value.
-        object[key] = value as never;
+        // // Updates the copy using the key and the given value.
+        // object[key] = value as never;
 
         this.setState({
-            currentStudent: object
+            currentStudent: DynamicPropertySetter(this.state.currentStudent, property, value)
         });
         this.saved = false;
     }
@@ -114,14 +115,14 @@ export default class Form extends Component<IProps, IState> {
             this.setState({
                 currentStudent: student,
                 operation: OperationMode.update
-            })
+            });
         }
         else {
-            if (window.confirm("You have unsaved changes. Do you wish to continue?")) {
+            if (window.confirm("You have unsaved changes. Continue?")) {
                 this.setState({
                     currentStudent: student,
                     operation: OperationMode.update
-                })
+                });
                 this.saved = true;
             }
             else {
@@ -137,7 +138,7 @@ export default class Form extends Component<IProps, IState> {
             return {
                 operation: oldState.operation == OperationMode.creation ? OperationMode.update : OperationMode.creation
             }
-        })
+        });
     }
 
     // Components
@@ -162,8 +163,8 @@ export default class Form extends Component<IProps, IState> {
             />
         }
         else {
-            // DISCARDED AFTER I STARTED USING span={1} INSTEAD OF MARGIN. 
-            // CAN SIMPLY MAKE THE GRID ITEMS FILL THE ENTIRE SPACE. 
+            // DISCARDED AFTER I STARTED USING span={1} INSTEAD OF MARGIN.
+            // CAN SIMPLY MAKE THE GRID ITEMS FILL THE ENTIRE SPACE.
             // HERE IN CASE I NEED IT IN THE FUTURE.
             // var scale = 6;
             const gridInputStyle = {
@@ -197,10 +198,10 @@ export default class Form extends Component<IProps, IState> {
         );
     }
 
-    // Default button for the modal page
+    // Default button for the form page
     Button(text: string, callback: () => void) {
         return (
-            <Button variant="contained" onClick={() => callback()}>
+            <Button sx={{ backgroundColor: blueGrey[900] }} variant="contained" onClick={() => callback()}>
                 {text}
             </Button>
         );
@@ -216,14 +217,13 @@ export default class Form extends Component<IProps, IState> {
 
     render() {
         const setHeight = "60vh";
-
         return (
             /* <Grid xs={2}>
                 <FormSearch callback={(student: IStudent) => this.handleStudentChange(student)} />
             </Grid> */
             <Box sx={{ height: setHeight, mt: 2 }}>
                 <Grid container alignContent="center" justifyContent="center">
-                    <Grid container xs={2} sx={{ backgroundColor: "#eceff1", height: setHeight, display: "flex", flexDirection: "column", p: 1 }}>
+                    <Grid container xs={2} sx={{ backgroundColor: "#eceff1", height: setHeight, display: "flex", flexDirection: "column" }}>
                         <FormSearch callback={(student: IStudent) => this.handleStudentChange(student)} />
                     </Grid>
                     <Grid container xs={10} rowSpacing={2} sx={{ width: "75%", ml: 1, p: 1 }}>
@@ -237,10 +237,10 @@ export default class Form extends Component<IProps, IState> {
                                 {/* 1st ROW: IDENTIFICATION AND PERSONAL DETAILS */}
                                 {this.InputFieldBuilder("firstName", "First name")}
                                 {this.InputFieldBuilder("lastName", "Last name")}
+                                {this.InputFieldBuilder("dob", "DOB", "date")}
                                 {this.InputFieldBuilder("ethnicity", "Ethnicity")}
                                 {this.InputFieldBuilder("pronoun", "Pronoun")}
                                 {this.InputFieldBuilder("yearLevel", "Year Level")}
-                                {this.InputFieldBuilder("dob", "DOB", "date")}
 
                                 {/* 2nd ROW: EDUCATION AND DIAGNOSIS RELATED */}
                                 {this.InputFieldBuilder("tutor", "Tutor")}

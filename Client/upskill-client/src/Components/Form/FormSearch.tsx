@@ -4,14 +4,21 @@ import { default as Box } from "@mui/material/Unstable_Grid2/Grid2";
 import IStudent from "../../types/IStudent";
 import StudentDataCrud from "../../services/StudentDataCrud";
 import studentSearch from "../../studentSearch";
+import { blueGrey } from "@mui/material/colors";
+import SelectMultiple from "../SelectMultiple";
+import { studentProperties } from "../../utility/StudentUtility";
 
 interface IProps {
     callback: (student: IStudent) => void
 }
 interface IState {
     students: Array<IStudent>,
-    studentsFiltered: Array<IStudent>
+    studentsFiltered: Array<IStudent>,
+    propertiesFiltered: Array<string>,
+    searchString: string
 }
+
+const defaultFilteredProperties: Array<string> = ["firstName", "lastName"];
 
 export default class FormSearch extends Component<IProps, IState>{
     constructor(props: IProps) {
@@ -19,7 +26,9 @@ export default class FormSearch extends Component<IProps, IState>{
 
         this.state = {
             students: [],
-            studentsFiltered: []
+            studentsFiltered: [],
+            propertiesFiltered: defaultFilteredProperties,
+            searchString: ""
         }
     }
 
@@ -47,8 +56,8 @@ export default class FormSearch extends Component<IProps, IState>{
     StudentContainer(student: IStudent) {
         return (
             <Box sx={{ m: 1 }}>
-                <Button variant="contained" sx={{ width: "100%" }} onClick={() => this.props.callback(student)}>
-                    {student.firstName}, {student.lastName}
+                <Button variant="contained" sx={{ width: "100%", backgroundColor: blueGrey[700] }} onClick={() => this.props.callback(student)}>
+                    ({student.yearLevel}) {student.lastName}, {student.firstName}
                 </Button>
             </Box>
         );
@@ -56,8 +65,20 @@ export default class FormSearch extends Component<IProps, IState>{
 
     registerChange = (value: string) => {
         this.setState({
-            studentsFiltered: studentSearch(this.state.students, value)
+            studentsFiltered: studentSearch(this.state.students, value, this.state.propertiesFiltered),
+            searchString: value
         });
+    }
+
+    updateProperties = (properties: Array<string>) => {
+        // First declaration adds the default filter to the filtered properties.
+        // Maybe add a switch in the future so the user can decide which case should apply.
+        // var newProperties: Array<string> = properties.length == 0 ? defaultFilteredProperties : properties;
+        var newProperties: Array<string> = properties;
+        this.setState({
+            propertiesFiltered: newProperties,
+            studentsFiltered: studentSearch(this.state.students, this.state.searchString, newProperties)
+        })
     }
 
     render() {
@@ -78,6 +99,7 @@ export default class FormSearch extends Component<IProps, IState>{
                             this.registerChange(e.target.value)
                     }
                 />
+                {<SelectMultiple callback={(properties: Array<string>) => (this.updateProperties(properties))} items={studentProperties} tag="Properties" />}
                 <List style={{ width: "100%", overflow: "auto", flexGrow: 1, minHeight: 0 }}>
                     {array}
                 </List>

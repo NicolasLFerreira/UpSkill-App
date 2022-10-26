@@ -1,6 +1,27 @@
 import IStudent from "../types/IStudent";
 import IStudentDisplay from "../types/IStudentDisplay";
 
+export const studentProperties: Array<string> = [
+    "studentId",
+    "firstName",
+    "lastName",
+    "yearLevel",
+    "dob",
+    "ethnicity",
+    "tutor",
+    "areaOfNeed",
+    "diagnosis",
+    "externalAgencies",
+    "response",
+    "sac",
+    "notes",
+    "links",
+    "kamarUpdates",
+    "pronoun",
+    "sacInfo",
+    "otherInfo"
+]
+
 export var emptyStudentObject: IStudent = {
     studentId: 0,
     firstName: "",
@@ -88,5 +109,15 @@ export function createStudent() {
         "otherInfo": "string example"
     }
 
+    return object;
+}
+
+export function DynamicPropertySetter(student: IStudent, property: string, value: string | number): IStudent {
+    // Dynamically declares the key of an IStudentData object.
+    var object: IStudent = student;
+    var key: keyof IStudent = property as keyof IStudent;
+
+    // Updates the copy using the key and the given value.
+    object[key] = value as never;
     return object;
 }

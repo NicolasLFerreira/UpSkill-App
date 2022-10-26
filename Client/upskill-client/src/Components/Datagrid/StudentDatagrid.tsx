@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Box } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 import { DataGrid, GridColumns, gridClasses } from '@mui/x-data-grid';
 import { alpha, styled } from '@mui/material/styles';
 import IStudent from '../../types/IStudent';
@@ -95,7 +95,7 @@ export default class StudentDatagrid extends Component<IProps, IState> {
 
     render() {
         return (
-            <Box style={{ height: "90vh", width: "100%" }}>
+            <Box style={{ height: "80vh", width: "100%" }}>
                 <StripedDataGrid
                     rows={this.buildStudents()}
                     columns={columns}
