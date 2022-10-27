@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { MenuItem, OutlinedInput, Select, TextField } from "@mui/material";
+import { FormControl, InputLabel, MenuItem, OutlinedInput, Select, TextField } from "@mui/material";
 
 interface IProps {
     value: number,
@@ -27,13 +27,15 @@ export default function FormSelect(props: IProps) {
     });
 
     return (
-        <Select
-            sx={{ width: "100%" }}
-            input={<OutlinedInput label={"shit"} />}
-            value={state.value}
-            onChange={handleChange}
-        >
-            {menuItems}
-        </Select>
+        <FormControl sx={{ width: "100%" }}>
+            <InputLabel>{props.label}</InputLabel>
+            <Select
+                input={<OutlinedInput label={props.label} />}
+                value={state.value}
+                onChange={handleChange}
+            >
+                {menuItems}
+            </Select>
+        </FormControl>
     );
 }
