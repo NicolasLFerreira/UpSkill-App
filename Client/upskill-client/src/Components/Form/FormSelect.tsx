@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { MenuItem, TextField } from "@mui/material";
+import { MenuItem, OutlinedInput, Select, TextField } from "@mui/material";
 
 interface IProps {
     value: number,
@@ -9,7 +9,7 @@ interface IProps {
 }
 
 export default function FormSelect(props: IProps) {
-    const [state, setState] = useState({ value: -1 })
+    const [state, setState] = useState({ value: 0 })
     // const forceUpdate = React.useReducer(() => ({}), {})[1] as () => void
 
     const handleChange = (event: any) => {
@@ -18,23 +18,22 @@ export default function FormSelect(props: IProps) {
         props.callback(value);
     }
 
-    // useEffect(() => {
-    //     setState((state) => ({ ...state, value: props.value }));
-    // }, [props.value])
+    useEffect(() => {
+        setState((state) => ({ ...state, value: props.value }));
+    }, [props.value]);
 
     const menuItems: Array<React.ReactNode> = props.items.map((item, index) => {
         return <MenuItem value={index}>{item}</MenuItem>
     });
 
     return (
-        <TextField
-            select
+        <Select
             sx={{ width: "100%" }}
+            input={<OutlinedInput label={"shit"} />}
             value={state.value}
-            label={props.label}
             onChange={handleChange}
         >
             {menuItems}
-        </TextField>
+        </Select>
     );
 }

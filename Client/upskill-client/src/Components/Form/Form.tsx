@@ -4,7 +4,7 @@ import { default as Grid } from "@mui/material/Unstable_Grid2";
 import FormSelect from "./FormSelect";
 import IStudent from "../../types/IStudent";
 import StudentDataCrud from "../../services/StudentDataCrud";
-import { selectOptions, ISelectOptions, emptyStudentObject, DynamicPropertySetter } from "../../utility/StudentUtility";
+import { selectOptions, ISelectOptions, emptyStudentObject, DynamicPropertySetter, createStudent } from "../../utility/StudentUtility";
 import FormSearch from "./FormSearch";
 import { blueGrey } from "@mui/material/colors";
 
@@ -68,7 +68,6 @@ export default class Form extends Component<IProps, IState> {
             .catch((e: Error) => {
                 console.log(e);
             });
-        return this;
     }
 
     postStudent(student: IStudent) {
@@ -92,6 +91,7 @@ export default class Form extends Component<IProps, IState> {
             .catch((e: Error) => {
                 console.log(e);
             });
+        this.getStudents();
     }
 
     // Dynamically updates the properties of the state.currentStudent as it's typed in the input field.
@@ -134,6 +134,7 @@ export default class Form extends Component<IProps, IState> {
     // Utility
 
     switchOperation = () => {
+        console.log(this.state.operation);
         this.setState((oldState) => {
             return {
                 operation: oldState.operation == OperationMode.creation ? OperationMode.update : OperationMode.creation
@@ -210,8 +211,8 @@ export default class Form extends Component<IProps, IState> {
     OperationButton() {
         return (
             this.state.operation == OperationMode.creation ?
-                this.Button("Create student", () => this.postStudent(this.state.currentStudent)) :
-                this.Button("Update student", () => this.putStudent(this.state.currentStudent))
+                this.Button("Create", () => this.postStudent(this.state.currentStudent)) :
+                this.Button("Save changes", () => this.putStudent(this.state.currentStudent))
         );
     }
 
