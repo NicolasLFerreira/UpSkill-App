@@ -21,8 +21,7 @@ const MenuProps = {
 interface IProps {
     callback: (values: Array<string>) => void,
     items: Array<string>,
-    tag: string,
-
+    label: string,
 }
 
 export default function MultipleSelectCheckmarks(props: IProps) {
@@ -40,13 +39,13 @@ export default function MultipleSelectCheckmarks(props: IProps) {
     };
 
     return (
-        <FormControl sx={{ m: 1, width: 300 }}>
-            <InputLabel>{props.tag}</InputLabel>
+        <FormControl sx={{ width: 300 }}>
+            <InputLabel>{props.label}</InputLabel>
             <Select
                 multiple
                 value={state}
                 onChange={handleChange}
-                input={<OutlinedInput label={props.tag} />}
+                input={<OutlinedInput label={props.label} inputProps={{ height: 3 / 4 }} />}
                 renderValue={(selected) => selected.join(", ")}
                 MenuProps={MenuProps}
             >

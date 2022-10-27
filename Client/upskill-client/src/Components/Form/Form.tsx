@@ -178,24 +178,25 @@ export default class Form extends Component<IProps, IState> {
                 // width: (100 / 6 * scale).toString() + "%"
             }
 
-            jsxObject =
+            jsxObject = (
                 <TextField
                     type={type}
                     label={placeholder}
-                    value={this.state.currentStudent[property as keyof IStudent]}
+                    // value={this.state.currentStudent[property as keyof IStudent]}
                     // sx={type == "text" ? (property == "notes" ? gridNotesStyle : gridInputStyle) : gridDateStyle}
                     sx={property == "notes" ? gridNotesStyle : gridInputStyle}
                     variant="outlined"
                     multiline={property == "notes"}
                     InputLabelProps={type == "date" ? { shrink: true } : {}}
+                    // onBlur={(event) => this.registerChange(property, event.target.value)}
                     onChange={(event) => this.registerChange(property, event.target.value)}
-                />
+                />);
         }
 
         return (
             <Grid xs={property == "select" ? 4 : (property == "notes" ? 12 : 4)}>
                 {jsxObject}
-            </Grid>
+            </Grid >
         );
     }
 

@@ -99,7 +99,7 @@ export default class FormSearch extends Component<IProps, IState>{
                             this.registerChange(e.target.value)
                     }
                 />
-                {<SelectMultiple callback={(properties: Array<string>) => (this.updateProperties(properties))} items={studentProperties} tag="Properties" />}
+                {<SelectMultiple callback={(properties: Array<string>) => (this.updateProperties(properties))} items={studentProperties} label="Properties" />}
                 <List style={{ width: "100%", overflow: "auto", flexGrow: 1, minHeight: 0 }}>
                     {array}
                 </List>

@@ -61,23 +61,24 @@ export default class DatabasePage extends Component<IProps, IState> {
         this.setState({
             propertiesFiltered: (properties),
             studentsFiltered: studentSearch(this.state.students, this.state.searchString, properties)
-        })
+        });
     }
 
     render() {
         return (
             <Grid container justifyContent="center" alignContent="center" justifyItems="center" alignItems="center">
-                <Grid container xs={12}>
+                <Grid container xs={12} spacing={1} sx={{ my: 1 }}>
                     <Grid xs={2}>
                         <TextField
                             variant="outlined"
                             label="Filter"
+                            // onBlur={() => console.log("SHIT AND PISS")}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.registerChange(e.target.value)}
                         />
                     </Grid>
                     <Grid xs={2}>
                         {<SelectMultiple
-                            tag="Properties"
+                            label="Properties"
                             items={studentProperties}
                             callback={(properties: Array<string>) => (this.updateProperties(properties))}
                         />}
