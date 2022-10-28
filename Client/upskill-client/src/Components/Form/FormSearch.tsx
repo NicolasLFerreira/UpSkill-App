@@ -7,6 +7,7 @@ import studentSearch from "../../studentSearch";
 import { blueGrey } from "@mui/material/colors";
 import SelectMultiple from "../SelectMultiple";
 import { studentProperties } from "../../utility/StudentUtility";
+import StudentFilter from "../StudentFilter";
 
 interface IProps {
     callback: (student: IStudent) => void
@@ -63,10 +64,9 @@ export default class FormSearch extends Component<IProps, IState>{
         );
     }
 
-    registerChange = (value: string) => {
+    registerChange = (students: Array<IStudent>) => {
         this.setState({
-            studentsFiltered: studentSearch(this.state.students, value, this.state.propertiesFiltered),
-            searchString: value
+            studentsFiltered: students
         });
     }
 
@@ -89,7 +89,7 @@ export default class FormSearch extends Component<IProps, IState>{
 
         return (
             <Box sx={{ display: "flex", flexDirection: "column", flexGrow: 1, minHeight: 0 }}>
-                <TextField
+                {/* <TextField
                     type="search"
                     label="Enter student name"
                     sx={{ m: 1 }}
@@ -99,7 +99,8 @@ export default class FormSearch extends Component<IProps, IState>{
                             this.registerChange(e.target.value)
                     }
                 />
-                {<SelectMultiple callback={(properties: Array<string>) => (this.updateProperties(properties))} items={studentProperties} label="Properties" />}
+                {<SelectMultiple callback={(properties: Array<string>) => (this.updateProperties(properties))} items={studentProperties} label="Properties" />} */}
+                <StudentFilter callback={(students: Array<IStudent>) => this.registerChange(students)} mode={false} />
                 <List style={{ width: "100%", overflow: "auto", flexGrow: 1, minHeight: 0 }}>
                     {array}
                 </List>

@@ -45,7 +45,7 @@ export default function MultipleSelectCheckmarks(props: IProps) {
                 multiple
                 value={state}
                 onChange={handleChange}
-                input={<OutlinedInput label={props.label} inputProps={{ height: 3 / 4 }} />}
+                input={<OutlinedInput label={props.label} />}
                 renderValue={(selected) => selected.join(", ")}
                 MenuProps={MenuProps}
             >

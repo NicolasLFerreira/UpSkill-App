@@ -7,6 +7,7 @@ import { default as Grid } from "@mui/material/Unstable_Grid2";
 import StudentDatagrid from "./StudentDatagrid";
 import { studentProperties } from "../../utility/StudentUtility";
 import SelectMultiple from "../SelectMultiple";
+import StudentFilter from "../StudentFilter";
 
 interface IProps { }
 interface IState {
@@ -50,11 +51,10 @@ export default class DatabasePage extends Component<IProps, IState> {
             });
     }
 
-    registerChange = (value: string) => {
+    registerChange = (students: Array<IStudent>) => {
         // this.state.propertiesFiltered.length == 0 ? defaultFilteredProperties : this.state.propertiesFiltered
         this.setState({
-            studentsFiltered: studentSearch(this.state.students, value, this.state.propertiesFiltered),
-            searchString: value
+            studentsFiltered: students
         });
     }
 
@@ -69,7 +69,7 @@ export default class DatabasePage extends Component<IProps, IState> {
         return (
             <Grid container justifyContent="center" alignContent="center" justifyItems="center" alignItems="center">
                 <Grid container xs={12} spacing={1} sx={{ my: 1 }}>
-                    <Grid xs={2}>
+                    {/* <Grid xs={2}>
                         <TextField
                             variant="outlined"
                             label="Filter"
@@ -83,7 +83,8 @@ export default class DatabasePage extends Component<IProps, IState> {
                             items={studentProperties}
                             callback={(properties: Array<string>) => (this.updateProperties(properties))}
                         />}
-                    </Grid>
+                    </Grid> */}
+                    <StudentFilter callback={(students: Array<IStudent>) => this.registerChange(students)} mode={true} />
                 </Grid>
                 <Grid xs={12}>
                     <StudentDatagrid students={this.state.studentsFiltered} />
