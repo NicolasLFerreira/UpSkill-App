@@ -1,16 +1,17 @@
-import React, { ChangeEvent, Component, ReactNode } from "react";
-import { List, Button, TextField } from "@mui/material";
-import { default as Box } from "@mui/material/Unstable_Grid2/Grid2";
-import IStudent from "../../types/IStudent";
-import StudentDataCrud from "../../services/StudentDataCrud";
-import studentSearch from "../../studentSearch";
-import { blueGrey } from "@mui/material/colors";
-import SelectMultiple from "../SelectMultiple";
-import { studentProperties } from "../../utility/StudentUtility";
+import { Box, TextField } from "@mui/material";
+import { default as Grid } from "@mui/material/Unstable_Grid2";
+import React, { Component, Fragment } from "react";
+import StudentDataCrud from "../services/StudentDataCrud";
+import studentSearch from "../studentSearch";
+import IStudent from "../types/IStudent";
+import { studentProperties } from "../utility/StudentUtility";
+import SelectMultiple from "./SelectMultiple";
 
 interface IProps {
-    callback: (student: IStudent) => void
+    callback: (studentsFiltered: Array<IStudent>) => void,
+    mode: boolean
 }
+
 interface IState {
     students: Array<IStudent>,
     studentsFiltered: Array<IStudent>,
@@ -18,9 +19,9 @@ interface IState {
     searchString: string
 }
 
-const defaultFilteredProperties: Array<string> = ["firstName", "lastName"];
+const defaultFilteredProperties = ["firstName", "lastName"];
 
-export default class FormSearch extends Component<IProps, IState>{
+export default class StudentFilter extends Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
 
@@ -53,21 +54,13 @@ export default class FormSearch extends Component<IProps, IState>{
         return this;
     }
 
-    StudentContainer(student: IStudent) {
-        return (
-            <Box sx={{ m: 1 }}>
-                <Button variant="contained" sx={{ width: "100%", backgroundColor: blueGrey[700] }} onClick={() => this.props.callback(student)}>
-                    ({student.yearLevel}) {student.lastName}, {student.firstName}
-                </Button>
-            </Box>
-        );
-    }
-
     registerChange = (value: string) => {
         this.setState({
             studentsFiltered: studentSearch(this.state.students, value, this.state.propertiesFiltered),
             searchString: value
         });
+
+        this.props.callback(this.state.studentsFiltered);
     }
 
     updateProperties = (properties: Array<string>) => {
@@ -78,17 +71,14 @@ export default class FormSearch extends Component<IProps, IState>{
         this.setState({
             propertiesFiltered: newProperties,
             studentsFiltered: studentSearch(this.state.students, this.state.searchString, newProperties)
-        });
+        })
+
+        this.props.callback(this.state.studentsFiltered);
     }
 
-    render() {
-        var array: Array<ReactNode> = [];
-        this.state.studentsFiltered.forEach(student => {
-            array.push(this.StudentContainer(student));
-        });
-
+    FormLayout() {
         return (
-            <Box sx={{ display: "flex", flexDirection: "column", flexGrow: 1, minHeight: 0 }}>
+            <Fragment>
                 <TextField
                     type="search"
                     label="Enter student name"
@@ -99,11 +89,45 @@ export default class FormSearch extends Component<IProps, IState>{
                             this.registerChange(e.target.value)
                     }
                 />
-                {<SelectMultiple callback={(properties: Array<string>) => (this.updateProperties(properties))} items={studentProperties} label="Properties" />}
-                <List style={{ width: "100%", overflow: "auto", flexGrow: 1, minHeight: 0 }}>
-                    {array}
-                </List>
-            </Box>
+                <SelectMultiple
+                    label="Properties"
+                    items={studentProperties}
+                    callback={
+                        (properties: Array<string>) =>
+                            (this.updateProperties(properties))
+                    }
+                />
+            </Fragment>
+        );
+    }
+
+    DatabaseLayout() {
+        return (
+            <Fragment>
+                <Grid xs={2}>
+                    <TextField
+                        variant="outlined"
+                        label="Filter"
+                        // onBlur={() => console.log("SHIT AND PISS")}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.registerChange(e.target.value)}
+                    />
+                </Grid>
+                <Grid xs={2}>
+                    {<SelectMultiple
+                        label="Properties"
+                        items={studentProperties}
+                        callback={(properties: Array<string>) => (this.updateProperties(properties))}
+                    />}
+                </Grid>
+            </Fragment>
+        );
+    }
+
+    render() {
+        return (
+            <Fragment>
+                {this.props.mode ? this.DatabaseLayout() : this.FormLayout()}
+            </Fragment>
         );
     }
 }

@@ -7,6 +7,7 @@ import StudentDataCrud from "../../services/StudentDataCrud";
 import { selectOptions, ISelectOptions, emptyStudentObject, DynamicPropertySetter, createStudent } from "../../utility/StudentUtility";
 import FormSearch from "./FormSearch";
 import { blueGrey } from "@mui/material/colors";
+import StudentFilter from "../StudentFilter";
 
 // Styles
 
@@ -182,7 +183,7 @@ export default class Form extends Component<IProps, IState> {
                 <TextField
                     type={type}
                     label={placeholder}
-                    // value={this.state.currentStudent[property as keyof IStudent]}
+                    value={this.state.currentStudent[property as keyof IStudent]}
                     // sx={type == "text" ? (property == "notes" ? gridNotesStyle : gridInputStyle) : gridDateStyle}
                     sx={property == "notes" ? gridNotesStyle : gridInputStyle}
                     variant="outlined"

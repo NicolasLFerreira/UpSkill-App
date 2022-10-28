@@ -51,8 +51,9 @@ export default class DatabasePage extends Component<IProps, IState> {
     }
 
     registerChange = (value: string) => {
+        // this.state.propertiesFiltered.length == 0 ? defaultFilteredProperties : this.state.propertiesFiltered
         this.setState({
-            studentsFiltered: studentSearch(this.state.students, value, this.state.propertiesFiltered.length == 0 ? defaultFilteredProperties : this.state.propertiesFiltered),
+            studentsFiltered: studentSearch(this.state.students, value, this.state.propertiesFiltered),
             searchString: value
         });
     }
