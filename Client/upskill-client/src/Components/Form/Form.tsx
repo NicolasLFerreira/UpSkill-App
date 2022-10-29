@@ -6,7 +6,8 @@ import IStudent from "../../types/IStudent";
 import StudentDataCrud from "../../services/StudentDataCrud";
 import { selectOptions, ISelectOptions, emptyStudentObject, DynamicPropertySetter, createStudent } from "../../utility/StudentUtility";
 import FormSearch from "./FormSearch";
-import { blueGrey } from "@mui/material/colors";
+import { blue, blueGrey, green, red } from "@mui/material/colors";
+import { waitFor } from "@testing-library/react";
 
 // Boilerplate stuff
 
@@ -48,7 +49,7 @@ export default class Form extends Component<IProps, IState> {
         this.getStudents();
     }
 
-    // Get student data
+    // API calls
 
     getStudents = () => {
         StudentDataCrud.getAll()
@@ -73,7 +74,7 @@ export default class Form extends Component<IProps, IState> {
             .catch((e: Error) => {
                 console.log(e);
             });
-        this.getStudents();
+        this.forceUpdate();
     }
 
     putStudent(student: IStudent) {
@@ -86,6 +87,27 @@ export default class Form extends Component<IProps, IState> {
                 console.log(e);
             });
         this.getStudents();
+    }
+
+    deleteStudent(student: IStudent) {
+        this.saved = true;
+        StudentDataCrud.delete(student.studentId!)
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((e: Error) => {
+                console.log(e);
+            })
+            .then(() => this.reload());
+    }
+
+    // Reloads the form page
+
+    reload = () => {
+        this.setState(emptyState);
+        this.saved = true;
+        this.getStudents();
+        this.forceUpdate();
     }
 
     // Dynamically updates the properties of the state.currentStudent as it's typed in the input field.
@@ -194,9 +216,18 @@ export default class Form extends Component<IProps, IState> {
     }
 
     // Default button for the form page
-    Button(text: string, callback: () => void) {
+    Button(text: string, callback: () => void, color: any = blueGrey[900]) {
         return (
-            <Button sx={{ backgroundColor: blueGrey[900], m: 1, ml: 0, width: 0.35 }} variant="contained" onClick={() => callback()}>
+            <Button
+                sx={{
+                    backgroundColor: color,
+                    width: 0.20,
+                    m: 1,
+                    ml: 0
+                }}
+                variant="contained"
+                onClick={callback}
+            >
                 {text}
             </Button>
         );
@@ -205,8 +236,8 @@ export default class Form extends Component<IProps, IState> {
     OperationButton() {
         return (
             this.state.operation == OperationMode.creation ?
-                this.Button("Create", () => this.postStudent(this.state.currentStudent)) :
-                this.Button("Save changes", () => this.putStudent(this.state.currentStudent))
+                this.Button("Create", () => this.postStudent(this.state.currentStudent), green[900]) :
+                this.Button("Save changes", () => this.putStudent(this.state.currentStudent), green[900])
         );
     }
 
@@ -255,9 +286,10 @@ export default class Form extends Component<IProps, IState> {
                                 {this.InputFieldBuilder("areaOfNeed", "Area of Need", "select")}
                                 {this.InputFieldBuilder("response", "Response", "select")}
                             </Grid>
-                            <Grid xs={6} >
+                            <Grid xs={12} >
                                 {this.OperationButton()}
-                                {this.Button("Change operation", () => this.switchOperation())}
+                                {this.Button("change operation", () => this.switchOperation(), blue[900])}
+                                {this.Button("delete student", () => this.deleteStudent(this.state.currentStudent), red[900])}
                                 {/* <button onClick={() => this.postStudent(createStudent())}>click</button> USED FOR GENERATING NEW STUDENT RECORDS */}
                             </Grid>
                         </Box>
