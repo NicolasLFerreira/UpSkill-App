@@ -7,14 +7,6 @@ import StudentDataCrud from "../../services/StudentDataCrud";
 import { selectOptions, ISelectOptions, emptyStudentObject, DynamicPropertySetter, createStudent } from "../../utility/StudentUtility";
 import FormSearch from "./FormSearch";
 import { blueGrey } from "@mui/material/colors";
-import StudentFilter from "../StudentFilter";
-
-// Styles
-
-const gridButtonStyle = {
-    justifyContent: "left",
-    m: 1
-}
 
 // Boilerplate stuff
 
@@ -72,6 +64,7 @@ export default class Form extends Component<IProps, IState> {
     }
 
     postStudent(student: IStudent) {
+        student.studentId = undefined;
         this.saved = true;
         StudentDataCrud.post(student)
             .then((response) => {
@@ -135,7 +128,6 @@ export default class Form extends Component<IProps, IState> {
     // Utility
 
     switchOperation = () => {
-        console.log(this.state.operation);
         this.setState((oldState) => {
             return {
                 operation: oldState.operation == OperationMode.creation ? OperationMode.update : OperationMode.creation
@@ -204,7 +196,7 @@ export default class Form extends Component<IProps, IState> {
     // Default button for the form page
     Button(text: string, callback: () => void) {
         return (
-            <Button sx={{ backgroundColor: blueGrey[900] }} variant="contained" onClick={() => callback()}>
+            <Button sx={{ backgroundColor: blueGrey[900], m: 1, ml: 0, width: 0.35 }} variant="contained" onClick={() => callback()}>
                 {text}
             </Button>
         );
@@ -263,7 +255,7 @@ export default class Form extends Component<IProps, IState> {
                                 {this.InputFieldBuilder("areaOfNeed", "Area of Need", "select")}
                                 {this.InputFieldBuilder("response", "Response", "select")}
                             </Grid>
-                            <Grid xs={6} sx={gridButtonStyle}>
+                            <Grid xs={6} >
                                 {this.OperationButton()}
                                 {this.Button("Change operation", () => this.switchOperation())}
                                 {/* <button onClick={() => this.postStudent(createStudent())}>click</button> USED FOR GENERATING NEW STUDENT RECORDS */}
