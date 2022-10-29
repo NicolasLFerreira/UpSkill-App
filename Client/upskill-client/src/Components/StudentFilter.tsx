@@ -37,7 +37,7 @@ export default class StudentFilter extends Component<IProps, IState> {
         this.retrieveStudents();
     }
 
-    // Axios instance handling
+    // Get student data
 
     retrieveStudents = () => {
         StudentDataCrud.getAll()
@@ -68,6 +68,7 @@ export default class StudentFilter extends Component<IProps, IState> {
         // First declaration adds the default filter to the filtered properties.
         // Maybe add a switch in the future so the user can decide which case should apply.
         // var newProperties: Array<string> = properties.length == 0 ? defaultFilteredProperties : properties;
+
         var newProperties: Array<string> = properties;
         this.setState({
             propertiesFiltered: newProperties,
@@ -109,6 +110,7 @@ export default class StudentFilter extends Component<IProps, IState> {
                     <TextField
                         variant="outlined"
                         label="Filter"
+                        sx={{ m: 1, ml: 0 }}
                         // onBlur={() => console.log("SHIT AND PISS")}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.registerChange(e.target.value)}
                     />

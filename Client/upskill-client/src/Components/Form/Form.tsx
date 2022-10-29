@@ -56,7 +56,7 @@ export default class Form extends Component<IProps, IState> {
         this.getStudents();
     }
 
-    // Axios instance stuff.
+    // Get student data
 
     getStudents = () => {
         StudentDataCrud.getAll()

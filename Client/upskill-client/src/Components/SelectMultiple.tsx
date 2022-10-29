@@ -7,7 +7,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Checkbox from "@mui/material/Checkbox";
 
-const ITEM_HEIGHT = 48;
+const ITEM_HEIGHT = 96;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
     PaperProps: {
@@ -39,7 +39,7 @@ export default function MultipleSelectCheckmarks(props: IProps) {
     };
 
     return (
-        <FormControl sx={{ width: 300 }}>
+        <FormControl sx={{ m: 1 }}>
             <InputLabel>{props.label}</InputLabel>
             <Select
                 multiple

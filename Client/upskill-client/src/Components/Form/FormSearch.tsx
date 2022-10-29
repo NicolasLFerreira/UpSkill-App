@@ -37,7 +37,7 @@ export default class FormSearch extends Component<IProps, IState>{
         this.retrieveStudents();
     }
 
-    // Axios instance handling
+    // Get student data
 
     retrieveStudents = () => {
         StudentDataCrud.getAll()
@@ -70,17 +70,6 @@ export default class FormSearch extends Component<IProps, IState>{
         });
     }
 
-    updateProperties = (properties: Array<string>) => {
-        // First declaration adds the default filter to the filtered properties.
-        // Maybe add a switch in the future so the user can decide which case should apply.
-        // var newProperties: Array<string> = properties.length == 0 ? defaultFilteredProperties : properties;
-        var newProperties: Array<string> = properties;
-        this.setState({
-            propertiesFiltered: newProperties,
-            studentsFiltered: studentSearch(this.state.students, this.state.searchString, newProperties)
-        });
-    }
-
     render() {
         var array: Array<ReactNode> = [];
         this.state.studentsFiltered.forEach(student => {
@@ -89,18 +78,8 @@ export default class FormSearch extends Component<IProps, IState>{
 
         return (
             <Box sx={{ display: "flex", flexDirection: "column", flexGrow: 1, minHeight: 0 }}>
-                {/* <TextField
-                    type="search"
-                    label="Enter student name"
-                    sx={{ m: 1 }}
-                    InputLabelProps={{ shrink: true }}
-                    onChange={
-                        (e) =>
-                            this.registerChange(e.target.value)
-                    }
-                />
-                {<SelectMultiple callback={(properties: Array<string>) => (this.updateProperties(properties))} items={studentProperties} label="Properties" />} */}
-                <StudentFilter callback={(students: Array<IStudent>) => this.registerChange(students)} mode={false} />
+                <StudentFilter
+                    callback={(students: Array<IStudent>) => this.registerChange(students)} mode={false} />
                 <List style={{ width: "100%", overflow: "auto", flexGrow: 1, minHeight: 0 }}>
                     {array}
                 </List>
