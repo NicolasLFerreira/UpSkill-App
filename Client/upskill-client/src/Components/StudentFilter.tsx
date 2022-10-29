@@ -1,4 +1,4 @@
-import { Box, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import { default as Grid } from "@mui/material/Unstable_Grid2";
 import React, { Component, Fragment } from "react";
 import StudentDataCrud from "../services/StudentDataCrud";
@@ -54,6 +54,8 @@ export default class StudentFilter extends Component<IProps, IState> {
         return this;
     }
 
+    // State handling
+
     registerChange = (value: string) => {
         var students: Array<IStudent> = studentSearch(this.state.students, value, this.state.propertiesFiltered)
         this.setState({
@@ -78,58 +80,54 @@ export default class StudentFilter extends Component<IProps, IState> {
         this.props.callback(this.state.studentsFiltered);
     }
 
-    FormLayout() {
+    // Components
+
+    SearchInput() {
         return (
-            <Fragment>
-                <TextField
-                    type="search"
-                    label="Enter student name"
-                    sx={{ m: 1 }}
-                    InputLabelProps={{ shrink: true }}
-                    onChange={
-                        (e) =>
-                            this.registerChange(e.target.value)
-                    }
-                />
-                <SelectMultiple
-                    label="Properties"
-                    items={studentProperties}
-                    callback={
-                        (properties: Array<string>) =>
-                            (this.updateProperties(properties))
-                    }
-                />
-            </Fragment>
+            <TextField
+                type="search"
+                label="Enter student name"
+                sx={{ m: 1 }}
+                InputLabelProps={{ shrink: true }}
+                onChange={
+                    (e) =>
+                        this.registerChange(e.target.value)
+                }
+            />
         );
     }
 
-    DatabaseLayout() {
+    SelectInput() {
         return (
-            <Fragment>
-                <Grid xs={2}>
-                    <TextField
-                        variant="outlined"
-                        label="Filter"
-                        sx={{ m: 1, ml: 0 }}
-                        // onBlur={() => console.log("SHIT AND PISS")}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.registerChange(e.target.value)}
-                    />
-                </Grid>
-                <Grid xs={2}>
-                    {<SelectMultiple
-                        label="Properties"
-                        items={studentProperties}
-                        callback={(properties: Array<string>) => (this.updateProperties(properties))}
-                    />}
-                </Grid>
-            </Fragment>
+            <SelectMultiple
+                label="Properties"
+                items={studentProperties}
+                callback={
+                    (properties: Array<string>) =>
+                        (this.updateProperties(properties))
+                }
+            />
         );
     }
 
     render() {
         return (
             <Fragment>
-                {this.props.mode ? this.DatabaseLayout() : this.FormLayout()}
+                {
+                    this.props.mode ?
+                        <Fragment>
+                            <Grid xs={2}>
+                                {this.SearchInput()}
+                            </Grid>
+                            <Grid xs={2}>
+                                {this.SelectInput()}
+                            </Grid>
+                        </Fragment> :
+                        <Fragment>
+                            {this.SearchInput()}
+                            {this.SelectInput()}
+                        </Fragment>
+                }
             </Fragment>
         );
     }

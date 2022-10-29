@@ -39,10 +39,11 @@ export default function MultipleSelectCheckmarks(props: IProps) {
     };
 
     return (
-        <FormControl sx={{ m: 1 }}>
+        <FormControl>
             <InputLabel>{props.label}</InputLabel>
             <Select
                 multiple
+                sx={{ m: 1 }}
                 value={state}
                 onChange={handleChange}
                 input={<OutlinedInput label={props.label} />}
