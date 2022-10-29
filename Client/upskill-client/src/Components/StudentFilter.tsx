@@ -72,12 +72,13 @@ export default class StudentFilter extends Component<IProps, IState> {
         // var newProperties: Array<string> = properties.length == 0 ? defaultFilteredProperties : properties;
 
         var newProperties: Array<string> = properties;
+        var students: Array<IStudent> = studentSearch(this.state.students, this.state.searchString, properties)
         this.setState({
             propertiesFiltered: newProperties,
-            studentsFiltered: studentSearch(this.state.students, this.state.searchString, newProperties)
+            studentsFiltered: students
         })
 
-        this.props.callback(this.state.studentsFiltered);
+        this.props.callback(students);
     }
 
     // Components
