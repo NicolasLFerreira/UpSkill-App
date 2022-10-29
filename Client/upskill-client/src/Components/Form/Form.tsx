@@ -1,12 +1,12 @@
 import React, { Component, ReactNode } from "react";
-import { Button, Typography, Input, Box, TextField, Dialog } from "@mui/material";
+import { Button, Typography, Input, Box, TextField, Dialog, darken } from "@mui/material";
 import { default as Grid } from "@mui/material/Unstable_Grid2";
 import FormSelect from "./FormSelect";
 import IStudent from "../../types/IStudent";
 import StudentDataCrud from "../../services/StudentDataCrud";
 import { selectOptions, ISelectOptions, emptyStudentObject, DynamicPropertySetter, createStudent } from "../../utility/StudentUtility";
 import FormSearch from "./FormSearch";
-import { blue, blueGrey, green, red } from "@mui/material/colors";
+import { blue, blueGrey, green, red, yellow } from "@mui/material/colors";
 import { waitFor } from "@testing-library/react";
 
 // Boilerplate stuff
@@ -98,12 +98,12 @@ export default class Form extends Component<IProps, IState> {
             .catch((e: Error) => {
                 console.log(e);
             })
-            .then(() => this.reload());
+            .then(() => this.resetState());
     }
 
     // Reloads the form page
 
-    reload = () => {
+    resetState = () => {
         this.setState(emptyState);
         this.saved = true;
         this.getStudents();
@@ -221,7 +221,10 @@ export default class Form extends Component<IProps, IState> {
             <Button
                 sx={{
                     backgroundColor: color,
-                    width: 0.20,
+                    '&:hover': {
+                        backgroundColor: darken(color, 0.3),
+                    },
+                    width: 0.15,
                     m: 1,
                     ml: 0
                 }}
@@ -230,14 +233,6 @@ export default class Form extends Component<IProps, IState> {
             >
                 {text}
             </Button>
-        );
-    }
-
-    OperationButton() {
-        return (
-            this.state.operation == OperationMode.creation ?
-                this.Button("Create", () => this.postStudent(this.state.currentStudent), green[900]) :
-                this.Button("Save changes", () => this.putStudent(this.state.currentStudent), green[900])
         );
     }
 
@@ -287,9 +282,14 @@ export default class Form extends Component<IProps, IState> {
                                 {this.InputFieldBuilder("response", "Response", "select")}
                             </Grid>
                             <Grid xs={12} >
-                                {this.OperationButton()}
-                                {this.Button("change operation", () => this.switchOperation(), blue[900])}
-                                {this.Button("delete student", () => this.deleteStudent(this.state.currentStudent), red[900])}
+                                {
+                                    this.state.operation == OperationMode.creation ?
+                                        this.Button("create", () => this.postStudent(this.state.currentStudent), green[900]) :
+                                        this.Button("update", () => this.putStudent(this.state.currentStudent), green[900])
+                                }
+                                {this.Button("switch mode", () => this.switchOperation(), blue[900])}
+                                {this.Button("clear", () => this.resetState(), yellow[900])}
+                                {this.Button("delete", () => this.deleteStudent(this.state.currentStudent), red[900])}
                                 {/* <button onClick={() => this.postStudent(createStudent())}>click</button> USED FOR GENERATING NEW STUDENT RECORDS */}
                             </Grid>
                         </Box>
