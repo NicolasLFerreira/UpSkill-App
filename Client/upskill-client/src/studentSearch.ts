@@ -1,12 +1,12 @@
 import IStudent from "./types/IStudent";
 
-const buildProperties = (student: IStudent, strings: Array<string>) => {
-    var finalString: string = "";
-    for (let i = 0; i < strings.length; i++) {
-        finalString += student[strings[i] as keyof IStudent] + " ";
-    }
+export default function studentSearch(students: Array<IStudent>, searchInput: string, properties: Array<string>) {
+    var filteredStudents: Array<IStudent> =
+        students.filter(s =>
+            isSubsequence(searchInput.toLocaleLowerCase(), buildProperties(s, properties))
+        );
 
-    return finalString;
+    return filteredStudents;
 }
 
 const isSubsequence = (input: string, properties: string) => {
@@ -24,11 +24,11 @@ const isSubsequence = (input: string, properties: string) => {
     return inputIndex == inputSize;
 }
 
-export default function studentSearch(students: Array<IStudent>, searchInput: string, properties: Array<string>) {
-    var filteredStudents: Array<IStudent> =
-        students.filter(s =>
-            isSubsequence(searchInput.toLocaleLowerCase(), buildProperties(s, properties))
-        );
+const buildProperties = (student: IStudent, strings: Array<string>) => {
+    var finalString: string = "";
+    for (let i = 0; i < strings.length; i++) {
+        finalString += student[strings[i] as keyof IStudent] + " ";
+    }
 
-    return filteredStudents;
+    return finalString;
 }
