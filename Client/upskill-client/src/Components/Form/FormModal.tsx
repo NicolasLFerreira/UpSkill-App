@@ -79,7 +79,7 @@ export default class FormModal extends Component<IProps, IState> {
 
         return (
             <div>
-                <Button onClick={handleOpen}>Open Student Form</Button>
+                {/* <Button onClick={handleOpen}>Open Student Form</Button>
                 <Modal
                     open={this.state.open}
                     onClose={handleClose}
@@ -90,7 +90,7 @@ export default class FormModal extends Component<IProps, IState> {
                     <Container sx={boxStyle}>
                         <Form />
                     </Container>
-                </Modal>
+                </Modal> */}
             </div >
         );
     }
