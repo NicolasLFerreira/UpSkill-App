@@ -22,6 +22,7 @@ root.render(
 					<Route path="home" element={<HomeScreen />} />
 					<Route path="database" element={<DatabaseScreen />} />
 					<Route path="form" element={<FormPage />} />
+					<Route path="form/:studentId" element={<FormPage />} />
 					<Route path="help" element={<HelpScreen />} />
 					<Route path="*" element={<Navigate to="/home" />} />
 				</Route>
