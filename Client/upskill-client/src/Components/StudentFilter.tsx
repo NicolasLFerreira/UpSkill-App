@@ -87,7 +87,7 @@ export default class StudentFilter extends Component<IProps, IState> {
         return (
             <TextField
                 type="search"
-                label="Enter student name"
+                label="Search"
                 sx={{ m: 1 }}
                 InputLabelProps={{ shrink: true }}
                 onChange={
@@ -101,7 +101,7 @@ export default class StudentFilter extends Component<IProps, IState> {
     SelectInput() {
         return (
             <SelectMultiple
-                label="Properties"
+                label="Filter by"
                 items={studentProperties}
                 callback={
                     (properties: Array<string>) =>
