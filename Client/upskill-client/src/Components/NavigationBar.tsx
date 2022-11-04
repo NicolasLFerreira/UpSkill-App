@@ -17,43 +17,34 @@ function NavButton(props: INavButtonProps) {
             to={
                 props.path ??
                 props.text.toLocaleLowerCase()
-            } sx={{
+            }
+            sx={{
                 mr: 2,
                 color: "#ffffff",
                 textDecoration: "none",
                 fontSize: "1rem"
             }}
         >
-            <>{props.icon ?? props.text}</>
+            {props.icon ?? props.text}
         </Button >
     )
 }
 
 export default function NavigationBar() {
     return (
-        <Fragment>
-            <Box sx={{ flexGrow: 1 }}>
-                <AppBar position="fixed">
-                    <Toolbar sx={{ backgroundColor: "#455a64" }}>
-                        <Typography variant="h5" sx={{ mr: 2, fontSize: "2rem" }}>
-                            UpSkill
-                        </Typography>
-                        <NavButton text="Home" icon={<Home />} />
-                        <NavButton text="Database" />
-                        <NavButton text="Form" />
-                        <NavButton text="Help" />
-                    </Toolbar>
-                </AppBar>
-                <Toolbar />
-            </Box>
-        </Fragment>
+        <Box sx={{ flexGrow: 1 }}>
+            <AppBar position="fixed">
+                <Toolbar sx={{ backgroundColor: "#455a64" }}>
+                    <Typography variant="h5" sx={{ mr: 2, fontSize: "2rem" }}>
+                        UpSkill
+                    </Typography>
+                    <NavButton text="Home" icon={<Home />} />
+                    <NavButton text="Database" />
+                    <NavButton text="Form" />
+                    <NavButton text="Help" />
+                </Toolbar>
+            </AppBar>
+            <Toolbar />
+        </Box>
     )
 }
-
-// sx={{
-//     mr: 2,
-//     color: "#ffffff",
-//     backgroundColor: "#78909c",
-//     textDecoration: "none",
-//     fontSize: "1rem"
-// }}
