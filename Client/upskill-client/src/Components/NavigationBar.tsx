@@ -1,7 +1,7 @@
 import React, { Fragment, ReactNode } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import { Box, AppBar, Toolbar, Typography, Button, SvgIconTypeMap } from "@mui/material";
-import { ArrowUpward, Home, SvgIconComponent } from "@mui/icons-material";
+import { Box, AppBar, Toolbar, Typography, Button } from "@mui/material";
+import { Home } from "@mui/icons-material";
 
 interface INavButtonProps {
     text: string,
