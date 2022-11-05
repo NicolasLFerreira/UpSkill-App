@@ -1,17 +1,18 @@
 import React, { Component, ReactNode } from "react";
-import { Button, Typography, Input, Box, TextField, Dialog, darken } from "@mui/material";
+import { Button, Typography, Box, TextField, darken } from "@mui/material";
 import { default as Grid } from "@mui/material/Unstable_Grid2";
 import FormSelect from "./FormSelect";
 import IStudent from "../../types/IStudent";
 import StudentDataCrud from "../../services/StudentDataCrud";
 import { selectOptions, ISelectOptions, emptyStudentObject, DynamicPropertySetter, createStudent } from "../../utility/StudentUtility";
 import FormSearch from "./FormSearch";
-import { blue, blueGrey, green, red, yellow } from "@mui/material/colors";
-import { waitFor } from "@testing-library/react";
+import { blue, blueGrey, green, purple, red, yellow } from "@mui/material/colors";
 
 // Boilerplate stuff
 
-interface IProps { }
+interface IProps {
+    loadStudentId: string
+}
 
 interface IState {
     operation: OperationMode,
@@ -47,6 +48,7 @@ export default class Form extends Component<IProps, IState> {
 
     componentDidMount() {
         this.getStudents();
+        this.getStudent(parseInt(this.props.loadStudentId));
     }
 
     // API calls
@@ -56,6 +58,19 @@ export default class Form extends Component<IProps, IState> {
             .then((response: any) => {
                 this.setState({
                     students: response.data
+                });
+                console.log(response.data);
+            })
+            .catch((e: Error) => {
+                console.log(e);
+            });
+    }
+
+    getStudent = (studentId: number) => {
+        StudentDataCrud.get(studentId)
+            .then((response: any) => {
+                this.setState({
+                    currentStudent: response.data
                 });
                 console.log(response.data);
             })
@@ -101,7 +116,7 @@ export default class Form extends Component<IProps, IState> {
             .then(() => this.resetState());
     }
 
-    // Reloads the form page
+    // Resets the form page
 
     resetState = () => {
         this.setState(emptyState);
@@ -290,7 +305,8 @@ export default class Form extends Component<IProps, IState> {
                                 {this.Button("switch mode", () => this.switchOperation(), blue[900])}
                                 {this.Button("clear", () => this.resetState(), yellow[900])}
                                 {this.Button("delete", () => this.deleteStudent(this.state.currentStudent), red[900])}
-                                {/* <button onClick={() => this.postStudent(createStudent())}>click</button> USED FOR GENERATING NEW STUDENT RECORDS */}
+                                {/* <Button onClick={() => this.postStudent(createStudent())}>RANDOMLY GENERATES STUDENTS</Button> */}
+                                {this.Button("random student", () => this.postStudent(createStudent()), purple[900])}
                             </Grid>
                         </Box>
                     </Grid>

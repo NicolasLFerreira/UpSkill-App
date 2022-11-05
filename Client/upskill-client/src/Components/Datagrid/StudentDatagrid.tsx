@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Box, TextField } from '@mui/material';
-import { DataGrid, GridColumns, gridClasses } from '@mui/x-data-grid';
+import { Box, Button } from '@mui/material';
+import { Link as RouterLink } from "react-router-dom";
+import { DataGrid, GridColumns, gridClasses, GridRenderCellParams } from '@mui/x-data-grid';
 import { alpha, styled } from '@mui/material/styles';
 import IStudent from '../../types/IStudent';
 import IStudentDisplay from '../../types/IStudentDisplay';
 import { selectOptions as values } from "../../utility/StudentUtility";
+import { ContactPage, ArrowRight } from "@mui/icons-material";
 
 const ODD_OPACITY: number = 0.2;
 
@@ -42,40 +44,48 @@ const StripedDataGrid = styled(DataGrid)(({ theme }) => ({
 }));
 
 const columns: GridColumns = [
-    { field: "firstName", headerName: "First Name", minWidth: 120, editable: true },
-    { field: "lastName", headerName: "Last Name", minWidth: 120, editable: true },
-    { field: "yearLevel", headerName: "Year Level", minWidth: 60, editable: true, type: "number", headerAlign: "left", align: "left" },
-    { field: "dob", headerName: "DOB", minWidth: 100, editable: true, type: "date" },
-    { field: "ethnicity", headerName: "Ethnicity", minWidth: 100, editable: true },
-    { field: "tutor", headerName: "Tutor", minWidth: 100, editable: true },
-    { field: "areaOfNeedShow", headerName: "Area of Need", minWidth: 90, editable: true, type: "number", headerAlign: "left", align: "left" },
-    { field: "diagnosis", headerName: "Diagnosis", minWidth: 120, editable: true },
-    { field: "externalAgencies", headerName: "External Agencies", minWidth: 180, editable: true },
-    { field: "responseShow", headerName: "Response", minWidth: 90, editable: true, type: "number", headerAlign: "left", align: "left" },
-    { field: "sacShow", headerName: "SAC", minWidth: 90, editable: true, type: "number", headerAlign: "left", align: "left" },
-    { field: "notes", headerName: "Notes", minWidth: 180, editable: true },
-    { field: "links", headerName: "Links", minWidth: 180, editable: true },
-    { field: "kamarUpdates", headerName: "Kamar Updates", minWidth: 180, editable: true },
-    { field: "pronoun", headerName: "Pronoun", minWidth: 180, editable: true },
-    { field: "sacInfo", headerName: "SAC Info", minWidth: 180, editable: true },
-    { field: "otherInfo", headerName: "Other Info", minWidth: 180, editable: true }
+    {
+        field: "formLink", headerName: "To Form", minWidth: 0, headerAlign: "center", align: "center", renderCell:
+            (params: GridRenderCellParams<any, any, any>) => {
+                return (
+                    <Button
+                        variant="text"
+                        component={RouterLink}
+                        to={`/form/${params.row.studentId}`}
+                    >
+                        <ArrowRight /><ContactPage />
+                    </Button >
+                )
+            }
+    },
+    { field: "firstName", headerName: "First Name", minWidth: 120 },
+    { field: "lastName", headerName: "Last Name", minWidth: 120 },
+    { field: "yearLevel", headerName: "Year Level", minWidth: 60, type: "number", headerAlign: "left", align: "left" },
+    { field: "dob", headerName: "DOB", minWidth: 100, type: "date" },
+    { field: "ethnicity", headerName: "Ethnicity", minWidth: 100 },
+    { field: "tutor", headerName: "Tutor", minWidth: 100 },
+    { field: "areaOfNeedShow", headerName: "Area of Need", minWidth: 90, type: "number", headerAlign: "left", align: "left" },
+    { field: "diagnosis", headerName: "Diagnosis", minWidth: 120 },
+    { field: "externalAgencies", headerName: "External Agencies", minWidth: 180 },
+    { field: "responseShow", headerName: "Response", minWidth: 90, type: "number", headerAlign: "left", align: "left" },
+    { field: "sacShow", headerName: "SAC", minWidth: 90, type: "number", headerAlign: "left", align: "left" },
+    { field: "notes", headerName: "Notes", minWidth: 180 },
+    { field: "links", headerName: "Links", minWidth: 180 },
+    { field: "kamarUpdates", headerName: "Kamar Updates", minWidth: 180 },
+    { field: "pronoun", headerName: "Pronoun", minWidth: 180 },
+    { field: "sacInfo", headerName: "SAC Info", minWidth: 180 },
+    { field: "otherInfo", headerName: "Other Info", minWidth: 180 }
 ];
 
 interface IProps {
     students: Array<IStudent>
 }
 
-interface IState {
-    students: Array<IStudentDisplay>
-}
+interface IState { }
 
 export default class StudentDatagrid extends Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
-
-        this.state = {
-            students: []
-        }
     }
 
     buildStudents() {
@@ -104,6 +114,7 @@ export default class StudentDatagrid extends Component<IProps, IState> {
                     getRowClassName={(params) =>
                         params.indexRelativeToCurrentPage % 2 === 0 ? "even" : "odd"
                     }
+
                 />
             </Box>
         );

@@ -1,28 +1,13 @@
-import React, { Component } from "react";
-import { Grid, Box } from "@mui/material";
-import IStudent from "../../types/IStudent";
+import React from "react";
+import { useParams, Params } from 'react-router-dom';
 import Form from "./Form";
 
-interface IProps {
+export default function FormPage() {
 
-}
+    var p: Params<string> = useParams();
+    console.log(p.studentId);
 
-interface IState {
-    students: Array<IStudent>,
-    currentStudent: IStudent | null,
-    currentIndex: number,
-    searchTitle: string
-}
-
-export default class FormPage extends Component<IProps, IState> {
-    constructor(props: IProps) {
-        super(props);
-    }
-
-    render() {
-        return (
-            // {/* <FormModal createStudentCallback={(student: IStudentData) => this.studentPost(student)} /> */}{/* legacy code, may use it later though */}
-            <Form />
-        );
-    }
+    return (
+        <Form loadStudentId={p.studentId as string} />
+    )
 }
