@@ -74,15 +74,28 @@ export default class Form extends Component<IProps, IState> {
         snapshot?: any
     ): void {
         if (prevProps.loadStudentId != this.props.loadStudentId) {
-            var student = this.state.students.find(
-                (student) =>
-                    student.studentId == parseInt(this.props.loadStudentId)
-            );
+            // var student = this.state.students.find(
+            //     (student) =>
+            //         student.studentId == parseInt(this.props.loadStudentId)
+            // );
 
             this.setState({
-                currentStudent: student ?? prevState.currentStudent,
+                currentStudent:
+                    prevState.studentsDictionary.get(
+                        parseInt(this.props.loadStudentId)
+                    ) ?? prevState.currentStudent,
             });
         }
+    }
+
+    studentDictionaryBuilder(students: Array<IStudent>) {
+        var studentMap = new Map<number, IStudent>();
+
+        students.forEach((element) => {
+            studentMap.set(element.studentId!, element);
+        });
+
+        return studentMap;
     }
 
     // API calls
@@ -92,6 +105,9 @@ export default class Form extends Component<IProps, IState> {
             .then((response: any) => {
                 this.setState({
                     students: response.data,
+                    studentsDictionary: this.studentDictionaryBuilder(
+                        response.data
+                    ),
                 });
                 console.log(response.data);
             })
@@ -306,6 +322,7 @@ export default class Form extends Component<IProps, IState> {
 
     render() {
         const setHeight = "60vh";
+        console.log(this.state.studentsDictionary);
         return (
             /* <Grid xs={2}>
                 <FormSearch callback={(student: IStudent) => this.handleStudentChange(student)} />
