@@ -20,7 +20,6 @@ import {
     red,
     yellow,
 } from "@mui/material/colors";
-import { Navigate, NavigateProps } from "react-router-dom";
 
 // Boilerplate stuff
 
@@ -36,18 +35,19 @@ interface IState {
 }
 
 enum OperationMode {
-    create,
-    update,
+    CREATE,
+    UPDATE,
 }
 
 const emptyState: IState = {
-    operation: OperationMode.create,
+    operation: OperationMode.CREATE,
     students: [],
     studentsDictionary: new Map<number, IStudent>(),
     currentStudent: emptyStudentObject,
 };
 
-// Contains the code for the form. DOESN'T CONTAINS SEARCH OR MODAL, JUST THE ACTUAL FORM. THOSE SHOULD BE ADDED AS SEPARATE COMPONENTS.
+// Contains the code for the form.
+// DOESN'T CONTAIN THE LOGIC FOR SEARCH OR MODAL, JUST THE ACTUAL FORM. THOSE SHOULD BE ADDED AS SEPARATE COMPONENTS.
 export default class Form extends Component<IProps, IState> {
     saved: boolean;
 
@@ -64,7 +64,7 @@ export default class Form extends Component<IProps, IState> {
         this.getStudent(parseInt(this.props.loadStudentId));
         if (this.props.loadStudentId != undefined)
             this.setState({
-                operation: OperationMode.update,
+                operation: OperationMode.UPDATE,
             });
     }
 
@@ -195,24 +195,24 @@ export default class Form extends Component<IProps, IState> {
         this.saved = false;
     };
 
-    handleStudentChange = (student: IStudent) => {
-        if (this.saved) {
-            this.setState({
-                currentStudent: student,
-                operation: OperationMode.update,
-            });
-        } else {
-            if (window.confirm("You have unsaved changes. Continue?")) {
-                this.setState({
-                    currentStudent: student,
-                    operation: OperationMode.update,
-                });
-                this.saved = true;
-            } else {
-                return;
-            }
-        }
-    };
+    // handleStudentChange = (student: IStudent) => {
+    //     if (this.saved) {
+    //         this.setState({
+    //             currentStudent: student,
+    //             operation: OperationMode.UPDATE,
+    //         });
+    //     } else {
+    //         if (window.confirm("You have unsaved changes. Continue?")) {
+    //             this.setState({
+    //                 currentStudent: student,
+    //                 operation: OperationMode.UPDATE,
+    //             });
+    //             this.saved = true;
+    //         } else {
+    //             return;
+    //         }
+    //     }
+    // };
 
     // Utility
 
@@ -220,9 +220,9 @@ export default class Form extends Component<IProps, IState> {
         this.setState((oldState) => {
             return {
                 operation:
-                    oldState.operation == OperationMode.create
-                        ? OperationMode.update
-                        : OperationMode.create,
+                    oldState.operation == OperationMode.CREATE
+                        ? OperationMode.UPDATE
+                        : OperationMode.CREATE,
             };
         });
     };
@@ -230,11 +230,7 @@ export default class Form extends Component<IProps, IState> {
     // Components
 
     // Creates an input field and assigns the callback function for registering the changes.
-    InputFieldBuilder(
-        property: string,
-        placeholder: string,
-        type: string = "text"
-    ) {
+    InputFieldBuilder(property: string, label: string, type: string = "text") {
         var jsxObject: ReactNode;
 
         if (type == "select") {
@@ -250,7 +246,7 @@ export default class Form extends Component<IProps, IState> {
             jsxObject = (
                 <FormSelect
                     value={value}
-                    label={placeholder}
+                    label={label}
                     items={items!}
                     callback={(value: number) => {
                         this.registerChange(property, value);
@@ -275,7 +271,7 @@ export default class Form extends Component<IProps, IState> {
             jsxObject = (
                 <TextField
                     type={type}
-                    label={placeholder}
+                    label={label}
                     value={
                         this.state.currentStudent[property as keyof IStudent]
                     }
@@ -322,7 +318,6 @@ export default class Form extends Component<IProps, IState> {
 
     render() {
         const setHeight = "60vh";
-        console.log(this.state.studentsDictionary);
         return (
             /* <Grid xs={2}>
                 <FormSearch callback={(student: IStudent) => this.handleStudentChange(student)} />
@@ -356,7 +351,7 @@ export default class Form extends Component<IProps, IState> {
                             <Grid xs="auto">
                                 <Typography component="h2" variant="h6">
                                     {this.state.operation ==
-                                    OperationMode.create
+                                    OperationMode.CREATE
                                         ? "Creating: "
                                         : "Updating: "}
                                     {this.state.currentStudent.firstName +
@@ -424,7 +419,7 @@ export default class Form extends Component<IProps, IState> {
                                 )}
                             </Grid>
                             <Grid xs={12}>
-                                {this.state.operation == OperationMode.create
+                                {this.state.operation == OperationMode.CREATE
                                     ? this.Button(
                                           "create",
                                           () =>
