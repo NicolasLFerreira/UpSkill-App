@@ -9,6 +9,7 @@ export default function studentSearch(students: Array<IStudent>, searchInput: st
     return filteredStudents;
 }
 
+// Determines whether input is a substring of the stringfied properties of a student object.
 const isSubsequence = (input: string, properties: string) => {
     var inputSize = input.length;
     var propertySize = properties.length;
@@ -24,6 +25,7 @@ const isSubsequence = (input: string, properties: string) => {
     return inputIndex == inputSize;
 }
 
+// Puts the selected properties of a student in a single string.
 const buildProperties = (student: IStudent, strings: Array<string>) => {
     var finalString: string = "";
     for (let i = 0; i < strings.length; i++) {
