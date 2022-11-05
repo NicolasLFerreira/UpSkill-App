@@ -1,12 +1,8 @@
-import { Box, MenuItem, TextField } from "@mui/material";
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import StudentDataCrud from "../../services/StudentDataCrud";
-import studentSearch from "../../studentSearch";
 import IStudent from "../../types/IStudent";
 import { default as Grid } from "@mui/material/Unstable_Grid2";
 import StudentDatagrid from "./StudentDatagrid";
-import { studentProperties } from "../../utility/StudentUtility";
-import SelectMultiple from "../SelectMultiple";
 import StudentFilter from "../StudentFilter";
 
 interface IProps {}
@@ -14,8 +10,6 @@ interface IState {
     students: Array<IStudent>;
     studentsFiltered: Array<IStudent>;
 }
-
-const defaultFilteredProperties: Array<string> = ["firstName", "lastName"];
 
 export default class DatabasePage extends Component<IProps, IState> {
     constructor(props: IProps) {
