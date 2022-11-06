@@ -20,7 +20,6 @@ import {
 	red,
 	yellow,
 } from "@mui/material/colors";
-import { useNavigate } from "react-router-dom";
 
 // Boilerplate stuff
 
@@ -218,6 +217,10 @@ export default class Form extends Component<IProps, IState> {
 
 	// Utility
 
+	canUpdateStudent() {
+		return this.saved;
+	}
+
 	switchOperation = () => {
 		this.setState((oldState) => {
 			return {
@@ -336,7 +339,9 @@ export default class Form extends Component<IProps, IState> {
 							flexDirection: "column",
 						}}
 					>
-						<FormSearch />
+						<FormSearch
+							canUpdateStudent={() => this.canUpdateStudent()}
+						/>
 					</Grid>
 					<Grid
 						container

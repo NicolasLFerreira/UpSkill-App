@@ -5,7 +5,11 @@ import IStudent from "../../types/IStudent";
 import StudentDataCrud from "../../services/StudentDataCrud";
 import { blueGrey } from "@mui/material/colors";
 import StudentFilter from "../StudentFilter";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+interface IProps {
+	canUpdateStudent: () => boolean;
+}
 
 interface IState {
 	students: Array<IStudent>;
@@ -17,8 +21,9 @@ const defaultState: IState = {
 	studentsFiltered: [],
 };
 
-function FormSearchF() {
+function FormSearch(props: IProps) {
 	const [state, setState] = useState<IState>(defaultState);
+	const navigate = useNavigate();
 
 	const getStudents = () => {
 		StudentDataCrud.getAll()
@@ -50,14 +55,16 @@ function FormSearchF() {
 			<Box sx={{ m: 1 }}>
 				<Button
 					variant="contained"
-					component={Link}
-					to={`/form/${student.studentId}`}
 					sx={{
 						width: "100%",
 						backgroundColor: blueGrey[700],
 						"&:hover": {
 							backgroundColor: darken(blueGrey[700], 0.8),
 						},
+					}}
+					onClick={() => {
+						if (props.canUpdateStudent())
+							navigate(`/form/${student.studentId}`);
 					}}
 				>
 					{`(${student.yearLevel}) ${student.lastName}, ${student.firstName}`}
@@ -100,7 +107,7 @@ function FormSearchF() {
 	);
 }
 
-export default FormSearchF;
+export default FormSearch;
 
 // class FormSearchC extends Component<IProps, IState> {
 // 	constructor(props: IProps) {
