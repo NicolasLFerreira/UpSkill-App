@@ -68,26 +68,21 @@ export default class Form extends Component<IProps, IState> {
 			});
 	}
 
-	componentDidUpdate(
-		prevProps: Readonly<IProps>,
-		prevState: Readonly<IState>,
-		snapshot?: any
-	): void {
+	componentDidUpdate(prevProps: Readonly<IProps>): void {
 		if (prevProps.loadStudentId != this.props.loadStudentId && this.saved) {
-			// var student = this.state.students.find(
-			//     (student) =>
-			//         student.studentId == parseInt(this.props.loadStudentId)
-			// );
-
-			this.setState({
-				currentStudent:
-					prevState.studentsDictionary.get(
-						parseInt(this.props.loadStudentId)
-					) ?? prevState.currentStudent,
-				operation: OperationMode.UPDATE,
-			});
+			this.loadUrlStudent();
 		}
 	}
+
+	loadUrlStudent = () => {
+		this.setState({
+			currentStudent:
+				this.state.studentsDictionary.get(
+					parseInt(this.props.loadStudentId)
+				) ?? this.state.currentStudent,
+			operation: OperationMode.UPDATE,
+		});
+	};
 
 	studentDictionaryBuilder(students: Array<IStudent>) {
 		var studentMap = new Map<number, IStudent>();
@@ -115,6 +110,9 @@ export default class Form extends Component<IProps, IState> {
 			.catch((e: Error) => {
 				console.log(e);
 			});
+
+		// const response = await StudentDataCrud.getAll();
+		// this.setState({ students: response.data });
 	};
 
 	getStudent = (studentId: number) => {
@@ -165,6 +163,8 @@ export default class Form extends Component<IProps, IState> {
 				console.log(e);
 			})
 			.then(() => this.resetState());
+		// await StudentDataCrud.delete(student.studentId!);
+		// this.resetState();
 	}
 
 	// Resets the form page
@@ -178,14 +178,6 @@ export default class Form extends Component<IProps, IState> {
 
 	// Dynamically updates the properties of the state.currentStudent as it's typed in the input field.
 	registerChange = (property: string, value: string | number): void => {
-		// MOVED THIS CHUNK OF CODE TO ITS OWN THING IN StudentUtility.ts
-		// // Dynamically declares the key of an IStudentData object.
-		// var object: IStudent = this.state.currentStudent;
-		// var key: keyof IStudent = property as keyof IStudent;
-
-		// // Updates the copy using the key and the given value.
-		// object[key] = value as never;
-
 		this.setState({
 			currentStudent: DynamicPropertySetter(
 				this.state.currentStudent,
@@ -195,25 +187,6 @@ export default class Form extends Component<IProps, IState> {
 		});
 		this.saved = false;
 	};
-
-	// handleStudentChange = (student: IStudent) => {
-	//     if (this.saved) {
-	//         this.setState({
-	//             currentStudent: student,
-	//             operation: OperationMode.UPDATE,
-	//         });
-	//     } else {
-	//         if (window.confirm("You have unsaved changes. Continue?")) {
-	//             this.setState({
-	//                 currentStudent: student,
-	//                 operation: OperationMode.UPDATE,
-	//             });
-	//             this.saved = true;
-	//         } else {
-	//             return;
-	//         }
-	//     }
-	// };
 
 	// Utility
 
@@ -262,15 +235,13 @@ export default class Form extends Component<IProps, IState> {
 			// DISCARDED AFTER I STARTED USING span={1} INSTEAD OF MARGIN.
 			// CAN SIMPLY MAKE THE GRID ITEMS FILL THE ENTIRE SPACE.
 			// HERE IN CASE I NEED IT IN THE FUTURE.
-			// var scale = 6;
+
 			const gridInputStyle = {
-				// width: (100 / 6 * scale).toString() + "%"
 				width: "100%",
 			};
 
 			const gridNotesStyle = {
 				width: "100%",
-				// width: (100 / 6 * scale).toString() + "%"
 			};
 
 			jsxObject = (
@@ -280,7 +251,6 @@ export default class Form extends Component<IProps, IState> {
 					value={
 						this.state.currentStudent[property as keyof IStudent]
 					}
-					// sx={type == "text" ? (property == "notes" ? gridNotesStyle : gridInputStyle) : gridDateStyle}
 					sx={property == "notes" ? gridNotesStyle : gridInputStyle}
 					variant="outlined"
 					multiline={property == "notes"}
@@ -324,9 +294,6 @@ export default class Form extends Component<IProps, IState> {
 	render() {
 		const setHeight = "60vh";
 		return (
-			/* <Grid xs={2}>
-                <FormSearch callback={(student: IStudent) => this.handleStudentChange(student)} />
-            </Grid> */
 			<Box sx={{ height: setHeight, mt: 2 }}>
 				<Grid container alignContent="center" justifyContent="center">
 					<Grid
@@ -341,6 +308,7 @@ export default class Form extends Component<IProps, IState> {
 					>
 						<FormSearch
 							canUpdateStudent={() => this.canUpdateStudent()}
+							forceUpdate={() => this.loadUrlStudent()}
 						/>
 					</Grid>
 					<Grid
@@ -456,7 +424,6 @@ export default class Form extends Component<IProps, IState> {
 										),
 									red[900]
 								)}
-								{/* <Button onClick={() => this.postStudent(createStudent())}>RANDOMLY GENERATES STUDENTS</Button> */}
 								{this.Button(
 									"random student",
 									() => this.postStudent(createStudent()),
