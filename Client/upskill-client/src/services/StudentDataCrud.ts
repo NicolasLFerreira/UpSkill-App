@@ -1,7 +1,7 @@
 import http from "../AxiosInstance";
 import IStudent from "../types/IStudent";
 
-/**Class for handling HTTP requests for student data with the Axios instance. */
+/**Class with the HTTP requests for student data with the Axios instance. */
 class StudentDataCrud {
     get(id: number) {
         return http.get<IStudent>(`/Students/${id}`);
