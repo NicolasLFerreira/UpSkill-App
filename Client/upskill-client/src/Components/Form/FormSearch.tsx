@@ -1,12 +1,11 @@
 import React, { ReactNode, useEffect, useState } from "react";
-import { List, Button, darken } from "@mui/material";
-import { default as Box } from "@mui/material/Unstable_Grid2/Grid2";
+import { Box, List, Button, darken } from "@mui/material";
 import IStudent from "../../types/IStudent";
 import StudentDataCrud from "../../services/StudentDataCrud";
 import { blueGrey } from "@mui/material/colors";
 import StudentFilter from "../StudentFilter";
 import { useNavigate } from "react-router-dom";
-import BasicModal from "./FormPrompt";
+import BasicModal from "./PromptModal";
 
 interface IProps {
 	canUpdateStudent: () => boolean;
@@ -17,7 +16,6 @@ interface IState {
 	students: Array<IStudent>;
 	studentsFiltered: Array<IStudent>;
 	openModal: number;
-	navigateAllow: boolean;
 	id: number;
 }
 
@@ -25,10 +23,11 @@ const defaultState: IState = {
 	students: [],
 	studentsFiltered: [],
 	openModal: 0,
-	navigateAllow: false,
 	id: 0,
 };
 
+// A bunch of confusing stuff relating to the modal and navigation is due to the infamous '&& this.saved' incident.
+// Since it works I won't be changing anything.
 export default function FormSearch(props: IProps) {
 	const [state, setState] = useState<IState>(defaultState);
 	const toggleModal = (id: number) =>
