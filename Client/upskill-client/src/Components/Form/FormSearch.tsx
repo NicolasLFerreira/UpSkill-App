@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect, useState } from "react";
 import { Box, List, Button, darken } from "@mui/material";
 import IStudent from "../../types/IStudent";
-import StudentDataCrud from "../../services/StudentDataCrud";
+import StudentCrud from "../../services/student.service";
 import { blueGrey } from "@mui/material/colors";
 import StudentFilter from "../StudentFilter";
 import { useNavigate } from "react-router-dom";
@@ -40,7 +40,7 @@ export default function FormSearch(props: IProps) {
 	const navigate = useNavigate();
 
 	const getStudents = () => {
-		StudentDataCrud.getAll()
+		StudentCrud.getAll()
 			.then((response: any) => {
 				setState((previous) => ({
 					...previous,

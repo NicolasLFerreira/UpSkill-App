@@ -3,7 +3,7 @@ import { Button, Typography, Box, TextField, darken } from "@mui/material";
 import { default as Grid } from "@mui/material/Unstable_Grid2";
 import FormSelect from "./FormSelect";
 import IStudent from "../../types/IStudent";
-import StudentDataCrud from "../../services/StudentDataCrud";
+import StudentCrud from "../../services/student.service";
 import {
 	selectOptions,
 	ISelectOptions,
@@ -108,7 +108,7 @@ export default class Form extends Component<IProps, IState> {
 	// API calls
 
 	getStudents = async () => {
-		const response = await StudentDataCrud.getAll();
+		const response = await StudentCrud.getAll();
 		this.setState({
 			students: response.data,
 			studentsDictionary: this.studentDictionaryBuilder(response.data),
@@ -116,7 +116,7 @@ export default class Form extends Component<IProps, IState> {
 	};
 
 	getStudent = async (studentId: number) => {
-		const response = await StudentDataCrud.get(studentId);
+		const response = await StudentCrud.get(studentId);
 		this.setState({
 			currentStudent: response.data,
 		});
@@ -124,7 +124,7 @@ export default class Form extends Component<IProps, IState> {
 
 	async postStudent(student: IStudent) {
 		student.studentId = undefined;
-		await StudentDataCrud.post(student);
+		await StudentCrud.post(student);
 
 		this.saved = true;
 		this.forceUpdate();
@@ -132,13 +132,13 @@ export default class Form extends Component<IProps, IState> {
 
 	async putStudent(student: IStudent) {
 		this.saved = true;
-		await StudentDataCrud.put(student.studentId!, student);
+		await StudentCrud.put(student.studentId!, student);
 		this.getStudents();
 	}
 
 	async deleteStudent(student: IStudent) {
 		this.saved = true;
-		await StudentDataCrud.delete(student.studentId!);
+		await StudentCrud.delete(student.studentId!);
 		this.resetState();
 	}
 

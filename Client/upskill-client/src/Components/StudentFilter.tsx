@@ -1,7 +1,7 @@
 import { TextField } from "@mui/material";
 import { default as Grid } from "@mui/material/Unstable_Grid2";
 import React, { Component, Fragment } from "react";
-import StudentDataCrud from "../services/StudentDataCrud";
+import StudentCrud from "../services/student.service";
 import studentSearch from "../studentSearch";
 import IStudent from "../types/IStudent";
 import { studentProperties } from "../utility/StudentUtility";
@@ -40,7 +40,7 @@ export default class StudentFilter extends Component<IProps, IState> {
     // Get student data
 
     retrieveStudents = () => {
-        StudentDataCrud.getAll()
+        StudentCrud.getAll()
             .then((response: any) => {
                 this.setState({
                     students: response.data,

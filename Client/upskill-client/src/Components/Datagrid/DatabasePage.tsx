@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import StudentDataCrud from "../../services/StudentDataCrud";
+import StudentCrud from "../../services/student.service";
 import IStudent from "../../types/IStudent";
 import { default as Grid } from "@mui/material/Unstable_Grid2";
 import StudentDatagrid from "./StudentDatagrid";
@@ -30,7 +30,7 @@ export default class DatabasePage extends Component<IProps, IState> {
     // Get student data
 
     getStudents = () => {
-        StudentDataCrud.getAll()
+        StudentCrud.getAll()
             .then((response: any) => {
                 this.setState({
                     students: response.data,
