@@ -93,6 +93,7 @@ export default class Form extends Component<IProps, IState> {
 				) ?? this.state.currentStudent,
 			operation: OperationMode.UPDATE,
 		});
+		this.saved = true;
 	};
 
 	studentDictionaryBuilder(students: Array<IStudent>) {
