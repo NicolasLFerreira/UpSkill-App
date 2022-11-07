@@ -1,4 +1,4 @@
-import http from "../HttpHandler";
+import http from "../AxiosInstance";
 import IStudent from "../types/IStudent";
 
 /**Class for handling HTTP requests for student data with the Axios instance. */
