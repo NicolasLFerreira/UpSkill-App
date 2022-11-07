@@ -6,6 +6,7 @@ import StudentDataCrud from "../../services/StudentDataCrud";
 import { blueGrey } from "@mui/material/colors";
 import StudentFilter from "../StudentFilter";
 import { useNavigate } from "react-router-dom";
+import BasicModal from "./FormPrompt";
 
 interface IProps {
 	canUpdateStudent: () => boolean;
@@ -15,24 +16,38 @@ interface IProps {
 interface IState {
 	students: Array<IStudent>;
 	studentsFiltered: Array<IStudent>;
+	openModal: number;
+	navigateAllow: boolean;
+	id: number;
 }
 
 const defaultState: IState = {
 	students: [],
 	studentsFiltered: [],
+	openModal: 0,
+	navigateAllow: false,
+	id: 0,
 };
 
 export default function FormSearch(props: IProps) {
 	const [state, setState] = useState<IState>(defaultState);
+	const toggleModal = (id: number) =>
+		setState((previous) => ({
+			...previous,
+			openModal: previous.openModal + 1,
+			id: id,
+		}));
+
 	const navigate = useNavigate();
 
 	const getStudents = () => {
 		StudentDataCrud.getAll()
 			.then((response: any) => {
-				setState({
+				setState((previous) => ({
+					...previous,
 					students: response.data,
 					studentsFiltered: response.data,
-				});
+				}));
 				console.log(response.data);
 			})
 			.catch((e: Error) => {
@@ -51,6 +66,13 @@ export default function FormSearch(props: IProps) {
 		}));
 	};
 
+	const handleAllow = (allow: boolean, id: number) => {
+		if (allow) {
+			navigate(`/form/${id}`);
+			props.forceUpdate();
+		}
+	};
+
 	const StudentContainer = (student: IStudent) => {
 		return (
 			<Box sx={{ m: 1 }}>
@@ -66,14 +88,9 @@ export default function FormSearch(props: IProps) {
 					onClick={() => {
 						if (props.canUpdateStudent()) {
 							navigate(`/form/${student.studentId}`);
-							props.forceUpdate();
-						} else {
-							if (window.confirm("Unsaved changes. Continue?")) {
-								navigate(`/form/${student.studentId}`);
-								props.forceUpdate();
-							}
+							return;
 						}
-						props.forceUpdate();
+						toggleModal(student.studentId!);
 					}}
 				>
 					{`(${student.yearLevel}) ${student.firstName} ${student.lastName}`}
@@ -112,6 +129,13 @@ export default function FormSearch(props: IProps) {
 			>
 				{studentComponents}
 			</List>
+			<BasicModal
+				openModal={state.openModal}
+				id={state.id}
+				callback={(allow: boolean, id: number) =>
+					handleAllow(allow, id)
+				}
+			/>
 		</Box>
 	);
 }

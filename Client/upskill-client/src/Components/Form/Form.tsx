@@ -69,12 +69,20 @@ export default class Form extends Component<IProps, IState> {
 	}
 
 	componentDidUpdate(prevProps: Readonly<IProps>): void {
-		if (prevProps.loadStudentId != this.props.loadStudentId && this.saved) {
+		if (prevProps.loadStudentId != this.props.loadStudentId) {
+			console.log(
+				"Component did update: " + parseInt(this.props.loadStudentId)
+			);
+			console.log(
+				"Current student: " + this.state.currentStudent.studentId!
+			);
 			this.loadUrlStudent();
 		}
 	}
 
 	loadUrlStudent = () => {
+		console.log("Load student: " + parseInt(this.props.loadStudentId));
+		console.log("\n");
 		this.setState({
 			currentStudent:
 				this.state.studentsDictionary.get(
