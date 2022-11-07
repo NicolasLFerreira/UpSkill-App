@@ -69,20 +69,23 @@ export default class Form extends Component<IProps, IState> {
 	}
 
 	componentDidUpdate(prevProps: Readonly<IProps>): void {
-		if (prevProps.loadStudentId != this.props.loadStudentId) {
-			console.log(
-				"Component did update: " + parseInt(this.props.loadStudentId)
-			);
-			console.log(
-				"Current student: " + this.state.currentStudent.studentId!
-			);
+		if (
+			prevProps.loadStudentId != this.props.loadStudentId
+			/* IN MEMORY OF THE '&& this.saved' INCIDENT THAT MADE ME ADD LIBRARIES AND CREATE THE CONVOLUTED FormPrompt BECAUSE IT WOULDN'T WORK.*/
+		) {
+			// console.log(
+			// 	"Component did update: " + parseInt(this.props.loadStudentId)
+			// );
+			// console.log(
+			// 	"Current student: " + this.state.currentStudent.studentId!
+			// );
 			this.loadUrlStudent();
 		}
 	}
 
 	loadUrlStudent = () => {
-		console.log("Load student: " + parseInt(this.props.loadStudentId));
-		console.log("\n");
+		// console.log("Load student: " + parseInt(this.props.loadStudentId));
+		// console.log("\n");
 		this.setState({
 			currentStudent:
 				this.state.studentsDictionary.get(
@@ -104,75 +107,39 @@ export default class Form extends Component<IProps, IState> {
 
 	// API calls
 
-	getStudents = () => {
-		StudentDataCrud.getAll()
-			.then((response: any) => {
-				this.setState({
-					students: response.data,
-					studentsDictionary: this.studentDictionaryBuilder(
-						response.data
-					),
-				});
-				console.log(response.data);
-			})
-			.catch((e: Error) => {
-				console.log(e);
-			});
-
-		// const response = await StudentDataCrud.getAll();
-		// this.setState({ students: response.data });
+	getStudents = async () => {
+		const response = await StudentDataCrud.getAll();
+		this.setState({
+			students: response.data,
+			studentsDictionary: this.studentDictionaryBuilder(response.data),
+		});
 	};
 
-	getStudent = (studentId: number) => {
-		StudentDataCrud.get(studentId)
-			.then((response: any) => {
-				this.setState({
-					currentStudent: response.data,
-				});
-				console.log(response.data);
-			})
-			.catch((e: Error) => {
-				console.log(e);
-			});
+	getStudent = async (studentId: number) => {
+		const response = await StudentDataCrud.get(studentId);
+		this.setState({
+			currentStudent: response.data,
+		});
 	};
 
-	postStudent(student: IStudent) {
+	async postStudent(student: IStudent) {
 		student.studentId = undefined;
+		await StudentDataCrud.post(student);
+
 		this.saved = true;
-		StudentDataCrud.post(student)
-			.then((response) => {
-				console.log(response);
-			})
-			.catch((e: Error) => {
-				console.log(e);
-			});
 		this.forceUpdate();
 	}
 
-	putStudent(student: IStudent) {
+	async putStudent(student: IStudent) {
 		this.saved = true;
-		StudentDataCrud.put(student.studentId!, student)
-			.then((response) => {
-				console.log(response);
-			})
-			.catch((e: Error) => {
-				console.log(e);
-			});
+		await StudentDataCrud.put(student.studentId!, student);
 		this.getStudents();
 	}
 
-	deleteStudent(student: IStudent) {
+	async deleteStudent(student: IStudent) {
 		this.saved = true;
-		StudentDataCrud.delete(student.studentId!)
-			.then((response) => {
-				console.log(response);
-			})
-			.catch((e: Error) => {
-				console.log(e);
-			})
-			.then(() => this.resetState());
-		// await StudentDataCrud.delete(student.studentId!);
-		// this.resetState();
+		await StudentDataCrud.delete(student.studentId!);
+		this.resetState();
 	}
 
 	// Resets the form page
