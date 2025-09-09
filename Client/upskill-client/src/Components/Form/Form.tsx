@@ -69,28 +69,17 @@ export default class Form extends Component<IProps, IState> {
 	}
 
 	componentDidUpdate(prevProps: Readonly<IProps>): void {
-		if (
-			prevProps.loadStudentId != this.props.loadStudentId
-			/* IN MEMORY OF THE '&& this.saved' INCIDENT THAT MADE ME ADD LIBRARIES AND CREATE THE CONVOLUTED FormPrompt BECAUSE IT WOULDN'T WORK.*/
-		) {
-			// console.log(
-			// 	"Component did update: " + parseInt(this.props.loadStudentId)
-			// );
-			// console.log(
-			// 	"Current student: " + this.state.currentStudent.studentId!
-			// );
+		if (prevProps.loadStudentId != this.props.loadStudentId)
 			this.loadUrlStudent();
-		}
 	}
 
 	loadUrlStudent = () => {
-		// console.log("Load student: " + parseInt(this.props.loadStudentId));
-		// console.log("\n");
+		this.getStudent(parseInt(this.props.loadStudentId));
 		this.setState({
-			currentStudent:
-				this.state.studentsDictionary.get(
-					parseInt(this.props.loadStudentId)
-				) ?? this.state.currentStudent,
+			// currentStudent:
+			// 	this.state.studentsDictionary.get(
+			// 		parseInt(this.props.loadStudentId)
+			// 	) ?? this.state.currentStudent,
 			operation: OperationMode.UPDATE,
 		});
 		this.saved = true;
